@@ -4,25 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="150dp"
-        android:layout_height="20dp"
-        android:text="Fxxk you!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.317" />
+    android:visibility="invisible"
+    tools:context=".MainActivity"
+    tools:visibility="visible">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button2"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="onClickNewAlarm"
         android:text="+"
-        tools:layout_editor_absoluteX="15"
-        tools:layout_editor_absoluteY="15dp" />
+        tools:layout_editor_absoluteX="347dp"
+        tools:layout_editor_absoluteY="16dp" />
 
+    <Button
+        android:id="@+id/button3"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="60dp"
+        android:layout_height="47dp"
+        android:onClick="onClickConfig"
+        android:text="設定"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
