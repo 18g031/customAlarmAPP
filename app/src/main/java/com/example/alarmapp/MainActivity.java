@@ -14,7 +14,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickConfig(View view) {
-
+        String s = getResources().getString(R.string.hello_world);
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
     public void onClickNewAlarm(View view) {
