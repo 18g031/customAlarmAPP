@@ -11,11 +11,8 @@ public class subActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
-        returnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-    });
+        Intent intent = getIntent();
+        String data = intent.getStringExtra("keyword");
+        
     }
 }
