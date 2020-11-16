@@ -1,9 +1,10 @@
 package com.example.alarmapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
+import android.content.Intent;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,11 +12,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
     }
 
     public void onClickConfig(View view) {
-        String s = getResources().getString(R.string.hello_world);
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this,subActivity.class);
+        startActivity(intent);
     }
 
     public void onClickNewAlarm(View view) {
