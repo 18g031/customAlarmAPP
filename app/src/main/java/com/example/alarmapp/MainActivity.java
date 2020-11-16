@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText edit = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
    // 　btn.setOnClickListener(new View.OnClickListener() {
     public void onButton1(View v) {
         Intent intent = new Intent(MainActivity.this,subActivity.class);
-        intent.putExtra("keyword", edit.getText().toString());
         startActivity(intent);
     }
 }

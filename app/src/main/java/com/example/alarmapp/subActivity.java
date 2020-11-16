@@ -12,7 +12,7 @@ public class subActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sub);
 
         Intent intent = getIntent();
-        String data = intent.getStringExtra("keyword");
+
         
     }
 }
