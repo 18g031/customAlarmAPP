@@ -20,6 +20,10 @@
                 android:name=".subActivity"
                 android:label="@string/app_name">
             </activity>
+        <activity
+        android:name=".clock"
+        android:label="@string/app_name">
+        </activity>
     </application>
 
 </manifest>
