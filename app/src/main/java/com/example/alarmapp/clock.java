@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlarmManager;
 
 public class clock extends AppCompatActivity {
 
@@ -43,5 +44,15 @@ public class clock extends AppCompatActivity {
         TextView confview = (TextView) this.findViewById(R.id.confview);
         confview.setText("設定した時間は　" + h + "：" + m);
     }
+   /* public void timerSet(Calendar calendar){
+    //実行するサービスを指定
+        Intent intent = new Intent(getApplicationContext(), messageService.class);
+        Context ct = getApplication();
+        PendingIntent pendingIntent = PendingIntent.getService(ct, 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        // AlarmManager の設定・開始
+        AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+    }*/
 
 }
