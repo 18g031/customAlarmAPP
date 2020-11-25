@@ -44,8 +44,8 @@ public class clock extends AppCompatActivity {
         TextView confview = (TextView) this.findViewById(R.id.confview);
         confview.setText("設定した時間は　" + h + "：" + m);
     }
-   /* public void timerSet(Calendar calendar){
-    //実行するサービスを指定
+  /*  public void timerSet(Calendar calendar){
+   //実行するサービスを指定
         Intent intent = new Intent(getApplicationContext(), messageService.class);
         Context ct = getApplication();
         PendingIntent pendingIntent = PendingIntent.getService(ct, 0,
