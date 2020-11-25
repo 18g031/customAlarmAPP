@@ -17,8 +17,6 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity
         implements TextToSpeech.OnInitListener {
 
-public class MainActivity extends AppCompatActivity {
-
     private EditText edit = null;
 
     private int cal_hour;
