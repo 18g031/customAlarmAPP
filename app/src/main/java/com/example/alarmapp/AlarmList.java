@@ -1,5 +1,7 @@
 package com.example.alarmapp;
 
+//アラームに使うリスト作成
+
 public class AlarmList {
     private int alarmID = -1;
     private  String alarmTime = "null";

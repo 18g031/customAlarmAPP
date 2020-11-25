@@ -14,6 +14,8 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.Date;
 
+//スタート画面の動作
+
 public class MainActivity extends AppCompatActivity{
 
     private EditText edit = null;

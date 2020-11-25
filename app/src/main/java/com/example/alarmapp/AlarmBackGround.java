@@ -13,6 +13,7 @@ import android.widget.Button;
 import java.util.Calendar;
 import java.util.Date;
 
+//アラーム動作のバックグラウンド
 
 public class AlarmBackGround extends AppCompatActivity
         implements TextToSpeech.OnInitListener {

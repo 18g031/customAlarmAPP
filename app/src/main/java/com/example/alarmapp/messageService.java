@@ -4,8 +4,10 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+//バックグラウンド動作？
+
 public class messageService extends Service{
-        //
+
         public IBinder onBind(Intent intent)
         {
             return null;

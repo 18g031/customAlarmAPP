@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlarmManager;
 
+//アラームの時間設定画面
+
 public class clock extends AppCompatActivity {
 
     @Override
