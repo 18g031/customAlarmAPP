@@ -14,8 +14,7 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity
-        implements TextToSpeech.OnInitListener {
+public class MainActivity extends AppCompatActivity{
 
     private EditText edit = null;
 
@@ -27,6 +26,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onClickConfig(View view) {
-        Intent intent = new Intent(MainActivity.this,subActivity.class);
+        Intent intent = new Intent(MainActivity.this, subActivity.class);
         startActivity(intent);
+    };
+
+
+    public void onClickNewAlarm(View view) {
+        Intent intent = new Intent(MainActivity.this,clock.class);
+        startActivity(intent);
+
     }
+}
