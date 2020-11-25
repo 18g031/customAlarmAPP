@@ -11,7 +11,7 @@ import android.app.AlarmManager;
 
 //アラームの時間設定画面
 
-public class clock extends AppCompatActivity {
+public class ClockActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

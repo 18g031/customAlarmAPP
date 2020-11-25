@@ -7,7 +7,7 @@ import android.content.Intent;
 
 //アプリ設定画面
 
-public class subActivity extends AppCompatActivity {
+public class ConfigurationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

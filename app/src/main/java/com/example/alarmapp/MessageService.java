@@ -6,7 +6,7 @@ import android.os.IBinder;
 
 //バックグラウンド動作？
 
-public class messageService extends Service{
+public class MessageService extends Service{
 
         public IBinder onBind(Intent intent)
         {

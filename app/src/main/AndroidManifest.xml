@@ -17,11 +17,11 @@
             </intent-filter>
         </activity>
             <activity
-                android:name=".subActivity"
+                android:name=".ConfigurationActivity"
                 android:label="@string/app_name">
             </activity>
         <activity
-        android:name=".clock"
+        android:name=".ClockActivity"
         android:label="@string/app_name">
         </activity>
     </application>
