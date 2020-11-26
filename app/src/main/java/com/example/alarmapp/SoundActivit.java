@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+//ランダム音設定画面
 
 public class SoundActivit extends AppCompatActivity {
 }
