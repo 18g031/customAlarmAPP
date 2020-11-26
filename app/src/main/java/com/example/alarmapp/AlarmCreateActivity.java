@@ -11,7 +11,7 @@ import android.app.AlarmManager;
 
 //アラーム、アナウンスの編集画面
 
-public class ClockActivity extends AppCompatActivity {
+public class AlarmCreateActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

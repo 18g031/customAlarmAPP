@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity{
 
 
     public void onClickNewAlarm(View view) {
-        Intent intent = new Intent(MainActivity.this, ClockActivity.class);
+        Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
         startActivity(intent);
 
     }
