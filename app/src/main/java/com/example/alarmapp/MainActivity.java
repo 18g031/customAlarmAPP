@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void onClickConfig(View view) {
-        Intent intent = new Intent(MainActivity.this, ConfigurationActivity.class);
+        Intent intent = new Intent(MainActivity.this, ConfigActivity.class);
         startActivity(intent);
     };
 
