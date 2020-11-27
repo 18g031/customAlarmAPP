@@ -9,5 +9,5 @@ import android.widget.EditText;
 
 //ランダム音設定画面
 
-public class SoundActivit extends AppCompatActivity {
+public class SoundActivity extends AppCompatActivity {
 }
