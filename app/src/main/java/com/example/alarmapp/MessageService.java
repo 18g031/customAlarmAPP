@@ -4,7 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-//バックグラウンド動作？
+//音声動作
 
 public class MessageService extends Service{
 
