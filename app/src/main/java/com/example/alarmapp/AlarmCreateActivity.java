@@ -1,7 +1,5 @@
 package com.example.alarmapp;
 
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,9 +9,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlarmManager;
 
-import java.util.Calendar;
+//アラーム、アナウンスの編集画面
 
-public class clock extends AppCompatActivity {
+public class AlarmCreateActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +46,7 @@ public class clock extends AppCompatActivity {
         TextView confview = (TextView) this.findViewById(R.id.confview);
         confview.setText("設定した時間は　" + h + "：" + m);
     }
-    public void timerSet(Calendar calendar){
+  /*  public void timerSet(Calendar calendar){
    //実行するサービスを指定
         Intent intent = new Intent(getApplicationContext(), messageService.class);
         Context ct = getApplication();
@@ -57,6 +55,6 @@ public class clock extends AppCompatActivity {
         // AlarmManager の設定・開始
         AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
-    }
+    }*/
 
 }
