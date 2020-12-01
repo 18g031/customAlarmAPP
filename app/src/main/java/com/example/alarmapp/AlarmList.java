@@ -3,11 +3,12 @@ package com.example.alarmapp;
 //アラームに使うリスト作成
 
 public class AlarmList {
-    private int alarmID = -1;
-    private  String alarmTime = "null";
-    private String announceTime = "null";
-    private int alarmFlag = 1;
-    private int announceFlag = 1;
+    private int alarmID = -1;           //アラーム識別用ID
+    private  String alarmTime = "null";     //アラーム設定時間
+    private String announceTime = "null";       //アナウンス設定時間
+    private int settingFlag = 1;        //アラームとアナウンスのセットのオンオフフラグ(スタート画面から見えるもの)
+    private int alarmFlag = 1;          //アラームのみのオンオフフラグ（アラーム編集画面から操作するもの）
+    private int announceFlag = 1;       //アナウンスのみのオンオフフラグ（アラーム編集画面から操作するもの）
 
     public String getAlTime() {
         return alarmTime;
