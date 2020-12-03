@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/baseColor1</item>
         <item name="colorPrimaryDark">@color/baseColor2</item>
@@ -29,6 +29,7 @@
 
     <style name="main_button">
         <item name="android:textColor">@color/primaryText</item>
+        <item name="android:background">@color/nul</item>
         <item name="android:textSize">@dimen/text_size_button</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -47,9 +48,5 @@
         <item name="android:layout_marginTop">24dp</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 
 </resources>
