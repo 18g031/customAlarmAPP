@@ -7,6 +7,26 @@
         <item name="colorAccent">@color/border</item>
     </style>
 
+    <style name="toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/baseColor1</item>
+    </style>
+
+    <style name="toolbar_button">
+        <item name="android:background">@color/nul</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textSize">@dimen/text_size_button</item>
+    </style>
+
+    <style name="toolbar_text">
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textSize">@dimen/text_size_toolbar</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+    </style>
+
     <style name="main_button">
         <item name="android:textColor">@color/primaryText</item>
         <item name="android:textSize">@dimen/text_size_button</item>
@@ -31,7 +51,5 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
 </resources>
