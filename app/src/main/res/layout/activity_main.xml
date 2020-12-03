@@ -9,7 +9,6 @@
     tools:context=".MainActivity"
     tools:visibility="visible">
 
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/toolbar"
