@@ -21,10 +21,12 @@ public class AlarmBackGround extends AppCompatActivity
 
         private EditText edit = null;
 
+
         private int cal_hour;
         private int cal_minute;
         private TextToSpeech tts;
         private static final String TAG = "TestTTS";
+
         private String a = "一時間前です";
         private String b = "45分前です";
         private String c = "30分前です";

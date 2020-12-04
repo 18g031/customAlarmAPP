@@ -16,7 +16,7 @@
         <TextClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:format24Hour="HH:mm:ss"
+            android:format24Hour="HH:mm"
             android:textSize="60sp"
             android:timeZone="Asia/Tokyo"
             tools:ignore="NewApi" />
