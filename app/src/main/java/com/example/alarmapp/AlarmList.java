@@ -50,4 +50,8 @@ public class AlarmList {
     public int getAlarmID() {
         return alarmID;
     }
+
+
+    String[] listTime;
+
 }
