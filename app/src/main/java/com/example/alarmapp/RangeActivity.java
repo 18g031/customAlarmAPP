@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Random;
 
 
+
 //ランダム時間設定画面
 
 public class RangeActivity extends AppCompatActivity {
@@ -29,6 +30,5 @@ public class RangeActivity extends AppCompatActivity {
         String minute = aminutes.getText().toString();
         return minute;
     }
-
-
+    
 }
