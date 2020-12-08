@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -28,10 +29,10 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
 
-
-        //リスト（ListView）
-        String[] Time ={"ダミー　　　データ","8:10　　　　9:10"};   //AlarmList.javaのalTime[]を参照したい。アラーム、アナウンスの時間を保持
-        String[] name ={"アラーム　　　出発"};
+//
+//        //リスト（ListView）
+//        String[] Time ={"ダミー　　　データ","08:10　　　09:10"};   //AlarmList.javaのalTime[]を参照したい。アラーム、アナウンスの時間を保持
+//        String[] name ={"アラーム　　　出発"};
         List<Map<String, String>> data = new ArrayList<Map<String, String>>();
         for (int i=0; i<Time.length; i++){                  //リストを作成
             Map<String, String> item = new HashMap<String, String>();
@@ -45,12 +46,35 @@ public class MainActivity extends AppCompatActivity{
                 new int[] { android.R.id.text1, android.R.id.text2});
         alList.setAdapter(adapter);
 
+        //リストビューにリスナーを追加
+        alList.setOnItemClickListener(new ListItemClickListener());
+    }
+
+    //リスト（ListView）
+    String[] Time ={"ダミー　　　データ","8:10　　　　9:10"};   //AlarmList.javaのalTime[]を参照したい。アラーム、アナウンスの時間を保持
+    String[] name ={"アラーム　　　出発"};
+
+
+    private class ListItemClickListener implements AdapterView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+            Log.v("MainActList","onClick"+position);    //タップしたリストのログ表示
+            String item = Time[position];
+            String alTime = item.substring(0,5);
+            String anTime = item.substring(item.length()-5);
+            Log.v("MainActTime",alTime+","+anTime);     //alTime,anTimeに格納されたものをログ表示
+            Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
+            intent.putExtra("ALKEY", alTime);//第一引数key、第二引数渡したい値
+            intent.putExtra("ANKEY", anTime);
+            startActivity(intent);
+        }
+
     }
 
     public void onClickConfig(View view) {
         Intent intent = new Intent(MainActivity.this, ConfigActivity.class);
         startActivity(intent);
-    };
+    }
 
 
     public void onClickNewAlarm(View view) {
@@ -59,5 +83,5 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    
+
 }
