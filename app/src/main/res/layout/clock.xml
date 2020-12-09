@@ -66,6 +66,15 @@
             android:layout_gravity="center"
             android:text="enter" />
 
+        <TimePicker
+            android:id="@+id/tv_Timer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:timePickerMode="spinner"
+            tools:layout_editor_absoluteX="-16dp"
+            tools:layout_editor_absoluteY="43dp" />
+
+
         <TextView
             android:id="@+id/tv_timer"
             android:layout_width="match_parent"
@@ -78,5 +87,7 @@
             android:drawablePadding="16dp"
             android:layout_marginTop="16dp" />
 
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
