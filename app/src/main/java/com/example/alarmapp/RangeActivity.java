@@ -13,7 +13,7 @@ import java.util.Random;
 
 
 //ランダム時間設定画面
-
+//ランダム数生成
 public class RangeActivity extends AppCompatActivity {
     Random random = new Random();
     int randomValue = random.nextInt(30);
