@@ -1,35 +1,27 @@
 package com.example.alarmapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
-import java.util.Calendar;
-import java.util.Date;
-
-public class MainActivity extends AppCompatActivity
-        implements TextToSpeech.OnInitListener {
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 
-    private int cal_hour;
-    private int cal_minute;
+public class aaaa extends AppCompatActivity
+        implements View.OnClickListener, TextToSpeech.OnInitListener {
+
     private TextToSpeech tts;
     private static final String TAG = "TestTTS";
-    //TTS文章
-    private String a = "一時間前です";
-    private String b = "45分前です";
-    private String c = "30分前です";
-    private String d = "15分前です";
-    private String e = "10分前です";
-    private String f = "5分前です";
-    private String g = "出発時刻です";
-    //判断用
-    private int t = 1;
+    private String a = "aaaaaa";
+    private String b = "45分前です。";
+    private String c = "30分前です。";
+    private String d = "15分前です。";
+    private String e = "10分前です。";
 
-    //tts
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,30 +42,27 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-    public void onTime() {
-
-
+    @Override
+    public void onClick(View v) {
         speechText();
-    }
+    }{
 
-    private void shutDown() {
+       speechText();
+
+    }
+    private void shutDown(){
         if (null != tts) {
             // to release the resource of TextToSpeech
             tts.shutdown();
         }
     }
-    public void annset(){
+
+    private void speechText() {
+
+        String string = a;
 
 
-    }
-
-    public void speechText() {
-
-        String syuppatu = a;
-
-
-        if (0 < syuppatu.length()) {
+        if (0 < string.length()) {
             if (tts.isSpeaking()) {
                 tts.stop();
                 return;
@@ -81,55 +70,55 @@ public class MainActivity extends AppCompatActivity
             setSpeechRate();
             setSpeechPitch();
 
-            if (Build.VERSION.SDK_INT >= 21) {
+            if (Build.VERSION.SDK_INT >= 21){
                 // SDK 21 以上
-                tts.speak(syuppatu, TextToSpeech.QUEUE_FLUSH, null, "messageID");
+                tts.speak(string, TextToSpeech.QUEUE_FLUSH, null, "messageID");
             }
 
             setTtsListener();
-            syuppatu = null;
         }
     }
 
     // 読み上げのスピード
-    private void setSpeechRate() {
+    private void setSpeechRate(){
         if (null != tts) {
             tts.setSpeechRate((float) 1.0);
         }
     }
 
     // 読み上げのピッチ
-    private void setSpeechPitch() {
+    private void setSpeechPitch(){
         if (null != tts) {
             tts.setPitch((float) 1.0);
         }
     }
 
     // 読み上げの始まりと終わりを取得
-    private void setTtsListener() {
-        if (Build.VERSION.SDK_INT >= 21) {
+    private void setTtsListener(){
+        if (Build.VERSION.SDK_INT >= 21){
             int listenerResult =
                     tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                         @Override
                         public void onDone(String utteranceId) {
-                            Log.d(TAG, "progress on Done " + utteranceId);
+                            Log.d(TAG,"progress on Done " + utteranceId);
                         }
 
                         @Override
                         public void onError(String utteranceId) {
-                            Log.d(TAG, "progress on Error " + utteranceId);
+                            Log.d(TAG,"progress on Error " + utteranceId);
                         }
 
                         @Override
                         public void onStart(String utteranceId) {
-                            Log.d(TAG, "progress on Start " + utteranceId);
+                            Log.d(TAG,"progress on Start " + utteranceId);
                         }
                     });
 
             if (listenerResult != TextToSpeech.SUCCESS) {
                 Log.e(TAG, "failed to add utterance progress listener");
             }
-        } else {
+        }
+        else {
             Log.e(TAG, "Build VERSION is less than API 15");
         }
     }
@@ -140,25 +129,5 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-    //時間取得
-    public void setCalendar() {
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(System.currentTimeMillis());
-        Date date = cal.getTime();
-        cal_hour = date.getHours();
-        cal_minute = date.getMinutes();
-    }
-
-    //アラーム削除
-    public void alarmDelete(){
-       // int alarmID = receiveIntent.getIntExtra(getString(R.string.alarm_id),-1);
-
-       // alarmMgr = (AlarmManager)InputActivity.this.getSystemService(Context.ALARM_SERVICE);
-       // Intent sendIntent = new Intent(InputActivity.this, AlarmReceiver.class);
-       // alarmIntent = PendingIntent.getBroadcast(InputActivity.this, alarmID, sendIntent, 0);
-        // alarmMgr.cancel(alarmIntent);
-    }
-    //シェイク
 }
+
