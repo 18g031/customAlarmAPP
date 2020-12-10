@@ -54,6 +54,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                 tHour = hourOfDay;
                                 tMinute = minute;
                                 String time = tHour + ":" + tMinute;
+
                                 SimpleDateFormat f24Hours = new SimpleDateFormat(
                                         "HH:mm"
                                 );
@@ -69,6 +70,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                             }
                         }, 12, 0, false
                 );
+
                 timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.updateTime(tHour, tMinute);
                 timePickerDialog.show();
@@ -78,21 +80,24 @@ public class AlarmCreateActivity extends AppCompatActivity {
         ///////////////////////////
 /////////////////////////////////////
 
- /*       setContentView(R.layout.clock);
+ /*        setContentView(R.layout.clock);
         Intent intent = getIntent();
         String value1 = intent.getStringExtra("ALKEY");//MainActivityのリストから画面遷移した時のデータ
         String value2 = intent.getStringExtra("ANKEY");//変数名value1(アラームの時間を格納),value2(アナウンスの時間を格納)は適当
+*/
 
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                timeConf(mhours(), mminutes());
+            public void onClick(View view)  {
+                Intent intent = new Intent(AlarmCreateActivity.this, MainActivity.class);
+                startActivity(intent);
+
             }
         });
     }
 
-    //時を取得
-    private String mhours() {
+ /*    //時を取得
+   private String mhours() {
         EditText Ehour = (EditText) this.findViewById(R.id.hour);
         String hour = Ehour.getText().toString();
         return hour;
@@ -110,7 +115,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
         TextView confview = (TextView) this.findViewById(R.id.confview);
         confview.setText("設定した時間は　" + h + "：" + m);
     }
-    public void timerSet(Calendar calendar){
+/*    public void timerSet(Calendar calendar){
    //実行するサービスを指定
         Intent intent = new Intent(getApplicationContext(), messageService.class);
         Context ct = getApplication();
@@ -123,4 +128,4 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
     }
 
-}
+

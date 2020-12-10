@@ -29,17 +29,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-
-        <TimePicker
-            android:id="@+id/tv_Timer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:timePickerMode="spinner"
-            tools:layout_editor_absoluteX="-16dp"
-            tools:layout_editor_absoluteY="43dp" />
-
-
         <TextView
             android:id="@+id/tv_timer"
             android:layout_width="wrap_content"
@@ -51,13 +40,11 @@
             android:textSize="32sp"
             android:textStyle="bold" />
 
-
         <Button
             android:id="@+id/enter"
             style="@style/main_button"
             android:layout_gravity="center"
             android:text="enter" />
-
 
     </LinearLayout>
 
