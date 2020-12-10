@@ -93,7 +93,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
         ///////////////////////////
 /////////////////////////////////////
 
- /*        setContentView(R.layout.clock);
+/*        setContentView(R.layout.clock);
         Intent intent = getIntent();
         String value1 = intent.getStringExtra("ALKEY");//MainActivityのリストから画面遷移した時のデータ
         String value2 = intent.getStringExtra("ANKEY");//変数名value1(アラームの時間を格納),value2(アナウンスの時間を格納)は適当
