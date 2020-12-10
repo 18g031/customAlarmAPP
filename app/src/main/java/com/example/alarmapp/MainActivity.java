@@ -21,6 +21,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity{
 
     private EditText edit = null;
+    static String fileName = "test.txt";    //内部ストレージの名前
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +32,12 @@ public class MainActivity extends AppCompatActivity{
         //AlarmCreate.alReed(fileName);
         //デモ用ダミー
         String dummyTime[]={null};
-        String dummyData =  AlarmCreate.alReed(fileName);
+        String dummyData;
+        AlarmCreate file = new AlarmCreate(this);
+        dummyData = AlarmCreate.alReed(fileName);
         int dummyID = AlarmList.dummyID;
         for (int i= 0; i<=dummyID;i++){
-            dummyTime[i] = dummyData;
+            dummyTime[i] = dummyData.substring(i*5,5);
         }
 
         //デモ用リスト（ListView）
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity{
 //        alList.setAdapter(adapter);
 //}
 
-    static String fileName = "test.txt";    //内部ストレージの名前
+
 
     public void onClickConfig(View view) {
         Intent intent = new Intent(MainActivity.this, ConfigActivity.class);

@@ -9,6 +9,12 @@
     tools:context=".MainActivity"
     tools:visibility="visible">
 
+    <ListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/alList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/toolbar"
@@ -36,9 +42,5 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ListView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/alList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

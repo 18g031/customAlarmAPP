@@ -25,15 +25,16 @@ public class AlarmCreate {
     public static String alReed(String file){     //内部ストレージ読み込み
         String text = null;
         try {
-            FileInputStream fileInputStream = c.openFileInput(file);
+            FileInputStream fileInputStream;
+            fileInputStream = c.openFileInput(file);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream, "UTF-8"));
             String lineBuffer;
             while (true){
                 lineBuffer = reader.readLine();
                 text=lineBuffer;
                 if (lineBuffer != null){
-                }
-                else {
+                    break;
+                } else {
                     break;
                 }
             }
