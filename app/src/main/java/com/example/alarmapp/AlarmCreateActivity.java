@@ -27,7 +27,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     ///////////////////////////
 
     TextView tvTimer;
-    int tHour,tMinute;
+    int tHour, tMinute;
 
     ///////////////////////////
 /////////////////////////////////////
@@ -37,14 +37,14 @@ public class AlarmCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 /////////////////////////////////////
-    ///////////////////////////
+        ///////////////////////////
 
         setContentView(R.layout.clock);
         tvTimer = findViewById(R.id.tv_timer);
 
         tvTimer.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
                         AlarmCreateActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
@@ -67,18 +67,18 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }
-                        },12,0,false
+                        }, 12, 0, false
                 );
                 timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                timePickerDialog.updateTime(tHour,tMinute);
+                timePickerDialog.updateTime(tHour, tMinute);
                 timePickerDialog.show();
             }
         });
 
-    ///////////////////////////
+        ///////////////////////////
 /////////////////////////////////////
 
-        setContentView(R.layout.clock);
+ /*       setContentView(R.layout.clock);
         Intent intent = getIntent();
         String value1 = intent.getStringExtra("ALKEY");//MainActivityのリストから画面遷移した時のデータ
         String value2 = intent.getStringExtra("ANKEY");//変数名value1(アラームの時間を格納),value2(アナウンスの時間を格納)は適当
@@ -110,7 +110,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
         TextView confview = (TextView) this.findViewById(R.id.confview);
         confview.setText("設定した時間は　" + h + "：" + m);
     }
-  /*  public void timerSet(Calendar calendar){
+    public void timerSet(Calendar calendar){
    //実行するサービスを指定
         Intent intent = new Intent(getApplicationContext(), messageService.class);
         Context ct = getApplication();
@@ -120,5 +120,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
         AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
     }*/
+
+    }
 
 }
