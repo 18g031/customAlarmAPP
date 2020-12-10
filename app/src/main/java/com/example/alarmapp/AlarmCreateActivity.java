@@ -1,11 +1,13 @@
 package com.example.alarmapp;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,6 +30,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
     TextView tvTimer;
     int tHour, tMinute;
+    String time;
+    AlarmCreate file = new AlarmCreate(this);
 
     ///////////////////////////
 /////////////////////////////////////
@@ -53,7 +57,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
                             public void onTimeSet(TimePicker View, int hourOfDay, int minute) {
                                 tHour = hourOfDay;
                                 tMinute = minute;
-                                String time = tHour + ":" + tMinute;
+                                time = tHour + ":" + tMinute;
+                                Log.v("alCA",time);
 
                                 SimpleDateFormat f24Hours = new SimpleDateFormat(
                                         "HH:mm"
@@ -89,6 +94,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)  {
+                String fileName =MainActivity.fileName;
+                file.alCreate(fileName,time);
                 Intent intent = new Intent(AlarmCreateActivity.this, MainActivity.class);
                 startActivity(intent);
 
