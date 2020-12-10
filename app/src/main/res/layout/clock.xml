@@ -29,42 +29,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-        <TextClock
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:format24Hour="HH:mm:ss"
-            android:textSize="60sp"
-            android:timeZone="Asia/Tokyo"
-            tools:ignore="NewApi" />
-
-        <EditText
-            android:id="@+id/hour"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="時"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/minute"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="分"
-            android:inputType="textPersonName" />
-
         <TextView
-            android:id="@+id/confview"
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:textSize="24sp" />
+            android:id="@+id/tv_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="16dp"
+            android:layout_gravity="center"
+            android:hint="select time"
+            android:textSize="32sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/enter"
             style="@style/main_button"
-            android:layout_width="match_parent"
             android:layout_gravity="center"
             android:text="enter" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
