@@ -54,6 +54,7 @@ public class AlarmList {
     }
 
 
-    String[] listTime;
+    String[] listData;
+
 
 }
