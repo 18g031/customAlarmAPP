@@ -3,6 +3,8 @@ package com.example.alarmapp;
 //アラームに使うリスト作成
 
 public class AlarmList {
+    public static  int dummyID = -1;           //デモ用
+    public static String dummyList[];
     private int alarmID = -1;           //アラーム識別用ID
     private  String alarmTime = "null";     //アラーム設定時間
     private String announceTime = "null";       //アナウンス設定時間

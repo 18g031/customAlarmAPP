@@ -27,6 +27,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 timeConf(mhours(), mminutes());
             }
         });
+
+
     }
 
     //時を取得
@@ -47,6 +49,10 @@ public class AlarmCreateActivity extends AppCompatActivity {
     private void timeConf(String h, String m) {
         TextView confview = (TextView) this.findViewById(R.id.confview);
         confview.setText("設定した時間は　" + h + "：" + m);
+        String alTime = h + "," + m;
+        AlarmCreate file = new AlarmCreate(this);
+        String fileName =MainActivity.fileName;
+        file.alCreate(fileName,alTime);
     }
   /*  public void timerSet(Calendar calendar){
    //実行するサービスを指定
