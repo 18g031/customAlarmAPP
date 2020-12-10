@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity{
 
     private EditText edit = null;
     static String fileName = "test.txt";    //内部ストレージの名前
+    static String fileNameid = "testid.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +35,10 @@ public class MainActivity extends AppCompatActivity{
         String dummyTime[]={null};
         String dummyData;
         AlarmCreate file = new AlarmCreate(this);
-        dummyData = AlarmCreate.alReed(fileName);
-        int dummyID = AlarmList.dummyID;
+        AlarmCreate sub = new AlarmCreate(this);
+        AlarmString x = sub.alReed(fileName,fileNameid);
+        int dummyID = Integer.parseInt(x.text);
+        dummyData = x.text;
         for (int i= 0; i<=dummyID;i++){
             dummyTime[i] = dummyData.substring(i*5,5);
         }

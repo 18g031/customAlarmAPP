@@ -14,24 +14,32 @@ public class AlarmCreate {
     }
     public static void alCreate(String file,String alTime){     //内部ストレージ書き込み
         try {
-            AlarmList.dummyID = AlarmList.dummyID + 1;
+            int dummyID = AlarmList.dummyID + 1;
+            String dID = String.valueOf(dummyID);
             FileOutputStream fileOutputStream = c.openFileOutput(file, Context.MODE_PRIVATE | Context.MODE_APPEND);
+            FileOutputStream fileOutputStreamid = c.openFileOutput(file, Context.MODE_PRIVATE | Context.MODE_APPEND);
             fileOutputStream.write(alTime.getBytes());
+            fileOutputStreamid.write(dID.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static String alReed(String file){     //内部ストレージ読み込み
+    public static AlarmString alReed(String file,String fileid){     //内部ストレージ読み込みdummyData = AlarmCreate.alReed(fileName,fileNameid);
+        AlarmString x = new AlarmString();
         String text = null;
+        String textid = null;
         try {
-            FileInputStream fileInputStream;
-            fileInputStream = c.openFileInput(file);
+            FileInputStream fileInputStream = c.openFileInput(file);
+            FileInputStream fileInputStreamid = c.openFileInput(fileid);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream, "UTF-8"));
+            BufferedReader readerid = new BufferedReader(new InputStreamReader(fileInputStreamid, "UTF-8"));
             String lineBuffer;
             while (true){
                 lineBuffer = reader.readLine();
                 text=lineBuffer;
+                lineBuffer = readerid.readLine();
+                textid=lineBuffer;
                 if (lineBuffer != null){
                     break;
                 } else {
@@ -41,6 +49,9 @@ public class AlarmCreate {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return text;
+
+        x.text = text;
+        x.textid = textid;
+        return x;
     }
 }

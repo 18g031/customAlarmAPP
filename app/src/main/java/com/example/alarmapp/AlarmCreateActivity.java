@@ -31,6 +31,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     TextView tvTimer;
     int tHour, tMinute;
     String time;
+    int a;//出力確認用
     AlarmCreate file = new AlarmCreate(this);
 
     ///////////////////////////
@@ -58,7 +59,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                 tHour = hourOfDay;
                                 tMinute = minute;
                                 time = tHour + ":" + tMinute;
-                                Log.v("alCA",time);
+                                a=tMinute;//確認用
 
                                 SimpleDateFormat f24Hours = new SimpleDateFormat(
                                         "HH:mm"
@@ -96,6 +97,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
             public void onClick(View view)  {
                 String fileName =MainActivity.fileName;
                 file.alCreate(fileName,time);
+                String aa = "aa"+a;
+                Log.v("alCA_98",aa);
                 Intent intent = new Intent(AlarmCreateActivity.this, MainActivity.class);
                 startActivity(intent);
 
