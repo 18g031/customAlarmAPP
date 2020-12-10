@@ -96,7 +96,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)  {
                 String fileName =MainActivity.fileName;
-                file.alCreate(fileName,time);
+                String fileNameid = MainActivity.fileNameid;
+                file.alCreate(fileName,time,fileNameid);
                 String aa = "aa"+a;
                 Log.v("alCA_98",aa);
                 Intent intent = new Intent(AlarmCreateActivity.this, MainActivity.class);

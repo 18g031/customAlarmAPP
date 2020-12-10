@@ -12,12 +12,12 @@ public class AlarmCreate {
     public AlarmCreate(Context ctx) {
         this.c = ctx;
     }
-    public static void alCreate(String file,String alTime){     //内部ストレージ書き込み
+    public static void alCreate(String file,String alTime,String fileid){     //内部ストレージ書き込み
         try {
             int dummyID = AlarmList.dummyID + 1;
             String dID = String.valueOf(dummyID);
             FileOutputStream fileOutputStream = c.openFileOutput(file, Context.MODE_PRIVATE | Context.MODE_APPEND);
-            FileOutputStream fileOutputStreamid = c.openFileOutput(file, Context.MODE_PRIVATE | Context.MODE_APPEND);
+            FileOutputStream fileOutputStreamid = c.openFileOutput(fileid, Context.MODE_PRIVATE);
             fileOutputStream.write(alTime.getBytes());
             fileOutputStreamid.write(dID.getBytes());
         } catch (IOException e) {

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -30,18 +31,37 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
 
-        //AlarmCreate.alReed(fileName);
-        //デモ用ダミー
-        String dummyTime[]={null};
-        String dummyData;
-        AlarmCreate file = new AlarmCreate(this);
+        //AlarmCreate file = new AlarmCreate(this);
         AlarmCreate sub = new AlarmCreate(this);
         AlarmString x = sub.alReed(fileName,fileNameid);
-        int dummyID = Integer.parseInt(x.text);
-        dummyData = x.text;
-        for (int i= 0; i<=dummyID;i++){
-            dummyTime[i] = dummyData.substring(i*5,5);
+        String dummyTime[]={null};
+        String dummyData;
+        int dummyID = -1;
+        Log.v("21234567892ooo22",x.text);
+
+        if ((x.text).equals(null)){
+            dummyData ="08:00";
+            dummyID = 0;
+        }else{
+            dummyID = Integer.parseInt(x.textid);
+            dummyData = x.text;
+            for (int i= 0; i<=dummyID;i++){
+                dummyTime[i] = dummyData.substring(i*5,5);
+            }
         }
+
+        //AlarmCreate.alReed(fileName);
+        //デモ用ダミー
+//        String dummyTime[]={null};
+//        String dummyData;
+//        AlarmCreate file = new AlarmCreate(this);
+//        AlarmCreate sub = new AlarmCreate(this);
+//        AlarmString x = sub.alReed(fileName,fileNameid);
+//        dummyID = Integer.parseInt(x.textid);
+//        dummyData = x.text;
+//        for (int i= 0; i<=dummyID;i++){
+//            dummyTime[i] = dummyData.substring(i*5,5);
+//        }
 
         //デモ用リスト（ListView）
         String[] name ={"アラーム"};
