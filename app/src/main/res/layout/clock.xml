@@ -21,7 +21,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-
+    //アラームの箱
     <LinearLayout
         android:id="@+id/linear_alm"
         android:layout_width="match_parent"
@@ -40,6 +40,7 @@
 
     </LinearLayout>
 
+    //アナウンスの箱
     <LinearLayout
         android:id="@+id/linear_ann"
         android:layout_width="match_parent"
@@ -58,6 +59,7 @@
 
     </LinearLayout>
 
+    //保存ボタン 最初の画面に推移が可能、と同時にTimePickerの情報を反映をしたいが未実装
     <Button
         android:id="@+id/enter"
         style="@style/main_button"

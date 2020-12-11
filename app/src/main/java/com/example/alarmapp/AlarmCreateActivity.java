@@ -85,7 +85,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 );
 
                 timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                timePickerDialog.updateTime(tHour, tMinute);
+                timePickerDialog.updateTime(tAnnHour, tAnnMinute);
                 timePickerDialog.show();
             }
         });
