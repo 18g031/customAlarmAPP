@@ -12,18 +12,18 @@ public class AlarmCreate {
     public AlarmCreate(Context ctx) {
         this.c = ctx;
     }
-    public static void alCreate(String file,String alTime,String fileid){     //内部ストレージ書き込み
-        try {
-            int dummyID = AlarmList.dummyID + 1;
-            String dID = String.valueOf(dummyID);
-            FileOutputStream fileOutputStream = c.openFileOutput(file, Context.MODE_PRIVATE | Context.MODE_APPEND);
-            FileOutputStream fileOutputStreamid = c.openFileOutput(fileid, Context.MODE_PRIVATE);
-            fileOutputStream.write(alTime.getBytes());
-            fileOutputStreamid.write(dID.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void alCreate(String file,String alTime,String fileid){     //内部ストレージ書き込み
+//        try {
+//            int dummyID = AlarmList.dummyID + 1;
+//            String dID = String.valueOf(dummyID);
+//            FileOutputStream fileOutputStream = c.openFileOutput(file, Context.MODE_PRIVATE | Context.MODE_APPEND);
+//            FileOutputStream fileOutputStreamid = c.openFileOutput(fileid, Context.MODE_PRIVATE);
+//            fileOutputStream.write(alTime.getBytes());
+//            fileOutputStreamid.write(dID.getBytes());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static AlarmString alReed(String file,String fileid){     //内部ストレージ読み込みdummyData = AlarmCreate.alReed(fileName,fileNameid);
         AlarmString x = new AlarmString();

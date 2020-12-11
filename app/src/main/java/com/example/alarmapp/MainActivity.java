@@ -12,6 +12,10 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +28,8 @@ public class MainActivity extends AppCompatActivity{
     private EditText edit = null;
     static String fileName = "test.txt";    //内部ストレージの名前
     static String fileNameid = "testid.txt";
+    String text;
+    String textid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +39,19 @@ public class MainActivity extends AppCompatActivity{
 
         //AlarmCreate file = new AlarmCreate(this);
         AlarmCreate sub = new AlarmCreate(this);
-        AlarmString x = sub.alReed(fileName,fileNameid);
+        text = alReed(fileName);
+        textid = alReedid(fileNameid);
         String dummyTime[]={null};
         String dummyData;
         int dummyID = -1;
-        Log.v("21234567892ooo22",x.text);
+        Log.v("21234567892ooo22",text);
 
-        if ((x.text).equals(null)){
+        if (text.equals(null)){
             dummyData ="08:00";
             dummyID = 0;
         }else{
-            dummyID = Integer.parseInt(x.textid);
-            dummyData = x.text;
+            dummyID = Integer.parseInt(textid);
+            dummyData = text;
             for (int i= 0; i<=dummyID;i++){
                 dummyTime[i] = dummyData.substring(i*5,5);
             }
@@ -77,6 +84,48 @@ public class MainActivity extends AppCompatActivity{
                 new String[] { "SettingHour","Subject" },
                 new int[] { android.R.id.text1, android.R.id.text2});
         alList.setAdapter(adapter);
+    }
+
+    public String alReed(String file){     //内部ストレージ読み込みdummyData = AlarmCreate.alReed(fileName,fileNameid);
+        String text = null;
+        try {
+            FileInputStream fileInputStream = openFileInput(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream, "UTF-8"));
+            String lineBuffer;
+            while (true){
+                lineBuffer = reader.readLine();
+                text=lineBuffer;
+                if (lineBuffer != null){
+                    break;
+                } else {
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text;
+    }
+
+    public String alReedid(String fileid){     //内部ストレージ読み込みdummyData = AlarmCreate.alReed(fileName,fileNameid);
+        String textid = null;
+        try {
+            FileInputStream fileInputStreamid = openFileInput(fileid);
+            BufferedReader readerid = new BufferedReader(new InputStreamReader(fileInputStreamid, "UTF-8"));
+            String lineBuffer;
+            while (true){
+                lineBuffer = readerid.readLine();
+                textid=lineBuffer;
+                if (lineBuffer != null){
+                    break;
+                } else {
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return textid;
     }
 
 

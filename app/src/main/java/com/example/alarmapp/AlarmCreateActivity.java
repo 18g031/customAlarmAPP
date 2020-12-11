@@ -17,9 +17,16 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.app.AlarmManager;
 import android.widget.TimePicker;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 //アラーム、アナウンスの編集画面
 
@@ -32,7 +39,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     int tHour, tMinute;
     String time;
     int a;//出力確認用
-    AlarmCreate file = new AlarmCreate(this);
+    //AlarmCreate file = new AlarmCreate(this);
 
     ///////////////////////////
 /////////////////////////////////////
@@ -97,9 +104,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
             public void onClick(View view)  {
                 String fileName =MainActivity.fileName;
                 String fileNameid = MainActivity.fileNameid;
-                file.alCreate(fileName,time,fileNameid);
-                String aa = "aa"+a;
-                Log.v("alCA_98",aa);
+                alCreate(fileName,time,fileNameid);
                 Intent intent = new Intent(AlarmCreateActivity.this, MainActivity.class);
                 startActivity(intent);
 
@@ -107,6 +112,19 @@ public class AlarmCreateActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void alCreate(String file,String alTime,String fileid){     //内部ストレージ書き込み
+        try {
+            int dummyID = AlarmList.dummyID + 1;
+            String dID = String.valueOf(dummyID);
+            FileOutputStream fileOutputStream = openFileOutput(file, MODE_PRIVATE | MODE_APPEND);
+            FileOutputStream fileOutputStreamid = openFileOutput(fileid, MODE_PRIVATE);
+            fileOutputStream.write(alTime.getBytes());
+            fileOutputStreamid.write(dID.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
  /*    //時を取得
@@ -142,6 +160,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
         AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
     }*/
+
+
 
     }
 
