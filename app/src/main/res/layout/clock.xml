@@ -31,20 +31,17 @@
 
         <TextView
             android:id="@+id/tv_timer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:drawablePadding="16dp"
+            style="@style/main_button"
+            android:textSize="30dp"
+            android:textColor="@color/primaryText"
             android:layout_gravity="center"
-            android:hint="select time"
-            android:textSize="32sp"
-            android:textStyle="bold" />
+            android:hint="時間を入力" />
 
         <Button
             android:id="@+id/enter"
             style="@style/main_button"
             android:layout_gravity="center"
-            android:text="enter" />
+            android:text="保存" />
 
     </LinearLayout>
 
