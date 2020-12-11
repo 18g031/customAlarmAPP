@@ -21,28 +21,53 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+
     <LinearLayout
+        android:id="@+id/linear_alm"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="56dp"
+        android:layout_height="200dp"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/toolbar"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <TextView
-            android:id="@+id/tv_timer"
+            android:id="@+id/tv_alm_timer"
             style="@style/main_button"
             android:textSize="30dp"
             android:textColor="@color/primaryText"
             android:layout_gravity="center"
             android:hint="時間を入力" />
 
-        <Button
-            android:id="@+id/enter"
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_ann"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="@id/linear_alm"
+        app:layout_constraintTop_toBottomOf="@+id/linear_alm">
+
+        <TextView
+            android:id="@+id/tv_ann_timer"
             style="@style/main_button"
             android:layout_gravity="center"
-            android:text="保存" />
+            android:hint="時間を入力"
+            android:textColor="@color/primaryText"
+            android:textSize="30dp" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/enter"
+        style="@style/main_button"
+        android:layout_gravity="center"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:text="保存"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_ann" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
