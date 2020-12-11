@@ -116,7 +116,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
     public void alCreate(String file,String alTime,String fileid){     //内部ストレージ書き込み
         try {
-            int dummyID = AlarmList.dummyID + 1;
+            int dummyID = MainActivity.dummyID + 1;
             String dID = String.valueOf(dummyID);
             FileOutputStream fileOutputStream = openFileOutput(file, MODE_PRIVATE | MODE_APPEND);
             FileOutputStream fileOutputStreamid = openFileOutput(fileid, MODE_PRIVATE);

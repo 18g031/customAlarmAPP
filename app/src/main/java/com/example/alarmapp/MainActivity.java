@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity{
     static String fileNameid = "testid.txt";
     String text;
     String textid;
+    static int dummyID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,19 +44,25 @@ public class MainActivity extends AppCompatActivity{
         textid = alReedid(fileNameid);
         String dummyTime[]={null};
         String dummyData;
-        int dummyID = -1;
-        Log.v("21234567892ooo22",text);
+        dummyID = -1;
+       Log.v("222",text+":::"+textid);
 
-        if (text.equals(null)){
-            dummyData ="08:00";
-            dummyID = 0;
-        }else{
-            dummyID = Integer.parseInt(textid);
-            dummyData = text;
-            for (int i= 0; i<=dummyID;i++){
-                dummyTime[i] = dummyData.substring(i*5,5);
-            }
+        dummyID = Integer.parseInt(textid);
+        dummyData = text;
+        for (int i= 0; i<=dummyID;i++){
+            dummyTime[i] = dummyData.substring(i*5,5);
         }
+
+//        if (text.equals(null)){
+//            dummyData ="08:00";
+//            dummyID = 0;
+//        }else{
+//            dummyID = Integer.parseInt(textid);
+//            dummyData = text;
+//            for (int i= 0; i<=dummyID;i++){
+//                dummyTime[i] = dummyData.substring(i*5,5);
+//            }
+//        }
 
         //AlarmCreate.alReed(fileName);
         //デモ用ダミー
@@ -91,16 +98,20 @@ public class MainActivity extends AppCompatActivity{
         try {
             FileInputStream fileInputStream = openFileInput(file);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream, "UTF-8"));
-            String lineBuffer;
-            while (true){
-                lineBuffer = reader.readLine();
+            String lineBuffer= reader.readLine();
+            if (lineBuffer.equals(null)){
+                text = "08:00";
+            }else{
                 text=lineBuffer;
-                if (lineBuffer != null){
-                    break;
-                } else {
-                    text="08:00";
-                    break;
+                while (true){
+                    lineBuffer = reader.readLine();
+                    if (lineBuffer != null){
+                        text+=lineBuffer;
+                    } else {
+                        break;
+                    }
                 }
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,18 +123,22 @@ public class MainActivity extends AppCompatActivity{
         String textid = null;
         try {
             FileInputStream fileInputStreamid = openFileInput(fileid);
-            BufferedReader readerid = new BufferedReader(new InputStreamReader(fileInputStreamid, "UTF-8"));
-            String lineBuffer;
-            while (true){
-                lineBuffer = readerid.readLine();
-                textid=lineBuffer;
-                if (lineBuffer != null){
-                    break;
-                } else {
-                    textid="0";
-                    break;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStreamid, "UTF-8"));
+            String lineBuffer = reader.readLine();
+            if(lineBuffer.equals(null)){
+                textid ="0";
+            }else{
+                textid = lineBuffer;
+                while (true){
+                    lineBuffer = reader.readLine();
+                    if (lineBuffer != null){
+                        textid=lineBuffer;
+                    } else {
+                        break;
+                    }
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
