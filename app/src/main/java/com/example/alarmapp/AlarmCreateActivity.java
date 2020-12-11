@@ -23,28 +23,32 @@ import java.util.Date;
 
 public class AlarmCreateActivity extends AppCompatActivity {
 
-/////////////////////////////////////
-    ///////////////////////////
+            /*　　
+            あとやりたいこと
+            ・アラーム、アナウンスのどちらかだけを設定できるようにしたい。（レイアウトも未着手）
+            ・ここで得た時間をMainActivityのリストに入れれるようにしたい。
+            ・ここで得た時間に対してアラームの場合”任意の時間前に通知”の奴の計算、
+                アナウンスの場合”任意のランダム範囲”の奴の計算をできるようにしたい。
+            ・↑計算これについては、ここにあもんが書いてたコード（現在コメントアウト中）が使えるかも、？とのこと
+                使えなさそうならコードだったものは削除でお願いします。
+            */
+            
 
-    TextView tvAlmTimer;
-    int tAlmHour, tAlmMinute;
+    TextView tvAlmTimer,tvAnnTimer;
+    int tAlmHour, tAlmMinute,tAnnHour, tAnnMinute;
 
-    TextView tvAnnTimer;
-    int tAnnHour, tAnnMinute;
-
-    ///////////////////////////
-/////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-/////////////////////////////////////
-        ///////////////////////////
 
         setContentView(R.layout.clock);
         tvAlmTimer = findViewById(R.id.tv_alm_timer);
+        tvAnnTimer = findViewById(R.id.tv_ann_timer);
 
+
+        //アラームのTimePickerの処理
         tvAlmTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,9 +85,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
         });
 
 
-        setContentView(R.layout.clock);
-        tvAnnTimer = findViewById(R.id.tv_ann_timer);
-
+        //アナウンスのTimePickerの処理
         tvAnnTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,8 +121,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
             }
         });
 
-        ///////////////////////////
-/////////////////////////////////////
 
 /*        setContentView(R.layout.clock);
         Intent intent = getIntent();
