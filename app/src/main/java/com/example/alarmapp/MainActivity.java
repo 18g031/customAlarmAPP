@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     //リスト（ListView）
-    String[] Time ={"ダミー　　　データ","8:10　　　　9:10"};   //AlarmList.javaのalTime[]を参照したい。アラーム、アナウンスの時間を保持
+    String[] Time ={"8:10　　　　9:10","15:30　　　16:00"};   //AlarmList.javaのalTime[]を参照したい。アラーム、アナウンスの時間を保持
     String[] name ={"アラーム　　　出発"};
 
 
