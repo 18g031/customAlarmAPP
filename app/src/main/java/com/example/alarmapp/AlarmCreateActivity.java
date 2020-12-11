@@ -26,8 +26,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
 /////////////////////////////////////
     ///////////////////////////
 
-    TextView tvTimer;
-    int tHour, tMinute;
+    TextView tvAlmTimer;
+    int tAlmHour, tAlmMinute;
+
+    TextView tvAnnTimer;
+    int tAnnHour, tAnnMinute;
 
     ///////////////////////////
 /////////////////////////////////////
@@ -40,9 +43,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
         ///////////////////////////
 
         setContentView(R.layout.clock);
-        tvTimer = findViewById(R.id.tv_timer);
+        tvAlmTimer = findViewById(R.id.tv_alm_timer);
 
-        tvTimer.setOnClickListener(new View.OnClickListener() {
+        tvAlmTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
@@ -51,9 +54,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker View, int hourOfDay, int minute) {
-                                tHour = hourOfDay;
-                                tMinute = minute;
-                                String time = tHour + ":" + tMinute;
+                                tAlmHour = hourOfDay;
+                                tAlmMinute = minute;
+                                String time = tAlmHour + ":" + tAlmMinute;
 
                                 SimpleDateFormat f24Hours = new SimpleDateFormat(
                                         "HH:mm"
@@ -63,7 +66,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                     SimpleDateFormat f12Hours = new SimpleDateFormat(
                                             "hh:mm aa"
                                     );
-                                    tvTimer.setText(f12Hours.format(date));
+                                    tvAlmTimer.setText(f12Hours.format(date));
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
@@ -72,7 +75,46 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 );
 
                 timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                timePickerDialog.updateTime(tHour, tMinute);
+                timePickerDialog.updateTime(tAlmHour, tAlmMinute);
+                timePickerDialog.show();
+            }
+        });
+
+
+        setContentView(R.layout.clock);
+        tvAnnTimer = findViewById(R.id.tv_ann_timer);
+
+        tvAnnTimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        AlarmCreateActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker View, int hourOfDay, int minute) {
+                                tAnnHour = hourOfDay;
+                                tAnnMinute = minute;
+                                String time = tAnnHour + ":" + tAnnMinute;
+
+                                SimpleDateFormat f24Hours = new SimpleDateFormat(
+                                        "HH:mm"
+                                );
+                                try {
+                                    Date date = f24Hours.parse(time);
+                                    SimpleDateFormat f12Hours = new SimpleDateFormat(
+                                            "hh:mm aa"
+                                    );
+                                    tvAnnTimer.setText(f12Hours.format(date));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, 12, 0, false
+                );
+
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.updateTime(tAnnHour, tAnnMinute);
                 timePickerDialog.show();
             }
         });
