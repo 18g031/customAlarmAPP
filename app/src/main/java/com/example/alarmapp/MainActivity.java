@@ -44,12 +44,13 @@ public class MainActivity extends AppCompatActivity{
         textid = alReedid(fileNameid);
         String dummyTime[]={null};
         String dummyData;
-        dummyID = -1;
-       Log.v("222",text+":::"+textid);
+        //dummyID = -1;
+      Log.v("MainA48",text);
+       Log.v("MainA49",textid);
 
         dummyID = Integer.parseInt(textid);
         dummyData = text;
-        for (int i= 0; i<=dummyID;i++){
+        for (int i= 0; i<=0;i++){
             dummyTime[i] = dummyData.substring(i*5,5);
         }
 
@@ -80,9 +81,9 @@ public class MainActivity extends AppCompatActivity{
         //デモ用リスト（ListView）
         String[] name ={"アラーム"};
         List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-        for (int i=0; i<dummyTime.length; i++){                  //リストを作成
+        for (int i=0; i<=dummyID; i++){                  //リストを作成
             Map<String, String> item = new HashMap<String, String>();
-            item.put("SettingHour", dummyTime[i]);
+            item.put("SettingHour", "dummyTime[i]");
             item.put("Subject", name[0]);
             data.add(item);
         }
@@ -111,7 +112,6 @@ public class MainActivity extends AppCompatActivity{
                         break;
                     }
                 }
-
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity{
                     }
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
