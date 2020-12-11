@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity{
                 if (lineBuffer != null){
                     break;
                 } else {
+                    text="08:00";
                     break;
                 }
             }
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity{
                 if (lineBuffer != null){
                     break;
                 } else {
+                    textid="0";
                     break;
                 }
             }

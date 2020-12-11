@@ -25,33 +25,33 @@ public class AlarmCreate {
 //        }
 //    }
 
-    public static AlarmString alReed(String file,String fileid){     //内部ストレージ読み込みdummyData = AlarmCreate.alReed(fileName,fileNameid);
-        AlarmString x = new AlarmString();
-        String text = null;
-        String textid = null;
-        try {
-            FileInputStream fileInputStream = c.openFileInput(file);
-            FileInputStream fileInputStreamid = c.openFileInput(fileid);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream, "UTF-8"));
-            BufferedReader readerid = new BufferedReader(new InputStreamReader(fileInputStreamid, "UTF-8"));
-            String lineBuffer;
-            while (true){
-                lineBuffer = reader.readLine();
-                text=lineBuffer;
-                lineBuffer = readerid.readLine();
-                textid=lineBuffer;
-                if (lineBuffer != null){
-                    break;
-                } else {
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        x.text = text;
-        x.textid = textid;
-        return x;
-    }
+//    public static AlarmString alReed(String file,String fileid){     //内部ストレージ読み込みdummyData = AlarmCreate.alReed(fileName,fileNameid);
+//        AlarmString x = new AlarmString();
+//        String text = null;
+//        String textid = null;
+//        try {
+//            FileInputStream fileInputStream = c.openFileInput(file);
+//            FileInputStream fileInputStreamid = c.openFileInput(fileid);
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream, "UTF-8"));
+//            BufferedReader readerid = new BufferedReader(new InputStreamReader(fileInputStreamid, "UTF-8"));
+//            String lineBuffer;
+//            while (true){
+//                lineBuffer = reader.readLine();
+//                text=lineBuffer;
+//                lineBuffer = readerid.readLine();
+//                textid=lineBuffer;
+//                if (lineBuffer != null){
+//                    break;
+//                } else {
+//                    break;
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        x.text = text;
+//        x.textid = textid;
+//        return x;
+//    }
 }
