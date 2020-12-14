@@ -1,164 +1,181 @@
 package com.example.alarmapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
-import java.util.Calendar;
-import java.util.Date;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
-        implements TextToSpeech.OnInitListener {
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+//スタート画面の動作
 
-    private int cal_hour;
-    private int cal_minute;
-    private TextToSpeech tts;
-    private static final String TAG = "TestTTS";
-    //TTS文章
-    private String a = "一時間前です";
-    private String b = "45分前です";
-    private String c = "30分前です";
-    private String d = "15分前です";
-    private String e = "10分前です";
-    private String f = "5分前です";
-    private String g = "出発時刻です";
-    //判断用
-    private int t = 1;
+public class MainActivity extends AppCompatActivity{
 
-    //tts
+    private EditText edit = null;
+    static String fileName = "test.txt";    //内部ストレージの名前
+    static String fileNameid = "testid.txt";
+    String text;
+    String textid;
+    static int dummyID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
 
-        // TTS インスタンス生成
-        tts = new TextToSpeech(this, this);
+        //AlarmCreate file = new AlarmCreate(this);
+        AlarmCreate sub = new AlarmCreate(this);
+        text = alReed(fileName);
+        textid = alReedid(fileNameid);
+        String dummyTime[]={null};
+        String dummyData;
+        dummyID = -1;
+       Log.v("222",text+":::"+textid);
 
-    }
-
-    @Override
-    public void onInit(int status) {
-        // TTS初期化
-        if (TextToSpeech.SUCCESS == status) {
-            Log.d(TAG, "initialized");
-        } else {
-            Log.e(TAG, "failed to initialize");
+        dummyID = Integer.parseInt(textid);
+        dummyData = text;
+        for (int i= 0; i<=dummyID;i++){
+            dummyTime[i] = dummyData.substring(i*5,5);
         }
-    }
 
+//        if (text.equals(null)){
+//            dummyData ="08:00";
+//            dummyID = 0;
+//        }else{
+//            dummyID = Integer.parseInt(textid);
+//            dummyData = text;
+//            for (int i= 0; i<=dummyID;i++){
+//                dummyTime[i] = dummyData.substring(i*5,5);
+//            }
+//        }
 
-    public void onTime() {
+        //AlarmCreate.alReed(fileName);
+        //デモ用ダミー
+//        String dummyTime[]={null};
+//        String dummyData;
+//        AlarmCreate file = new AlarmCreate(this);
+//        AlarmCreate sub = new AlarmCreate(this);
+//        AlarmString x = sub.alReed(fileName,fileNameid);
+//        dummyID = Integer.parseInt(x.textid);
+//        dummyData = x.text;
+//        for (int i= 0; i<=dummyID;i++){
+//            dummyTime[i] = dummyData.substring(i*5,5);
+//        }
 
-
-        speechText();
-    }
-
-    private void shutDown() {
-        if (null != tts) {
-            // to release the resource of TextToSpeech
-            tts.shutdown();
+        //デモ用リスト（ListView）
+        String[] name ={"アラーム"};
+        List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+        for (int i=0; i<dummyTime.length; i++){                  //リストを作成
+            Map<String, String> item = new HashMap<String, String>();
+            item.put("SettingHour", dummyTime[i]);
+            item.put("Subject", name[0]);
+            data.add(item);
         }
+        ListView alList = findViewById(R.id.alList);
+        SimpleAdapter adapter = new SimpleAdapter(this, data, android.R.layout.simple_list_item_2,
+                new String[] { "SettingHour","Subject" },
+                new int[] { android.R.id.text1, android.R.id.text2});
+        alList.setAdapter(adapter);
     }
-    public void annset(){
 
+    public String alReed(String file){     //内部ストレージ読み込みdummyData = AlarmCreate.alReed(fileName,fileNameid);
+        String text = null;
+        try {
+            FileInputStream fileInputStream = openFileInput(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream, "UTF-8"));
+            String lineBuffer= reader.readLine();
+            if (lineBuffer.equals(null)){
+                text = "08:00";
+            }else{
+                text=lineBuffer;
+                while (true){
+                    lineBuffer = reader.readLine();
+                    if (lineBuffer != null){
+                        text+=lineBuffer;
+                    } else {
+                        break;
+                    }
+                }
 
-    }
-
-    public void speechText() {
-
-        String syuppatu = a;
-
-
-        if (0 < syuppatu.length()) {
-            if (tts.isSpeaking()) {
-                tts.stop();
-                return;
             }
-            setSpeechRate();
-            setSpeechPitch();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text;
+    }
 
-            if (Build.VERSION.SDK_INT >= 21) {
-                // SDK 21 以上
-                tts.speak(syuppatu, TextToSpeech.QUEUE_FLUSH, null, "messageID");
+    public String alReedid(String fileid){     //内部ストレージ読み込みdummyData = AlarmCreate.alReed(fileName,fileNameid);
+        String textid = null;
+        try {
+            FileInputStream fileInputStreamid = openFileInput(fileid);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStreamid, "UTF-8"));
+            String lineBuffer = reader.readLine();
+            if(lineBuffer.equals(null)){
+                textid ="0";
+            }else{
+                textid = lineBuffer;
+                while (true){
+                    lineBuffer = reader.readLine();
+                    if (lineBuffer != null){
+                        textid=lineBuffer;
+                    } else {
+                        break;
+                    }
+                }
             }
 
-            setTtsListener();
-            syuppatu = null;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-
-    // 読み上げのスピード
-    private void setSpeechRate() {
-        if (null != tts) {
-            tts.setSpeechRate((float) 1.0);
-        }
-    }
-
-    // 読み上げのピッチ
-    private void setSpeechPitch() {
-        if (null != tts) {
-            tts.setPitch((float) 1.0);
-        }
-    }
-
-    // 読み上げの始まりと終わりを取得
-    private void setTtsListener() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            int listenerResult =
-                    tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                        @Override
-                        public void onDone(String utteranceId) {
-                            Log.d(TAG, "progress on Done " + utteranceId);
-                        }
-
-                        @Override
-                        public void onError(String utteranceId) {
-                            Log.d(TAG, "progress on Error " + utteranceId);
-                        }
-
-                        @Override
-                        public void onStart(String utteranceId) {
-                            Log.d(TAG, "progress on Start " + utteranceId);
-                        }
-                    });
-
-            if (listenerResult != TextToSpeech.SUCCESS) {
-                Log.e(TAG, "failed to add utterance progress listener");
-            }
-        } else {
-            Log.e(TAG, "Build VERSION is less than API 15");
-        }
-    }
-
-    protected void onDestroy() {
-        super.onDestroy();
-        shutDown();
+        return textid;
     }
 
 
+//        //リスト（ListView）
+//    String[] Time ={"ダミー　　　データ","8:10　　　　9:10"};   //AlarmList.javaのalTime[]を参照したい。アラーム、アナウンスの時間を保持
+//    String[] name ={"アラーム　　　出発"};
+//    List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+//        for (int i=0; i<Time.length; i++){                  //リストを作成
+//        Map<String, String> item = new HashMap<String, String>();
+//        item.put("SettingHour", Time[i]);
+//        item.put("Subject", name[0]);
+//        data.add(item);
+//    }
+//    ListView alList = findViewById(R.id.alList);
+//    SimpleAdapter adapter = new SimpleAdapter(this, data, android.R.layout.simple_list_item_2,
+//            new String[] { "SettingHour","Subject" },
+//            new int[] { android.R.id.text1, android.R.id.text2});
+//        alList.setAdapter(adapter);
+//}
 
-    //時間取得
-    public void setCalendar() {
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(System.currentTimeMillis());
-        Date date = cal.getTime();
-        cal_hour = date.getHours();
-        cal_minute = date.getMinutes();
+
+    public void onClickConfig(View view) {
+        Intent intent = new Intent(MainActivity.this, ConfigActivity.class);
+        startActivity(intent);
+    };
+
+
+    public void onClickNewAlarm(View view) {
+        Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
+        startActivity(intent);
+
     }
 
-    //アラーム削除
-    public void alarmDelete(){
-       // int alarmID = receiveIntent.getIntExtra(getString(R.string.alarm_id),-1);
 
-       // alarmMgr = (AlarmManager)InputActivity.this.getSystemService(Context.ALARM_SERVICE);
-       // Intent sendIntent = new Intent(InputActivity.this, AlarmReceiver.class);
-       // alarmIntent = PendingIntent.getBroadcast(InputActivity.this, alarmID, sendIntent, 0);
-        // alarmMgr.cancel(alarmIntent);
-    }
-    //シェイク
 }

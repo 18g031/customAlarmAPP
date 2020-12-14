@@ -1,10 +1,52 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/baseColor1</item>
+        <item name="colorPrimaryDark">@color/baseColor2</item>
+        <item name="colorAccent">@color/border</item>
     </style>
+
+    <style name="toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/baseColor1</item>
+    </style>
+
+    <style name="toolbar_button">
+        <item name="android:background">@color/nul</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textSize">@dimen/text_size_button</item>
+    </style>
+
+    <style name="toolbar_text">
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textSize">@dimen/text_size_toolbar</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="main_button">
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:background">@color/nul</item>
+        <item name="android:textSize">@dimen/text_size_button</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <style name="text_normal1">
+        <item name="android:textColor">@color/secondaryText</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+    </style>
+
 
 </resources>
