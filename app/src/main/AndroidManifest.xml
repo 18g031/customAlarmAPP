@@ -19,14 +19,6 @@
         </activity>
 
 
-        <receiver
-            android:name=".AlarmReceiver"
-            android:exported="false" >
-            <intent-filter android:priority="0" >
-                <action android:name="net.example.android.broadcast.Alarm" >
-                </action>
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

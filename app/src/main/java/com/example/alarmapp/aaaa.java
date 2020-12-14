@@ -16,11 +16,11 @@ public class aaaa extends AppCompatActivity
 
     private TextToSpeech tts;
     private static final String TAG = "TestTTS";
-    private String a = "aaaaaa";
-    private String b = "45分前です。";
-    private String c = "30分前です。";
-    private String d = "15分前です。";
-    private String e = "10分前です。";
+    private String a = "60分前です";
+    private String b = "45分前です";
+    private String c = "30分前です";
+    private String d = "15分前です";
+    private String e = "10分前です";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
