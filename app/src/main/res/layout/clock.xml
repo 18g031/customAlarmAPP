@@ -21,55 +21,62 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    //アラームの箱
     <LinearLayout
-        android:id="@+id/linear_alm"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
+        <TextClock
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:format24Hour="HH:mm"
+            android:textSize="60sp"
+            android:timeZone="Asia/Tokyo"
+            tools:ignore="NewApi" />
+
+        <EditText
+            android:id="@+id/hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="時"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/minute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="分"
+            android:inputType="textPersonName" />
+
         <TextView
-            android:id="@+id/tv_alm_timer"
+            android:id="@+id/confview"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/enter"
             style="@style/main_button"
-            android:textSize="30dp"
-            android:textColor="@color/primaryText"
+            android:layout_width="match_parent"
             android:layout_gravity="center"
-            android:hint="時間を入力" />
+            android:text="enter" />
+
+        <TextView
+            android:id="@+id/tv_timer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="select time"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:drawableTop="@drawable/ic_launcher_foreground"
+            android:drawablePadding="16dp"
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
-
-    //アナウンスの箱
-    <LinearLayout
-        android:id="@+id/linear_ann"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="@id/linear_alm"
-        app:layout_constraintTop_toBottomOf="@+id/linear_alm">
-
-        <TextView
-            android:id="@+id/tv_ann_timer"
-            style="@style/main_button"
-            android:layout_gravity="center"
-            android:hint="時間を入力"
-            android:textColor="@color/primaryText"
-            android:textSize="30dp" />
-
-    </LinearLayout>
-
-    //保存ボタン 最初の画面に推移が可能、と同時にTimePickerの情報を反映をしたいが未実装
-    <Button
-        android:id="@+id/enter"
-        style="@style/main_button"
-        android:layout_gravity="center"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
-        android:text="保存"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_ann" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
