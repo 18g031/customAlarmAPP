@@ -19,6 +19,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+
 //アラーム、アナウンスの編集画面
 
 public class AlarmCreateActivity extends AppCompatActivity {
@@ -131,6 +142,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)  {
+                //データベースヘルパーオブジェクトを作成
+                DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
+                SQLiteDatabase db = helper.getWritableDatabase();//kokokara!
                 Intent intent = new Intent(AlarmCreateActivity.this, MainActivity.class);
                 startActivity(intent);
 
