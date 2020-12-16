@@ -16,21 +16,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db){
-        //データベースが存在しない場合に実行される。
+    public void onCreate(SQLiteDatabase db){    //データベースが存在しない場合に実行される。
         // 以下に変更を加えた場合はテスト前にアプリの再インストールをしないと反映されない
         //テーブル作成用SQL文字列の作成
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("CREATE TABLE alarmList (");
-//        sb.append("alarmID INTEGER PRIMARY KEY");
-//        sb.append("alarmTime TEXT");
-//        sb.append("announceTime TEXT");
-//        sb.append(")");
+        StringBuilder sb = new StringBuilder();
+        sb.append("CREATE TABLE alarmList (");
+        sb.append("_id INTEGER PRIMARY KEY,");
+        sb.append("tAlmHour INTEGER,");    //アラームの設定時間
+        sb.append("tAlmMinute INTEGER,");
+        sb.append("tAnnHour INTEGER,");    //アナウンスの設定時間
+        sb.append("tAnnMinute INTEGER");
+        sb.append(")");
+        String sql = sb.toString();
 
+        db.execSQL(sql);        //SQLの実行。（db.execSQL(sb);との違いがわからない）
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        //特に処理はないけれど抽象メソッドなので必要
 
     }
 

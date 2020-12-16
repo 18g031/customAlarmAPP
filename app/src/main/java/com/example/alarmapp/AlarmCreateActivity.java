@@ -47,6 +47,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
     TextView tvAlmTimer,tvAnnTimer;
     int tAlmHour, tAlmMinute,tAnnHour, tAnnMinute;
+    //timePickerで使用している変数名をそのままSQLでも使用
+
 
 
     @Override
@@ -144,8 +146,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
             public void onClick(View view)  {
                 //データベースヘルパーオブジェクトを作成
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
-                SQLiteDatabase db = helper.getWritableDatabase();//kokokara!
+                SQLiteDatabase db = helper.getWritableDatabase();
                 try{
+                    //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
+                    String sqlInsert = "INSERT INTO alarmList　(_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
+                    SQLiteStatement stmt = db.compileStatement(sqlInsert);
 
                 } finally {
                     db.close();
