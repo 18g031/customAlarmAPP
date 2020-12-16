@@ -3,6 +3,9 @@ package com.example.alarmapp;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,12 +25,42 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity{
 
     private EditText edit = null;
+    int alarmId;
+    String[] Time ={};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
+
+        //データベースヘルパーオブジェクトを作成
+        DatabaseHelper helper = new DatabaseHelper(MainActivity.this);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        try{
+            //読み込むためのＳＱＬ。
+            String sql = "SELECT * FROM alarmList";
+            Cursor cursor = db.rawQuery(sql, null);
+            while(cursor.moveToNext()){
+                int idxId = cursor.getColumnIndex("_id");
+                alarmId = cursor.getInt(idxId);
+                int idxAlTH = cursor.getColumnIndex("tAlmHour");
+                int idxAlTM = cursor.getColumnIndex("tAlmMinute");
+                int idxAnTH = cursor.getColumnIndex("tAnnHour");
+                int idxAnTM = cursor.getColumnIndex("tAnnMinute");
+                int alTH= cursor.getInt(idxAlTH);
+                int alTM= cursor.getInt(idxAlTM);
+                int anTH= cursor.getInt(idxAnTH);
+                int anTM= cursor.getInt(idxAnTM);
+                String alT = alTH + ":" + alTM;
+                String anT = anTH + ":" + anTM;
+                Time[alarmId] = alT+"    "+anT;
+            }
+
+
+        } finally {
+            db.close();
+        }
 
 //
 //        //リスト（ListView）
@@ -37,6 +70,7 @@ public class MainActivity extends AppCompatActivity{
         for (int i=0; i<Time.length; i++){                  //リストを作成
             Map<String, String> item = new HashMap<String, String>();
             item.put("SettingHour", Time[i]);
+            Log.v("aaa",Time[i]);
             item.put("Subject", name[0]);
             data.add(item);
         }
@@ -51,7 +85,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     //リスト（ListView）
-    String[] Time ={"8:10　　　　9:10","15:30　　　16:00"};   //AlarmList.javaのalTime[]を参照したい。アラーム、アナウンスの時間を保持
+    //String[] Time ={"8:10　　　　9:10","15:30　　　16:00"};   //AlarmList.javaのalTime[]を参照したい。アラーム、アナウンスの時間を保持
     String[] name ={"アラーム　　　出発"};
 
 

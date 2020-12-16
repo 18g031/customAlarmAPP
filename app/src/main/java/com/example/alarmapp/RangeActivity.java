@@ -15,20 +15,20 @@ import java.util.Random;
 //ランダム時間設定画面
 //ランダム数生成
 public class RangeActivity extends AppCompatActivity {
-    Random random = new Random();
-    int randomValue = random.nextInt(30);
-
-    private String mhours() {
-        TextView ahour = (TextView) this.findViewById(R.id.hour);
-        String hour = ahour.getText().toString();
-        return hour;
-    }
-
-
-    private String mminutes() {
-        TextView aminutes = (TextView) this.findViewById(R.id.minute);
-        String minute = aminutes.getText().toString();
-        return minute;
-    }
+//    Random random = new Random();
+//    int randomValue = random.nextInt(30);
+//
+//    private String mhours() {
+//        TextView ahour = (TextView) this.findViewById(R.id.hour);
+//        String hour = ahour.getText().toString();
+//        return hour;
+//    }
+//
+//
+//    private String mminutes() {
+//        TextView aminutes = (TextView) this.findViewById(R.id.minute);
+//        String minute = aminutes.getText().toString();
+//        return minute;
+//    }
     
 }

@@ -47,7 +47,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
     TextView tvAlmTimer,tvAnnTimer;
     int tAlmHour, tAlmMinute,tAnnHour, tAnnMinute;
-    //timePickerで使用している変数名をそのままSQLでも使用
+    //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をそのままSQLでも使用
 
 
 
@@ -148,9 +148,24 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
                 try{
+                    //保存されている最大の_idを取得するSQL文
+                    String sql = "SELECT MAX(_id) FROM alarmList;";
+                    Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
+                    int alarmId = -1;
+                    while(cursor.moveToNext()){
+                        int idxId = cursor.getColumnIndex("_id");
+                        alarmId = cursor.getInt(idxId);
+                    }
+                    alarmId +=1;
                     //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
                     String sqlInsert = "INSERT INTO alarmList　(_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
-                    SQLiteStatement stmt = db.compileStatement(sqlInsert);
+                    SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
+                    stmt.bindLong(1,alarmId);       //alarmListの1つ目のVALUESにalarmIdを入れる
+                    stmt.bindLong(2,tAlmHour);
+                    stmt.bindLong(3,tAlmMinute);
+                    stmt.bindLong(4,tAnnHour);
+                    stmt.bindLong(5,tAnnMinute);
+                    stmt.executeInsert();       //SQL文を実行（データベースに保存）
 
                 } finally {
                     db.close();

@@ -29,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb.append(")");
         String sql = sb.toString();
 
-        db.execSQL(sql);        //SQLの実行。（db.execSQL(sb);との違いがわからない）
+        db.execSQL(sql);        //SQLの実行。
     }
 
     @Override
