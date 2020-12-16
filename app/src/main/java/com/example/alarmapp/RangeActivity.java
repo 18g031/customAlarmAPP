@@ -29,6 +29,7 @@ public class RangeActivity extends AppCompatActivity {
         TextView aminutes = (TextView) this.findViewById(R.id.minute);
         String minute = aminutes.getText().toString();
         return minute;
+        //test
     }
     
 }
