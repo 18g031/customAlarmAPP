@@ -29,7 +29,7 @@ public class RangeActivity extends AppCompatActivity {
 
             Calendar keisan = Calendar.getInstance();
             keisan.setTime(date);
-            date.add(Calendar.MINUTE, randomValue);
+            keisan.add(Calendar.MINUTE, -randomValue);
 
 
 
