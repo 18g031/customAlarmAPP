@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -148,13 +149,18 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
                 try{
+                    Log.v("try","try の先頭を実行");
                     //保存されている最大の_idを取得するSQL文
-                    String sql = "SELECT MAX(_id) FROM alarmList;";
+                    //String sql = "SELECT MAX(_id) FROM alarmList;";
+                    String sql = "SELECT * FROM alarmList";
                     Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
                     int alarmId = -1;
+                    String str ;
                     while(cursor.moveToNext()){
                         int idxId = cursor.getColumnIndex("_id");
-                        alarmId = cursor.getInt(idxId);
+                        str = cursor.getString(idxId);
+                        alarmId = Integer.parseInt(str);
+                        Log.v("try",""+alarmId);
                     }
                     alarmId +=1;
                     //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
@@ -167,8 +173,10 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     stmt.bindLong(5,tAnnMinute);
                     stmt.executeInsert();       //SQL文を実行（データベースに保存）
 
-                } finally {
-                    db.close();
+                }
+                finally {
+                    Log.v("finally","finallyを実行");
+                   // db.close();
                 }
                 Intent intent = new Intent(AlarmCreateActivity.this, MainActivity.class);
                 startActivity(intent);

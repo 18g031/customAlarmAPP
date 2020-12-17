@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sb.append("tAlmMinute INTEGER,");
         sb.append("tAnnHour INTEGER,");    //アナウンスの設定時間
         sb.append("tAnnMinute INTEGER");
-        sb.append(")");
+        sb.append(");");
         String sql = sb.toString();     //appendで結合された文字列をStringに
 
         db.execSQL(sql);        //SQLの実行。

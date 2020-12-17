@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity{
 
 
         } finally {
-            db.close();
+            //db.close();
         }
 
 //
