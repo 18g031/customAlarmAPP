@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity{
     private EditText edit = null;
     int alarmId;
     String[] Time ={};
-
+    List<String> alarmArray= new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity{
                 int alTM= cursor.getInt(idxAlTM);
                 int anTH= cursor.getInt(idxAnTH);
                 int anTM= cursor.getInt(idxAnTM);
-                String alT = alTH + ":" + alTM;
-                String anT = anTH + ":" + anTM;
-                Time[alarmId] = alT+"    "+anT;
+                String alT = String.format("%02d",alTH )+ ":" + String.format("%02d",alTM);
+                String anT = String.format("%02d",anTH) + ":" + String.format("%02d",anTM);
+                alarmArray.add(alT+"　　　"+anT);
             }
 
 
@@ -67,10 +67,10 @@ public class MainActivity extends AppCompatActivity{
 //        String[] Time ={"ダミー　　　データ","08:10　　　09:10"};   //AlarmList.javaのalTime[]を参照したい。アラーム、アナウンスの時間を保持
 //        String[] name ={"アラーム　　　出発"};
         List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-        for (int i=0; i<Time.length; i++){                  //リストを作成
+        for (int i=0; i<alarmArray.size(); i++){                  //リストを作成
             Map<String, String> item = new HashMap<String, String>();
-            item.put("SettingHour", Time[i]);
-            Log.v("aaa",Time[i]);
+            item.put("SettingHour", alarmArray.get(i));
+            Log.v("aaa",alarmArray.get(i));
             item.put("Subject", name[0]);
             data.add(item);
         }

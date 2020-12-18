@@ -164,7 +164,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     }
                     alarmId +=1;
                     //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
-                    String sqlInsert = "INSERT INTO alarmList　(_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
+                    String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
                     SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
                     stmt.bindLong(1,alarmId);       //alarmListの1つ目のVALUESにalarmIdを入れる
                     stmt.bindLong(2,tAlmHour);
@@ -172,7 +172,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     stmt.bindLong(4,tAnnHour);
                     stmt.bindLong(5,tAnnMinute);
                     stmt.executeInsert();       //SQL文を実行（データベースに保存）
-
                 }
                 finally {
                     Log.v("finally","finallyを実行");
