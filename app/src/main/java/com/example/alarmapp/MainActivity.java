@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity{
     int alarmId;
     String[] Time ={};
     List<String> alarmArray= new ArrayList<>();
+    String[] name ={"アラーム　　　出発"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,35 +38,10 @@ public class MainActivity extends AppCompatActivity{
         //データベースヘルパーオブジェクトを作成
         DatabaseHelper helper = new DatabaseHelper(MainActivity.this);
         SQLiteDatabase db = helper.getWritableDatabase();
-        try{
-            //読み込むためのＳＱＬ。
-            String sql = "SELECT * FROM alarmList";
-            Cursor cursor = db.rawQuery(sql, null);
-            while(cursor.moveToNext()){
-                int idxId = cursor.getColumnIndex("_id");
-                alarmId = cursor.getInt(idxId);
-                int idxAlTH = cursor.getColumnIndex("tAlmHour");
-                int idxAlTM = cursor.getColumnIndex("tAlmMinute");
-                int idxAnTH = cursor.getColumnIndex("tAnnHour");
-                int idxAnTM = cursor.getColumnIndex("tAnnMinute");
-                int alTH= cursor.getInt(idxAlTH);
-                int alTM= cursor.getInt(idxAlTM);
-                int anTH= cursor.getInt(idxAnTH);
-                int anTM= cursor.getInt(idxAnTM);
-                String alT = String.format("%02d",alTH )+ ":" + String.format("%02d",alTM);
-                String anT = String.format("%02d",anTH) + ":" + String.format("%02d",anTM);
-                alarmArray.add(alT+"　　　"+anT);
-            }
+        //AlarmListクラスでリスト表示するためのデータをデータベースから読み込み
+        alarmArray = AlarmList.createList(db);
 
-
-        } finally {
-            //db.close();
-        }
-
-//
-//        //リスト（ListView）
-//        String[] Time ={"ダミー　　　データ","08:10　　　09:10"};   //AlarmList.javaのalTime[]を参照したい。アラーム、アナウンスの時間を保持
-//        String[] name ={"アラーム　　　出発"};
+        Log.v("alarmArray.size",""+alarmArray.size());
         List<Map<String, String>> data = new ArrayList<Map<String, String>>();
         for (int i=0; i<alarmArray.size(); i++){                  //リストを作成
             Map<String, String> item = new HashMap<String, String>();
@@ -84,22 +60,19 @@ public class MainActivity extends AppCompatActivity{
         alList.setOnItemClickListener(new ListItemClickListener());
     }
 
-    //リスト（ListView）
-    //String[] Time ={"8:10　　　　9:10","15:30　　　16:00"};   //AlarmList.javaのalTime[]を参照したい。アラーム、アナウンスの時間を保持
-    String[] name ={"アラーム　　　出発"};
-
 
     private class ListItemClickListener implements AdapterView.OnItemClickListener{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-            Log.v("MainActList","onClick"+position);    //タップしたリストのログ表示
-            String item = Time[position];
-            String alTime = item.substring(0,5);
-            String anTime = item.substring(item.length()-5);
-            Log.v("MainActTime",alTime+","+anTime);     //alTime,anTimeに格納されたものをログ表示
+            Log.v("MainActList","onClick :"+position);    //タップしたリストのログ表示
+            String item = alarmArray.get(position);     //タップしたリストの場所
+            String alTime = item.substring(0,5);        //前から五文字（アラームの"hh:mm"）取得
+            String anTime = item.substring(item.length()-5);        //後ろから五文字（出発の"hh:mm"）取得
+            Log.v("MainActTime","alTime,anTime :"+alTime+","+anTime);     //alTime,anTimeに格納されたものをログ表示
             Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
             intent.putExtra("ALKEY", alTime);//第一引数key、第二引数渡したい値
             intent.putExtra("ANKEY", anTime);
+            intent.putExtra("POSITION",position);//削除時に必要。タップされたリストの位置
             startActivity(intent);
         }
 
@@ -110,12 +83,8 @@ public class MainActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
-
     public void onClickNewAlarm(View view) {
         Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
         startActivity(intent);
-
     }
-
-
 }

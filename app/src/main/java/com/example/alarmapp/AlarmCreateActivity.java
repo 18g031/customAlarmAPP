@@ -1,6 +1,7 @@
 package com.example.alarmapp;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -23,17 +24,11 @@ import java.util.Date;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 
 //アラーム、アナウンスの編集画面
 
 public class AlarmCreateActivity extends AppCompatActivity {
+    public static Context context;
 
             /*　　
             あとやりたいこと
@@ -48,8 +43,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
     TextView tvAlmTimer,tvAnnTimer;
     int tAlmHour, tAlmMinute,tAnnHour, tAnnMinute;
-    //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をそのままSQLでも使用
-
+    //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
 
 
     @Override
@@ -140,6 +134,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String value1 = intent.getStringExtra("ALKEY");//MainActivityのリストから画面遷移した時のデータ
         String value2 = intent.getStringExtra("ANKEY");//変数名value1(アラームの時間を格納),value2(アナウンスの時間を格納)は適当
+        int listPosition = intent.getStringExtras("POSITION");      //削除用、ポジション
 */
 
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
@@ -148,38 +143,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 //データベースヘルパーオブジェクトを作成
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
-                try{
-                    Log.v("try","try の先頭を実行");
-                    //保存されている最大の_idを取得するSQL文
-                    //String sql = "SELECT MAX(_id) FROM alarmList;";
-                    String sql = "SELECT * FROM alarmList";
-                    Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
-                    int alarmId = -1;
-                    String str ;
-                    while(cursor.moveToNext()){
-                        int idxId = cursor.getColumnIndex("_id");
-                        str = cursor.getString(idxId);
-                        alarmId = Integer.parseInt(str);
-                        Log.v("try",""+alarmId);
-                    }
-                    alarmId +=1;
-                    //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
-                    String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
-                    SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
-                    stmt.bindLong(1,alarmId);       //alarmListの1つ目のVALUESにalarmIdを入れる
-                    stmt.bindLong(2,tAlmHour);
-                    stmt.bindLong(3,tAlmMinute);
-                    stmt.bindLong(4,tAnnHour);
-                    stmt.bindLong(5,tAnnMinute);
-                    stmt.executeInsert();       //SQL文を実行（データベースに保存）
-                }
-                finally {
-                    Log.v("finally","finallyを実行");
-                   // db.close();
-                }
+                //AlarmListクラスでアラームデータをデータベースに保存
+                AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
+
                 Intent intent = new Intent(AlarmCreateActivity.this, MainActivity.class);
                 startActivity(intent);
-
             }
         });
     }
