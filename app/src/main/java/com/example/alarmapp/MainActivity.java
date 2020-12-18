@@ -24,9 +24,9 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity{
 
-    private EditText edit = null;
-    int alarmId;
-    String[] Time ={};
+//    private EditText edit = null;
+//    int alarmId;
+//    String[] Time ={};
     List<String> alarmArray= new ArrayList<>();
     String[] name ={"アラーム　　　出発"};
     @Override
