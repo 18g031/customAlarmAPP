@@ -26,22 +26,6 @@
             android:label="@string/app_name">
         </activity>
         <activity
-            android:name=".AlarmStopActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".AdditionActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".RangeActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".RepeatActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity
             android:name=".SoundActivity"
             android:label="@string/app_name">
         </activity>
