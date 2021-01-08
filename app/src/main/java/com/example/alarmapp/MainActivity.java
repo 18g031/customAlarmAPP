@@ -3,6 +3,9 @@ package com.example.alarmapp;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,10 +15,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,64 +24,29 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity{
 
-    private EditText edit = null;
-    static String fileName = "test.txt";    //内部ストレージの名前
-    static String fileNameid = "testid.txt";
-    String text;
-    String textid;
-    static int dummyID;
-
+//    private EditText edit = null;
+//    int alarmId;
+//    String[] Time ={};
+    List<String> alarmArray= new ArrayList<>();
+    String[] name ={"アラーム　　　出発"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
 
-        //AlarmCreate file = new AlarmCreate(this);
-        AlarmCreate sub = new AlarmCreate(this);
-        text = alReed(fileName);
-        textid = alReedid(fileNameid);
-        String dummyTime[]={null};
-        String dummyData;
-        dummyID = -1;
-       Log.v("222",text+":::"+textid);
+        //データベースヘルパーオブジェクトを作成
+        DatabaseHelper helper = new DatabaseHelper(MainActivity.this);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        //AlarmListクラスでリスト表示するためのデータをデータベースから読み込み
+        alarmArray = AlarmList.createList(db);
 
-        dummyID = Integer.parseInt(textid);
-        dummyData = text;
-        for (int i= 0; i<=dummyID;i++){
-            dummyTime[i] = dummyData.substring(i*5,5);
-        }
-
-//        if (text.equals(null)){
-//            dummyData ="08:00";
-//            dummyID = 0;
-//        }else{
-//            dummyID = Integer.parseInt(textid);
-//            dummyData = text;
-//            for (int i= 0; i<=dummyID;i++){
-//                dummyTime[i] = dummyData.substring(i*5,5);
-//            }
-//        }
-
-        //AlarmCreate.alReed(fileName);
-        //デモ用ダミー
-//        String dummyTime[]={null};
-//        String dummyData;
-//        AlarmCreate file = new AlarmCreate(this);
-//        AlarmCreate sub = new AlarmCreate(this);
-//        AlarmString x = sub.alReed(fileName,fileNameid);
-//        dummyID = Integer.parseInt(x.textid);
-//        dummyData = x.text;
-//        for (int i= 0; i<=dummyID;i++){
-//            dummyTime[i] = dummyData.substring(i*5,5);
-//        }
-
-        //デモ用リスト（ListView）
-        String[] name ={"アラーム"};
+        Log.v("alarmArray.size",""+alarmArray.size());
         List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-        for (int i=0; i<dummyTime.length; i++){                  //リストを作成
+        for (int i=0; i<alarmArray.size(); i++){                  //リストを作成
             Map<String, String> item = new HashMap<String, String>();
-            item.put("SettingHour", dummyTime[i]);
+            item.put("SettingHour", alarmArray.get(i));
+            Log.v("aaa",alarmArray.get(i));
             item.put("Subject", name[0]);
             data.add(item);
         }
@@ -91,91 +55,36 @@ public class MainActivity extends AppCompatActivity{
                 new String[] { "SettingHour","Subject" },
                 new int[] { android.R.id.text1, android.R.id.text2});
         alList.setAdapter(adapter);
+
+        //リストビューにリスナーを追加
+        alList.setOnItemClickListener(new ListItemClickListener());
     }
 
-    public String alReed(String file){     //内部ストレージ読み込みdummyData = AlarmCreate.alReed(fileName,fileNameid);
-        String text = null;
-        try {
-            FileInputStream fileInputStream = openFileInput(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream, "UTF-8"));
-            String lineBuffer= reader.readLine();
-            if (lineBuffer.equals(null)){
-                text = "08:00";
-            }else{
-                text=lineBuffer;
-                while (true){
-                    lineBuffer = reader.readLine();
-                    if (lineBuffer != null){
-                        text+=lineBuffer;
-                    } else {
-                        break;
-                    }
-                }
 
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    private class ListItemClickListener implements AdapterView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+            Log.v("MainActList","onClick :"+position);    //タップしたリストのログ表示
+            String item = alarmArray.get(position);     //タップしたリストの場所
+            String alTime = item.substring(0,5);        //前から五文字（アラームの"hh:mm"）取得
+            String anTime = item.substring(item.length()-5);        //後ろから五文字（出発の"hh:mm"）取得
+            Log.v("MainActTime","alTime,anTime :"+alTime+","+anTime);     //alTime,anTimeに格納されたものをログ表示
+            Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
+            intent.putExtra("ALKEY", alTime);//第一引数key、第二引数渡したい値
+            intent.putExtra("ANKEY", anTime);
+            intent.putExtra("POSITION",position);//削除時に必要。タップされたリストの位置
+            startActivity(intent);
         }
-        return text;
+
     }
-
-    public String alReedid(String fileid){     //内部ストレージ読み込みdummyData = AlarmCreate.alReed(fileName,fileNameid);
-        String textid = null;
-        try {
-            FileInputStream fileInputStreamid = openFileInput(fileid);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStreamid, "UTF-8"));
-            String lineBuffer = reader.readLine();
-            if(lineBuffer.equals(null)){
-                textid ="0";
-            }else{
-                textid = lineBuffer;
-                while (true){
-                    lineBuffer = reader.readLine();
-                    if (lineBuffer != null){
-                        textid=lineBuffer;
-                    } else {
-                        break;
-                    }
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return textid;
-    }
-
-
-//        //リスト（ListView）
-//    String[] Time ={"ダミー　　　データ","8:10　　　　9:10"};   //AlarmList.javaのalTime[]を参照したい。アラーム、アナウンスの時間を保持
-//    String[] name ={"アラーム　　　出発"};
-//    List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-//        for (int i=0; i<Time.length; i++){                  //リストを作成
-//        Map<String, String> item = new HashMap<String, String>();
-//        item.put("SettingHour", Time[i]);
-//        item.put("Subject", name[0]);
-//        data.add(item);
-//    }
-//    ListView alList = findViewById(R.id.alList);
-//    SimpleAdapter adapter = new SimpleAdapter(this, data, android.R.layout.simple_list_item_2,
-//            new String[] { "SettingHour","Subject" },
-//            new int[] { android.R.id.text1, android.R.id.text2});
-//        alList.setAdapter(adapter);
-//}
-
-
 
     public void onClickConfig(View view) {
         Intent intent = new Intent(MainActivity.this, ConfigActivity.class);
         startActivity(intent);
-    };
-
+    }
 
     public void onClickNewAlarm(View view) {
         Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
         startActivity(intent);
-
     }
-
-
 }

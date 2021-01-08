@@ -7,4 +7,5 @@ import android.content.Intent;
 //読み上げ機能設定画面
 
 public class AnnConActivity extends AppCompatActivity {
+
 }
