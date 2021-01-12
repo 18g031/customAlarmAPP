@@ -19,7 +19,9 @@ import android.widget.TimePicker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -138,17 +140,38 @@ public class AlarmCreateActivity extends AppCompatActivity {
 */
 
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view)  {
                 //データベースヘルパーオブジェクトを作成
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
                 //AlarmListクラスでアラームデータをデータベースに保存
-                AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
+                AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db); //左2個がアラームの時、分　右がアナウンス
 
-                Intent intent = new Intent(AlarmCreateActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
+                Random random = new Random();
+                int randomValue = random.nextInt(30);
+
+                    setContentView(R.layout.clock);
+                    try {
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
+                        String strtime = Integer.toString(tAlmMinute) ;//intをstringに直す
+                        Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
+
+                        Calendar keisan = Calendar.getInstance();//計算処理
+                        keisan.setTime(date);
+                        keisan.add(Calendar.MINUTE, -randomValue);//minuteにはなる時間がはいってる。
+
+                    }catch (ParseException e){
+
+                    }
+                    //ここにデータベースにランダム時間をセットする。//
+                }
+
+
+
+
         });
     }
 
