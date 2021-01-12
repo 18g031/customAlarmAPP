@@ -13,6 +13,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     /////このクラスはブロードキャストレシーバーを使って、受け取ったContextとIntentからAlarmReceiverHelperを用いて、アラームをハンドラに登録するための試行錯誤です
     /////要　このクラスと他クラスの　改善と修正
+    /////前張ったサンプルを工夫すれば完成します（たぶん）
 
 
 
