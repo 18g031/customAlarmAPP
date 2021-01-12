@@ -41,10 +41,13 @@
     </LinearLayout>
 
     //アナウンスの箱
+
+    //保存ボタン 最初の画面に推移が可能、と同時にTimePickerの情報を反映をしたいが未実装
+
     <LinearLayout
         android:id="@+id/linear_ann"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="@id/linear_alm"
         app:layout_constraintTop_toBottomOf="@+id/linear_alm">
@@ -54,12 +57,103 @@
             style="@style/main_button"
             android:layout_gravity="center"
             android:hint="時間を入力"
-            android:textColor="@color/primaryText"
+            android:textColor="@color/secondaryText2"
             android:textSize="30dp" />
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/baseColor1"
+            android:button="@android:drawable/checkbox_off_background"
+            android:checked="false"
+            android:text="45分前"
+            android:textColor="@color/secondaryText2"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/checkBox3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox1" />
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/baseColor1"
+            android:button="@android:drawable/checkbox_off_background"
+            android:checked="false"
+            android:text="30分前"
+            android:textColor="@color/secondaryText2"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/checkBox4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
+
+        <CheckBox
+            android:id="@+id/checkBox4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/baseColor1"
+            android:button="@android:drawable/checkbox_off_background"
+            android:checked="false"
+            android:text="15分前"
+            android:textColor="@color/secondaryText2"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/checkBox5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox3" />
+
+        <CheckBox
+            android:id="@+id/checkBox5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/baseColor1"
+            android:button="@android:drawable/checkbox_off_background"
+            android:checked="false"
+            android:text="10分前"
+            android:textColor="@color/secondaryText2"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/checkBox6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox4" />
+
+        <CheckBox
+            android:id="@+id/checkBox6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/baseColor1"
+            android:button="@android:drawable/checkbox_off_background"
+            android:checked="false"
+            android:text="5分前"
+            android:textColor="@color/secondaryText2"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox5" />
+
+        <CheckBox
+            android:id="@+id/checkBox1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/baseColor1"
+            android:button="@android:drawable/checkbox_off_background"
+            android:checked="false"
+            android:cursorVisible="false"
+            android:text="1時間前"
+            android:textColor="@color/secondaryText2"
+            android:textSize="18sp"
+            android:verticalScrollbarPosition="defaultPosition"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnMainCon2" />
 
     </LinearLayout>
 
-    //保存ボタン 最初の画面に推移が可能、と同時にTimePickerの情報を反映をしたいが未実装
     <Button
         android:id="@+id/enter"
         style="@style/main_button"
