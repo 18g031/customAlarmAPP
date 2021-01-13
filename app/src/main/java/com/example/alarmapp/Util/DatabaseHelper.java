@@ -18,13 +18,15 @@ public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動�
 
     @Override
     public void onCreate(SQLiteDatabase db){    //同じ名前のデータベースが存在しない場合に実行される。
-        // 以下に変更を加えた場合はテスト前にアプリの再インストールをしないと反映されない
+        // 以下に変更を加えた場合はテスト前にアプリの再インストールをしないと反映されない←onUpgrade追記で解消されて再インストール不要のはず(未確認）
         //テーブル作成用SQL文字列の作成。　"_id"の主キーがほぼ必須（？）
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE alarmList (");
         sb.append("_id INTEGER PRIMARY KEY,");      //アラームのidを主キーとする
         sb.append("tAlmHour INTEGER,");    //アラームの設定時間
         sb.append("tAlmMinute INTEGER,");
+//        sb.append("rAlmHour INTEGER,");     //ランダム化したアラームの設定時間
+//        sb.append("rAlmMinute INTEGER,");
         sb.append("tAnnHour INTEGER,");    //出発の設定時間
         sb.append("tAnnMinute INTEGER");
 //        sb.append("anTiming INTEGER,");      //アナウンスの設定時間
@@ -35,20 +37,15 @@ public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動�
         String sql = sb.toString();     //appendで結合された文字列をStringに
         db.execSQL(sql);        //SQLの実行。
         Log.v("実行されたSQL文",sql);     //Logcatに実行されたSQL文を表示
-
-
-//        StringBuilder anSb = new StringBuilder();       //アナウンスのタイミングのデータベース
-//        anSb.append("CRETE TABLE announceList(");
-//        anSb.append("_id INTEGER PRIMARY KEY,");
-//        anSb.append("timing INTEGER,");
-//        anSb.append(");");
-//        sql = anSb.toString();
-//        db.execSQL(sql);
+        
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //特に処理はないけれど抽象メソッドなので必須
+        //抽象メソッドなので必須
+        //アプリのアップデート時にDBの構造の更新があった場合のみ、アプリ内のDBを更新する
+        db.execSQL("DROP TABLE IF EXISTS Alarm;");
+        onCreate(db);
 
     }
 

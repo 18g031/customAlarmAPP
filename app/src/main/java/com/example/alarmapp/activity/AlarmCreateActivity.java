@@ -142,6 +142,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 SQLiteDatabase db = helper.getWritableDatabase();
                 //AlarmListクラスでアラームデータをデータベースに保存
                 AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
+                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,ランダム化したアラームの時間(H)の変数名,ランダム化したアラームの時間(M)の変数名,db);
 
                 Intent intent = new Intent(AlarmCreateActivity.this, MainActivity.class);
                 startActivity(intent);
