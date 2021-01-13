@@ -21,14 +21,71 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <CheckBox
+        android:id="@+id/checkBoxSun"
+        style="@style/checkBox"
+        android:text="日曜日"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <CheckBox
+        android:id="@+id/checkBoxMon"
+        style="@style/checkBox"
+        android:text="月曜日"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxSun" />
+
+    <CheckBox
+        android:id="@+id/checkBoxTue"
+        style="@style/checkBox"
+        android:text="火曜日"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxMon" />
+
+    <CheckBox
+        android:id="@+id/checkBoxWed"
+        style="@style/checkBox"
+        android:text="水曜日"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxTue" />
+
+    <CheckBox
+        android:id="@+id/checkBoxThu"
+        style="@style/checkBox"
+        android:text="木曜日"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxWed" />
+
+    <CheckBox
+        android:id="@+id/checkBoxFri"
+        style="@style/checkBox"
+        android:text="金曜日"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxThu" />
+
+    <CheckBox
+        android:id="@+id/checkBoxSat"
+        style="@style/checkBox"
+        android:text="土曜日"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxFri" />
+
+
     //アラームの箱
     <LinearLayout
         android:id="@+id/linear_alm"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintStart_toStartOf="@id/checkBoxSat"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxSat">
 
         <TextView
             android:id="@+id/tv_alm_timer"
@@ -61,96 +118,52 @@
             android:textSize="30dp" />
 
         <CheckBox
-            android:id="@+id/checkBox2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/baseColor1"
-            android:button="@android:drawable/checkbox_off_background"
-            android:checked="false"
-            android:text="45分前"
-            android:textColor="@color/secondaryText2"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/checkBox3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox1" />
-
-        <CheckBox
-            android:id="@+id/checkBox3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/baseColor1"
-            android:button="@android:drawable/checkbox_off_background"
-            android:checked="false"
-            android:text="30分前"
-            android:textColor="@color/secondaryText2"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/checkBox4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
-
-        <CheckBox
-            android:id="@+id/checkBox4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/baseColor1"
-            android:button="@android:drawable/checkbox_off_background"
-            android:checked="false"
-            android:text="15分前"
-            android:textColor="@color/secondaryText2"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/checkBox5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox3" />
-
-        <CheckBox
             android:id="@+id/checkBox5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/baseColor1"
-            android:button="@android:drawable/checkbox_off_background"
-            android:checked="false"
-            android:text="10分前"
-            android:textColor="@color/secondaryText2"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/checkBox6"
+            style="@style/checkBox"
+            android:text="5分前"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox4" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_ann_time" />
 
         <CheckBox
-            android:id="@+id/checkBox6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/baseColor1"
-            android:button="@android:drawable/checkbox_off_background"
-            android:checked="false"
-            android:text="5分前"
-            android:textColor="@color/secondaryText2"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/checkBox10"
+            style="@style/checkBox"
+            android:text="10分前"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/checkBox5" />
 
         <CheckBox
-            android:id="@+id/checkBox1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/baseColor1"
-            android:button="@android:drawable/checkbox_off_background"
-            android:checked="false"
-            android:cursorVisible="false"
-            android:text="1時間前"
-            android:textColor="@color/secondaryText2"
-            android:textSize="18sp"
-            android:verticalScrollbarPosition="defaultPosition"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/checkBox15"
+            style="@style/checkBox"
+            android:text="15分前"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnMainCon2" />
+            app:layout_constraintTop_toBottomOf="@+id/checkBox10" />
+
+        <CheckBox
+            android:id="@+id/checkBox30"
+            style="@style/checkBox"
+            android:text="30分前"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox15" />
+
+        <CheckBox
+            android:id="@+id/checkBox45"
+            style="@style/checkBox"
+            android:text="45分前"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox30" />
+
+        <CheckBox
+            android:id="@+id/checkBox60"
+            style="@style/checkBox"
+            android:text="1時間前"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox45"  />
 
     </LinearLayout>
 
