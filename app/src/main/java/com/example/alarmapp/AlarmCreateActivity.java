@@ -1,18 +1,15 @@
 package com.example.alarmapp;
 
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.AlarmManager;
 import android.widget.TimePicker;
@@ -22,10 +19,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import android.widget.Toast;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
+import android.widget.Toast;
 
 //アラーム、アナウンスの編集画面
 
@@ -161,11 +158,28 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                         Calendar keisan = Calendar.getInstance();//計算処理
                         keisan.setTime(date);
-                        keisan.add(Calendar.MINUTE, -randomValue);//minuteにはなる時間がはいってる。
+                        keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
 
                     }catch (ParseException e){
 
                     }
+                //明示的なBroadCast
+                Intent intent = new Intent(getApplicationContext(),
+                        AlermBroadcastReceiver.class);
+                PendingIntent pending = PendingIntent.getBroadcast(
+                        getApplicationContext(), 0, intent, 0);
+
+                // アラームをセットする
+                Calendar calendar = Calendar.getInstance();
+                //設定した時間-現在時刻
+                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+                if(am != null){
+                    //am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+
+                    Toast.makeText(getApplicationContext(),
+                            "Set Alarm ", Toast.LENGTH_SHORT).show();
+
+
                     //ここにデータベースにランダム時間をセットする。//
                 }
 
@@ -173,37 +187,10 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 
         });
+
     }
 
- /*    //時を取得
-   private String mhours() {
-        EditText Ehour = (EditText) this.findViewById(R.id.hour);
-        String hour = Ehour.getText().toString();
-        return hour;
-    }
 
-    //分を取得
-    private String mminutes() {
-        EditText Eminute = (EditText) this.findViewById(R.id.minute);
-        String minute = Eminute.getText().toString();
-        return minute;
-    }
-
-    //設定した時刻を表示
-    private void timeConf(String h, String m) {
-        TextView confview = (TextView) this.findViewById(R.id.confview);
-        confview.setText("設定した時間は　" + h + "：" + m);
-    }
-/*    public void timerSet(Calendar calendar){
-   //実行するサービスを指定
-        Intent intent = new Intent(getApplicationContext(), messageService.class);
-        Context ct = getApplication();
-        PendingIntent pendingIntent = PendingIntent.getService(ct, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        // AlarmManager の設定・開始
-        AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
-    }*/
 
     }
 
