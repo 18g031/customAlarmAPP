@@ -1,4 +1,4 @@
-package com.example.alarmapp;
+package com.example.alarmapp.util;
 
 import android.content.Context;
 //import android.support.v7.app.AppCompatActivity;
