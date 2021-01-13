@@ -48,8 +48,9 @@ public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動�
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //特に処理はないけれど抽象メソッドなので必須
-
+        //オーバーライドしたonUpgradeメソッドはアプリのアプデが入ってデータベースの構造が変わったときにアプリ内のDBに反映させるために１かい走る
+        db.execSQL("DROP TABLE IF EXISTS Alarm;");
+        onCreate(db);
     }
 
 
