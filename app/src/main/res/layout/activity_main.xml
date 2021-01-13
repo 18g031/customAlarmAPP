@@ -39,14 +39,8 @@
         android:id="@+id/alList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_marginTop="62dp"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:layout_editor_absoluteX="111dp" />
-<!--=======-->
-<!--        android:layout_marginTop="56dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/toolbar" />-->
-<!--&gt;>>>>>> origin/master-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
