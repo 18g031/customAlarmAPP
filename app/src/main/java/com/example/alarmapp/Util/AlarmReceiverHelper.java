@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AlarmReceiverHelper {
-
+/*
     // アラームのデータを取得
     public static AlarmList getAlarmsByID(int alarmID, SQLiteOpenHelper helper){
 
@@ -74,7 +74,7 @@ public class AlarmReceiverHelper {
             alarmMgr.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
         }
     }
-
+*/
 
 
 }

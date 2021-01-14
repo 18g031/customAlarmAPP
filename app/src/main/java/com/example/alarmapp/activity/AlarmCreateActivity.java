@@ -2,7 +2,6 @@ package com.example.alarmapp.activity;
 
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
->>>>>>>>> Temporary merge branch 2
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,6 +29,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.alarmapp.AlarmList;
+import com.example.alarmapp.AlermBroadcastReceiver;
 import com.example.alarmapp.R;
 import com.example.alarmapp.Util.DatabaseHelper;
 import android.widget.Toast;
