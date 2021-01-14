@@ -43,12 +43,12 @@ public class MainActivity extends AppCompatActivity{
         alarmArray = createList(db);
 
 
-        Log.v("alarmArray.size",""+alarmArray.size());
+        //Log.v("alarmArray.size",""+alarmArray.size());
         List<Map<String, String>> data = new ArrayList<Map<String, String>>();
         for (int i=0; i<alarmArray.size(); i++){                  //リストを作成
             Map<String, String> item = new HashMap<String, String>();
             item.put("SettingHour", alarmArray.get(i));
-            Log.v("aaa",alarmArray.get(i));
+            //Log.v("aaa",alarmArray.get(i));
             item.put("Subject", name[0]);
             data.add(item);
         }
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity{
             String item = alarmArray.get(position);     //タップしたリストの場所
             String alTime = item.substring(0,5);        //前から五文字（アラームの"hh:mm"）取得
             String anTime = item.substring(item.length()-5);        //後ろから五文字（出発の"hh:mm"）取得
-            Log.v("MainActTime","alTime,anTime :"+alTime+","+anTime);     //alTime,anTimeに格納されたものをログ表示
+            //Log.v("MainActTime","alTime,anTime :"+alTime+","+anTime);     //alTime,anTimeに格納されたものをログ表示
             Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
             intent.putExtra("ALKEY", alTime);//第一引数key、第二引数渡したい値
             intent.putExtra("ANKEY", anTime);
