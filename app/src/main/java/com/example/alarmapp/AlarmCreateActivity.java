@@ -146,6 +146,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 //AlarmListクラスでアラームデータをデータベースに保存
                 AlarmList.alarmAdd(tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, db); //左2個がアラームの時、分　右がアナウンス
 
+
+
                 Random random = new Random();
                 int randomValue = random.nextInt(30);
 
@@ -183,7 +185,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     //ここにデータベースにランダム時間をセットする。//
                 }
 
-
+                Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class);
+                startActivity(intent2);
             }
         });
 
