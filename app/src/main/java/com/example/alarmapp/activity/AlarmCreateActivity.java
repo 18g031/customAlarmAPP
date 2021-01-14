@@ -1,15 +1,20 @@
-package com.example.alarmapp;
+package com.example.alarmapp.activity;
 
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+>>>>>>>>> Temporary merge branch 2
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.AlarmManager;
 import android.widget.TimePicker;
@@ -21,7 +26,12 @@ import java.util.Date;
 import java.util.Random;
 import android.widget.Toast;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.alarmapp.AlarmList;
+import com.example.alarmapp.R;
+import com.example.alarmapp.Util.DatabaseHelper;
 import android.widget.Toast;
 
 //アラーム、アナウンスの編集画面
@@ -190,5 +200,5 @@ public class AlarmCreateActivity extends AppCompatActivity {
             }
         });
 
-    } 
+    }
     }

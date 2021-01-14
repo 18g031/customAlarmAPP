@@ -1,11 +1,11 @@
-package com.example.alarmapp;
+package com.example.alarmapp.Util;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動時　データベースのテーブル作成
     //データベースファイルの定数フィールド
     private static final String DATABASE_NAME = "alarmList.db";
     //バージョン情報の定数フィールド。
@@ -48,8 +48,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //特に処理はないけれど抽象メソッドなので必須
-
+        //オーバーライドしたonUpgradeメソッドはアプリのアプデが入ってデータベースの構造が変わったときにアプリ内のDBに反映させるために１かい走る
+        db.execSQL("DROP TABLE IF EXISTS Alarm;");
+        onCreate(db);
     }
 
 

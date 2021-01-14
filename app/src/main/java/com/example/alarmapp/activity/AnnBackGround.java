@@ -1,4 +1,4 @@
-package com.example.alarmapp;
+package com.example.alarmapp.activity;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.alarmapp.R;
 
 public class AnnBackGround extends AppCompatActivity {
 

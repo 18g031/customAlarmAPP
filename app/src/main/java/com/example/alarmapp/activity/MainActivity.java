@@ -1,19 +1,19 @@
-package com.example.alarmapp;
+package com.example.alarmapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
+
+import com.example.alarmapp.AlarmList;
+import com.example.alarmapp.R;
+import com.example.alarmapp.Util.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
