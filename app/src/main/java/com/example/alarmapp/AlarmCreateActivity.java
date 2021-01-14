@@ -2,6 +2,7 @@ package com.example.alarmapp;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -39,7 +40,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
             ・↑計算これについては、ここにあもんが書いてたコード（現在コメントアウト中）が使えるかも、？とのこと
                 使えなさそうならコードだったものは削除でお願いします。
             */
-            
 
     TextView tvAlmTimer,tvAnnTimer;
     int tAlmHour, tAlmMinute,tAnnHour, tAnnMinute;
@@ -129,14 +129,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
             }
         });
 
-
-/*        setContentView(R.layout.clock);
-        Intent intent = getIntent();
-        String value1 = intent.getStringExtra("ALKEY");//MainActivityのリストから画面遷移した時のデータ
-        String value2 = intent.getStringExtra("ANKEY");//変数名value1(アラームの時間を格納),value2(アナウンスの時間を格納)は適当
-        int listPosition = intent.getStringExtras("POSITION");      //削除用、ポジション
-*/
-
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)  {
@@ -152,35 +144,42 @@ public class AlarmCreateActivity extends AppCompatActivity {
         });
     }
 
- /*    //時を取得
-   private String mhours() {
-        EditText Ehour = (EditText) this.findViewById(R.id.hour);
-        String hour = Ehour.getText().toString();
-        return hour;
-    }
+    final String[] items = {"日曜日","月曜日","火曜日","水曜日","木曜日","金曜日","土曜日"};
 
-    //分を取得
-    private String mminutes() {
-        EditText Eminute = (EditText) this.findViewById(R.id.minute);
-        String minute = Eminute.getText().toString();
-        return minute;
-    }
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.clock);
 
-    //設定した時刻を表示
-    private void timeConf(String h, String m) {
-        TextView confview = (TextView) this.findViewById(R.id.confview);
-        confview.setText("設定した時間は　" + h + "：" + m);
+            // main.xmlからボタンオブジェクトを取得
+            Button btn = (Button)findViewById(R.id.button);
+
+            // ボタンにリスナーを設定
+            btn.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            new AlertDialog.Builder(Dialog3Activity.this)
+                    .setTitle("データを選択してください")
+                    .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            callToast(item);
+                        }
+                    })
+                    .setNegativeButton("閉じる", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    })
+                    .show();
+        }
+
+        // トースト呼び出し
+        public void callToast(int i){
+            Toast.makeText(this, items[i] + "が選択されました", Toast.LENGTH_SHORT).show();
+        }
     }
-/*    public void timerSet(Calendar calendar){
-   //実行するサービスを指定
-        Intent intent = new Intent(getApplicationContext(), messageService.class);
-        Context ct = getApplication();
-        PendingIntent pendingIntent = PendingIntent.getService(ct, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        // AlarmManager の設定・開始
-        AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
-    }*/
 
     }
 
