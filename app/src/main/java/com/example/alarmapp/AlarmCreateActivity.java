@@ -139,30 +139,30 @@ public class AlarmCreateActivity extends AppCompatActivity {
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View view)  {
+            public void onClick(View view) {
                 //データベースヘルパーオブジェクトを作成
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
                 //AlarmListクラスでアラームデータをデータベースに保存
-                AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db); //左2個がアラームの時、分　右がアナウンス
+                AlarmList.alarmAdd(tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, db); //左2個がアラームの時、分　右がアナウンス
 
                 Random random = new Random();
                 int randomValue = random.nextInt(30);
 
-                    setContentView(R.layout.clock);
-                    try {
+                setContentView(R.layout.clock);
+                try {
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
-                        String strtime = Integer.toString(tAlmMinute) ;//intをstringに直す
-                        Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
+                    SimpleDateFormat sdf = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
+                    String strtime = Integer.toString(tAlmMinute);//intをstringに直す
+                    Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
 
-                        Calendar keisan = Calendar.getInstance();//計算処理
-                        keisan.setTime(date);
-                        keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
+                    Calendar keisan = Calendar.getInstance();//計算処理
+                    keisan.setTime(date);
+                    keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
 
-                    }catch (ParseException e){
+                } catch (ParseException e) {
 
-                    }
+                }
                 //明示的なBroadCast
                 Intent intent = new Intent(getApplicationContext(),
                         AlermBroadcastReceiver.class);
@@ -173,7 +173,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 //設定した時間-現在時刻
                 AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-                if(am != null){
+                if (am != null) {
                     //am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
 
                     Toast.makeText(getApplicationContext(),
@@ -184,14 +184,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 }
 
 
-
-
+            }
         });
 
+    } 
     }
-
-
-
-    }
-
-
