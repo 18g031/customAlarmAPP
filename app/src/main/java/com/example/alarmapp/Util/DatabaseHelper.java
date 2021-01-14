@@ -30,6 +30,9 @@ public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動�
         sb.append("tAnnHour INTEGER,");    //出発の設定時間
         sb.append("tAnnMinute INTEGER");
 //        sb.append("anTiming INTEGER,");      //アナウンスの設定時間
+//        sb.append();        //アラームの設定音
+//        sb.append();        //シェイクの量
+//        sb.append();        //
 //        sb.append("alFlag INTEGER,");       //アラームのオンオフ用フラグ（アラーム編集画面から操作するもの）
 //        sb.append("anFlag INTEGER,");       //アナウンスのオンオフ用フラグ（アラーム編集画面から操作するもの）
 //        sb.append("settingFlag INTEGER,");      //アラームとアナウンスのセットのオンオフフラグ(スタート画面から見えるもの)
@@ -37,14 +40,14 @@ public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動�
         String sql = sb.toString();     //appendで結合された文字列をStringに
         db.execSQL(sql);        //SQLの実行。
         Log.v("実行されたSQL文",sql);     //Logcatに実行されたSQL文を表示
-        
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //抽象メソッドなので必須
         //アプリのアップデート時にDBの構造の更新があった場合のみ、アプリ内のDBを更新する
-        db.execSQL("DROP TABLE IF EXISTS Alarm;");
+        db.execSQL("DROP TABLE IF EXISTS alarmList;");
         onCreate(db);
 
     }

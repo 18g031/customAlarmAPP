@@ -3,6 +3,7 @@ package com.example.alarmapp.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +40,8 @@ public class MainActivity extends AppCompatActivity{
         DatabaseHelper helper = new DatabaseHelper(MainActivity.this);
         SQLiteDatabase db = helper.getWritableDatabase();
         //AlarmListクラスでリスト表示するためのデータをデータベースから読み込み
-        alarmArray = AlarmList.createList(db);
+        alarmArray = createList(db);
+
 
         Log.v("alarmArray.size",""+alarmArray.size());
         List<Map<String, String>> data = new ArrayList<Map<String, String>>();
@@ -86,5 +88,31 @@ public class MainActivity extends AppCompatActivity{
     public void onClickNewAlarm(View view) {
         Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
         startActivity(intent);
+    }
+
+    public static List<String> createList(SQLiteDatabase db) {
+        List<String> alarmArray= new ArrayList<>();
+        try{
+            //データベースから読み込むためのＳＱＬ。
+            String sql = "SELECT * FROM alarmList";
+            Cursor cursor = db.rawQuery(sql, null);
+            while(cursor.moveToNext()){
+                int idxAlTH = cursor.getColumnIndex("tAlmHour");
+                int idxAlTM = cursor.getColumnIndex("tAlmMinute");
+                int idxAnTH = cursor.getColumnIndex("tAnnHour");
+                int idxAnTM = cursor.getColumnIndex("tAnnMinute");
+                int alTH= cursor.getInt(idxAlTH);
+                int alTM= cursor.getInt(idxAlTM);
+                int anTH= cursor.getInt(idxAnTH);
+                int anTM= cursor.getInt(idxAnTM);
+                String alT = String.format("%02d",alTH )+ ":" + String.format("%02d",alTM);     //それぞれの時間を0埋めして
+                String anT = String.format("%02d",anTH) + ":" + String.format("%02d",anTM);     //hh:mmの形でString型に格納
+                alarmArray.add(alT+"　　　"+anT);
+            }
+        } finally {
+            //データベースは明示的にcloseしない方がよい？　→　http://hobby.txt-nifty.com/t1000/2010/11/sqliteandroid-f.html
+            //db.close();
+        }
+        return alarmArray;
     }
 }
