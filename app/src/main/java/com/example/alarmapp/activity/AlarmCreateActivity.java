@@ -131,9 +131,19 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 /*        setContentView(R.layout.clock);
         Intent intent = getIntent();
-        String value1 = intent.getStringExtra("ALKEY");//MainActivityのリストから画面遷移した時のデータ
-        String value2 = intent.getStringExtra("ANKEY");//変数名value1(アラームの時間を格納),value2(アナウンスの時間を格納)は適当
-        int listPosition = intent.getStringExtras("POSITION");      //削除用、ポジション
+        int tapId = intent.getStringExtras("TAPID");      //MainActivityでタップされたアラームのid。削除メソッド(DatabaseHelper.alarmDelete)にこれを渡すだけで削除できるはず
+        //_idがtapIdのアラームのデータを読み込み
+        String sql = "SELECT _id FROM alarmList WHERE _id = tapId";
+        Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
+         int idxAlTH = cursor.getColumnIndex("tAlmHour");
+         int idxAlTM = cursor.getColumnIndex("tAlmMinute");
+         int idxAnTH = cursor.getColumnIndex("tAnnHour");
+         int idxAnTM = cursor.getColumnIndex("tAnnMinute");
+         int alTH= cursor.getInt(idxAlTH);
+         int alTM= cursor.getInt(idxAlTM);
+         int anTH= cursor.getInt(idxAnTH);
+         int anTM= cursor.getInt(idxAnTM);
+
 */
 
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {

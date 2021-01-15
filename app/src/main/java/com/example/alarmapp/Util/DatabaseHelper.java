@@ -84,40 +84,26 @@ public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動�
 //            stmt.bindLong(1, delId);
 //            stmt.executeUpdateDelete();     //削除SQL文の実行
 //        } finally {
-//            //データベースは明示的にcloseしない方がよい？　→　http://hobby.txt-nifty.com/t1000/2010/11/sqliteandroid-f.html
-//            //db.close();
+//
 //        }
 //    }
 
     //全データの一括削除を実装するならばこのメソッドのコメントアウトを解除する
-//    public static void alarmDelete(int delId ,SQLiteDatabase db){
-//        //データベースヘルパーオブジェクトの作成はメソッドの呼び出し元であらかじめ行う
-////        DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.context);
-////        SQLiteDatabase db = helper.getWritableDatabase();
-//        ArrayList<Integer> idArray = new ArrayList<>();      //取得した_idを格納するリスト
-//        try{
-//            String sqlDelete = "DELETE FROM alarmList WHERE _id = ?";
-//            SQLiteStatement stmt = db.compileStatement(sqlDelete);
-//            stmt.bindLong(1, delId);
-//            stmt.executeUpdateDelete();     //削除SQL文の実行
-//        } finally {
-//            //データベースは明示的にcloseしない方がよい？　→　http://hobby.txt-nifty.com/t1000/2010/11/sqliteandroid-f.html
-//            //db.close();
-//        }
-//    }
-
-    //全データの一括削除を実装するならば上記のメソッドを呼ぶ前にActivityに以下のコードを実装する
+    public static void alarmDelete(int delId ,SQLiteDatabase db){
+        //データベースヘルパーオブジェクトの作成はメソッドの呼び出し元であらかじめ行う
 //        DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.context);
 //        SQLiteDatabase db = helper.getWritableDatabase();
-//    //MainActivityでタップされたpositionから削除したい_idを取得する
-//    String sql = "SELECT * FROM alarmList";
-//    Cursor cursor = db.rawQuery(sql, null);
-//            while(cursor.moveToNext()){
-//        int idx_id = cursor.getColumnIndex("_id");
-//        int alId = cursor.getInt(idx_id);
-//        idArray.add(alId);
-//    }
-//    int delId = idArray.get(listPosition);      //タップされたリストの_idを格納
+        ArrayList<Integer> idArray = new ArrayList<>();      //取得した_idを格納するリスト
+        try{
+            String sqlDelete = "DELETE FROM alarmList WHERE _id = ?";
+            SQLiteStatement stmt = db.compileStatement(sqlDelete);
+            stmt.bindLong(1, delId);
+            stmt.executeUpdateDelete();     //削除SQL文の実行
+        } finally {
+            //データベースは明示的にcloseしない方がよい？　→　http://hobby.txt-nifty.com/t1000/2010/11/sqliteandroid-f.html
+            //db.close();
+        }
+    }
 
     /*
 

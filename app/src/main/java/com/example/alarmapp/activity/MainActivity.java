@@ -1,6 +1,8 @@
 package com.example.alarmapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
 
 import android.database.Cursor;
@@ -24,7 +26,8 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity{
 
-//    private EditText edit = null;
+    private static Context context;
+    //    private EditText edit = null;
 //    int alarmId;
 //    String[] Time ={};
     List<String> alarmArray= new ArrayList<>();
@@ -64,17 +67,39 @@ public class MainActivity extends AppCompatActivity{
 
     private class ListItemClickListener implements AdapterView.OnItemClickListener{
         @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+//            Log.v("MainActList","onClick :"+position);    //タップしたリストのログ表示
+//            String item = alarmArray.get(position);     //タップしたリストの場所
+//            String alTime = item.substring(0,5);        //前から五文字（アラームの"hh:mm"）取得
+//            String anTime = item.substring(item.length()-5);        //後ろから五文字（出発の"hh:mm"）取得
+//            //Log.v("MainActTime","alTime,anTime :"+alTime+","+anTime);     //alTime,anTimeに格納されたものをログ表示
+//            Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
+//            intent.putExtra("ALKEY", alTime);//第一引数key、第二引数渡したい値
+//            intent.putExtra("ANKEY", anTime);
+//            intent.putExtra("POSITION",position);//削除時に必要。タップされたリストの位置
+//            startActivity(intent);
+//        }
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-            Log.v("MainActList","onClick :"+position);    //タップしたリストのログ表示
-            String item = alarmArray.get(position);     //タップしたリストの場所
-            String alTime = item.substring(0,5);        //前から五文字（アラームの"hh:mm"）取得
-            String anTime = item.substring(item.length()-5);        //後ろから五文字（出発の"hh:mm"）取得
-            //Log.v("MainActTime","alTime,anTime :"+alTime+","+anTime);     //alTime,anTimeに格納されたものをログ表示
+            String item = alarmArray.get(position);
+            DatabaseHelper helper = new DatabaseHelper(MainActivity.context);
+            SQLiteDatabase db = helper.getWritableDatabase();
+            ArrayList<Integer> idArray = new ArrayList<>();      //取得した_idを格納するリスト
+            //MainActivityでタップされたpositionから_idを取得する
+            try{
+                String sql = "SELECT _id FROM alarmList";
+                Cursor cursor = db.rawQuery(sql, null);
+                while(cursor.moveToNext()){
+                    int idx_id = cursor.getColumnIndex("_id");
+                    int alId = cursor.getInt(idx_id);
+                    idArray.add(alId);
+                }
+            }
+            finally{
+            }
+            int tapId = idArray.get(position);      //タップされたリストの_idを格納(取得したidのリストから要素数がpositionのものを格納)
             Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
-            intent.putExtra("ALKEY", alTime);//第一引数key、第二引数渡したい値
-            intent.putExtra("ANKEY", anTime);
-            intent.putExtra("POSITION",position);//削除時に必要。タップされたリストの位置
-            startActivity(intent);
+            intent.putExtra("TAPID", tapId);//第一引数key、第二引数渡したい値
+            startActivity(intent);      //idをAlaramCreateActivityへ引き渡す。
         }
 
     }
