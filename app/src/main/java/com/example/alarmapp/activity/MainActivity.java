@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.example.alarmapp.AlarmList;
 import com.example.alarmapp.R;
 import com.example.alarmapp.Util.DatabaseHelper;
 

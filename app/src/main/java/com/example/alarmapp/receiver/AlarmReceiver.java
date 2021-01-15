@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.alarmapp.AlarmList;
 import com.example.alarmapp.Util.DatabaseHelper;
 import com.example.alarmapp.Util.AlarmReceiverHelper;
 import com.example.alarmapp.activity.AlarmActivity;
