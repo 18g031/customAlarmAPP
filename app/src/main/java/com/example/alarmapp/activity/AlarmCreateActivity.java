@@ -1,5 +1,6 @@
 package com.example.alarmapp.activity;
 
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,7 +29,7 @@ import android.widget.Toast;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.alarmapp.AlarmList;
+import com.example.alarmapp.AlermBroadcastReceiver;
 import com.example.alarmapp.R;
 import com.example.alarmapp.Util.DatabaseHelper;
 import android.widget.Toast;
@@ -161,7 +163,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
                 //AlarmListクラスでアラームデータをデータベースに保存
-                AlarmList.alarmAdd(tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, db); //左2個がアラームの時、分　右がアナウンス
                 ////AlarmListクラスでアラームデータをデータベースに保存
                 //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
                 //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,ランダム化したアラームの時間(H)の変数名,ランダム化したアラームの時間(M)の変数名,db);
@@ -201,12 +202,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 }
 
 
- /*    //時を取得
-   private String mhours() {
-        EditText Ehour = (EditText) this.findViewById(R.id.hour);
-        String hour = Ehour.getText().toString();
-        return hour;
-    }
+
 
                 Random random = new Random();
                 int randomValue = random.nextInt(30);
