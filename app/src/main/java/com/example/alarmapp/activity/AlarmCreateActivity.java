@@ -139,10 +139,17 @@ public class AlarmCreateActivity extends AppCompatActivity {
          int idxAlTM = cursor.getColumnIndex("tAlmMinute");
          int idxAnTH = cursor.getColumnIndex("tAnnHour");
          int idxAnTM = cursor.getColumnIndex("tAnnMinute");
-         int alTH= cursor.getInt(idxAlTH);
+         int alTH= cursor.getInt(idxAlTH);      //_idがtapIdのtAlmHourの値をalTHに格納
          int alTM= cursor.getInt(idxAlTM);
          int anTH= cursor.getInt(idxAnTH);
          int anTM= cursor.getInt(idxAnTM);
+
+         if(tapId != null){
+            tAlmHour=alTH;
+            tAlmMinute=alTM;
+            tAnnHour=anTH;
+            tAnnMinute=anTM;
+         }
 
 */
 
@@ -172,7 +179,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     alarmId +=1;
                     //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
                     String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
-                    //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, rAlmHour, tAlmMinute, 繰り返し曜日設定(アラーム),繰り返し曜日（アナウンス）,アナウンスタイミング) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, rAlmHour, tAlmMinute, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
                     stmt.bindLong(1,alarmId);       //alarmListの1つ目のVALUESにalarmIdを入れる
                     stmt.bindLong(2,tAlmHour);

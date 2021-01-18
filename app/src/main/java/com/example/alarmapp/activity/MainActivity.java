@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity{
             }
             int tapId = idArray.get(position);      //タップされたリストの_idを格納(取得したidのリストから要素数がpositionのものを格納)
             Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
-            intent.putExtra("TAPID", tapId);//第一引数key、第二引数渡したい値
+            intent.putExtra("TAPID", tapId);    //第一引数key、第二引数渡したい値
             startActivity(intent);      //idをAlaramCreateActivityへ引き渡す。
         }
 
