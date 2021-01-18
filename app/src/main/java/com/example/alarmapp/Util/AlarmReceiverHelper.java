@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Build;
 
-import com.example.alarmapp.AlarmList;
 import com.example.alarmapp.receiver.*;
 
 import java.util.ArrayList;
