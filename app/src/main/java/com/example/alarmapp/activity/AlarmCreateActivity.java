@@ -143,6 +143,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int tapId = intent.getStringExtras("TAPID");      //MainActivityでタップされたアラームのid。削除メソッド(DatabaseHelper.alarmDelete)にこれを渡すだけで削除できるはず
         //_idがtapIdのアラームのデータを読み込み
+        DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
+            SQLiteDatabase db = helper.getWritableDatabase();
         String sql = "SELECT _id FROM alarmList WHERE _id = tapId";
         Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
          int idxAlTH = cursor.getColumnIndex("tAlmHour");

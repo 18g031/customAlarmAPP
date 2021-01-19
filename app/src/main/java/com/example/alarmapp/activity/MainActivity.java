@@ -67,21 +67,9 @@ public class MainActivity extends AppCompatActivity{
 
     private class ListItemClickListener implements AdapterView.OnItemClickListener{
         @Override
-//        public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-//            Log.v("MainActList","onClick :"+position);    //タップしたリストのログ表示
-//            String item = alarmArray.get(position);     //タップしたリストの場所
-//            String alTime = item.substring(0,5);        //前から五文字（アラームの"hh:mm"）取得
-//            String anTime = item.substring(item.length()-5);        //後ろから五文字（出発の"hh:mm"）取得
-//            //Log.v("MainActTime","alTime,anTime :"+alTime+","+anTime);     //alTime,anTimeに格納されたものをログ表示
-//            Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
-//            intent.putExtra("ALKEY", alTime);//第一引数key、第二引数渡したい値
-//            intent.putExtra("ANKEY", anTime);
-//            intent.putExtra("POSITION",position);//削除時に必要。タップされたリストの位置
-//            startActivity(intent);
-//        }
         public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-            String item = alarmArray.get(position);
-            DatabaseHelper helper = new DatabaseHelper(MainActivity.context);
+            //Log.v("MainActList","onClick :"+position);    //タップしたリストのログ表示
+            DatabaseHelper helper = new DatabaseHelper(MainActivity.this);
             SQLiteDatabase db = helper.getWritableDatabase();
             ArrayList<Integer> idArray = new ArrayList<>();      //取得した_idを格納するリスト
             //MainActivityでタップされたpositionから_idを取得する
@@ -99,7 +87,7 @@ public class MainActivity extends AppCompatActivity{
             int tapId = idArray.get(position);      //タップされたリストの_idを格納(取得したidのリストから要素数がpositionのものを格納)
             Intent intent = new Intent(MainActivity.this, AlarmCreateActivity.class);
             intent.putExtra("TAPID", tapId);//第一引数key、第二引数渡したい値
-            startActivity(intent);      //idをAlaramCreateActivityへ引き渡す。
+            startActivity(intent);      //idをAlarmCreateActivityへ引き渡す。
         }
 
     }
