@@ -1,12 +1,14 @@
-package com.example.alarmapp;
+package com.example.alarmapp.activity;
 
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteStatement;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -19,11 +21,18 @@ import android.widget.TimePicker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
+import android.widget.Toast;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
+
+import com.example.alarmapp.AlermBroadcastReceiver;
+import com.example.alarmapp.R;
+import com.example.alarmapp.Util.DatabaseHelper;
+import android.widget.Toast;
 
 //アラーム、アナウンスの編集画面
 
@@ -132,9 +141,19 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 /*        setContentView(R.layout.clock);
         Intent intent = getIntent();
-        String value1 = intent.getStringExtra("ALKEY");//MainActivityのリストから画面遷移した時のデータ
-        String value2 = intent.getStringExtra("ANKEY");//変数名value1(アラームの時間を格納),value2(アナウンスの時間を格納)は適当
-        int listPosition = intent.getStringExtras("POSITION");      //削除用、ポジション
+        int tapId = intent.getStringExtras("TAPID");      //MainActivityでタップされたアラームのid。削除メソッド(DatabaseHelper.alarmDelete)にこれを渡すだけで削除できるはず
+        //_idがtapIdのアラームのデータを読み込み
+        String sql = "SELECT _id FROM alarmList WHERE _id = tapId";
+        Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
+         int idxAlTH = cursor.getColumnIndex("tAlmHour");
+         int idxAlTM = cursor.getColumnIndex("tAlmMinute");
+         int idxAnTH = cursor.getColumnIndex("tAnnHour");
+         int idxAnTM = cursor.getColumnIndex("tAnnMinute");
+         int alTH= cursor.getInt(idxAlTH);
+         int alTM= cursor.getInt(idxAlTM);
+         int anTH= cursor.getInt(idxAnTH);
+         int anTM= cursor.getInt(idxAnTM);
+
 */
 
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
@@ -144,44 +163,88 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
                 //AlarmListクラスでアラームデータをデータベースに保存
-                AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
+                ////AlarmListクラスでアラームデータをデータベースに保存
+                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
+                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,ランダム化したアラームの時間(H)の変数名,ランダム化したアラームの時間(M)の変数名,db);
 
-                Intent intent = new Intent(AlarmCreateActivity.this, MainActivity.class);
-                startActivity(intent);
+                try{
+                    Log.v("try","try の先頭を実行");
+                    //保存されている最大の_idを取得するSQL文
+                    String sql = "SELECT * FROM alarmList";
+                    Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
+                    int alarmId = -1;
+                    String str ;
+                    while(cursor.moveToNext()){
+                        int idxId = cursor.getColumnIndex("_id");
+                        str = cursor.getString(idxId);
+                        alarmId = Integer.parseInt(str);
+                        Log.v("try",""+alarmId);
+                    }
+                    alarmId +=1;
+                    //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
+                    String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
+                    //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, rAlmHour, tAlmMinute, 繰り返し曜日設定(アラーム),繰り返し曜日（アナウンス）,アナウンスタイミング) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
+                    stmt.bindLong(1,alarmId);       //alarmListの1つ目のVALUESにalarmIdを入れる
+                    stmt.bindLong(2,tAlmHour);
+                    stmt.bindLong(3,tAlmMinute);
+                    stmt.bindLong(4,tAnnHour);
+                    stmt.bindLong(5,tAnnMinute);
+//            stmt.bindLong(6,ランダム化したアラームの時間(H));
+//            stmt.bindLong(7,ランダム化したアラームの時間(M));
+//            stmt.bindLong(8,繰り返し曜日設定(アラーム));
+//            stmt.bindLong(9,繰り返し曜日設定(アナウンス));
+//            stmt.bindLong(10,アナウンスタイミング);
+
+                    stmt.executeInsert();       //SQL文を実行（データベースに保存）
+                }
+                finally {
+                }
+
+
+
+
+                Random random = new Random();
+                int randomValue = random.nextInt(30);
+
+                setContentView(R.layout.clock);
+                try {
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
+                    String strtime = Integer.toString(tAlmMinute);//intをstringに直す
+                    Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
+
+                    Calendar keisan = Calendar.getInstance();//計算処理
+                    keisan.setTime(date);
+                    keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
+
+                } catch (ParseException e) {
+
+                }
+                //明示的なBroadCast
+                Intent intent = new Intent(getApplicationContext(),
+                        AlermBroadcastReceiver.class);
+                PendingIntent pending = PendingIntent.getBroadcast(
+                        getApplicationContext(), 0, intent, 0);
+
+                // アラームをセットする
+                Calendar calendar = Calendar.getInstance();
+                //設定した時間-現在時刻
+                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+                if (am != null) {
+                    //am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+
+                    Toast.makeText(getApplicationContext(),
+                            "Set Alarm ", Toast.LENGTH_SHORT).show();
+
+
+                    //ここにデータベースにランダム時間をセットする。//
+                }
+
+                Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class);
+                startActivity(intent2);
             }
         });
-    }
-
- /*    //時を取得
-   private String mhours() {
-        EditText Ehour = (EditText) this.findViewById(R.id.hour);
-        String hour = Ehour.getText().toString();
-        return hour;
-    }
-
-    //分を取得
-    private String mminutes() {
-        EditText Eminute = (EditText) this.findViewById(R.id.minute);
-        String minute = Eminute.getText().toString();
-        return minute;
-    }
-
-    //設定した時刻を表示
-    private void timeConf(String h, String m) {
-        TextView confview = (TextView) this.findViewById(R.id.confview);
-        confview.setText("設定した時間は　" + h + "：" + m);
-    }
-/*    public void timerSet(Calendar calendar){
-   //実行するサービスを指定
-        Intent intent = new Intent(getApplicationContext(), messageService.class);
-        Context ct = getApplication();
-        PendingIntent pendingIntent = PendingIntent.getService(ct, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        // AlarmManager の設定・開始
-        AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
-    }*/
 
     }
-
-
+    }

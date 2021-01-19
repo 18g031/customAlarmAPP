@@ -1,4 +1,4 @@
-package com.example.alarmapp;
+package com.example.alarmapp.activity;
 
 import android.content.Intent;
 import android.os.Build;
@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Button;
+
+import com.example.alarmapp.R;
+
 import java.util.Calendar;
 import java.util.Date;
 

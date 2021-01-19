@@ -1,4 +1,4 @@
-package com.example.alarmapp;
+package com.example.alarmapp.activity;
 
 
 import android.os.Bundle;
@@ -10,14 +10,15 @@ import android.app.ProgressDialog;
 //import android.content.DialogInterface;
 //import android.content.DialogInterface.OnCancelListener;
 
-import com.example.alarmapp.service.SoundService;
+import com.example.alarmapp.R;
+import com.example.alarmapp.service.AlarmService;
 
 
-public class AlarmStopActivity extends AppCompatActivity {
+public class AlarmActivity extends AppCompatActivity {
 
 
     Button button;
-    SoundService soundServiceInstance;
+    AlarmService alarmServiceInstance;
     public ProgressDialog mDialog;
     int i;
 
@@ -28,13 +29,13 @@ public class AlarmStopActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.stopBtn);
         //↓ここなければ一応動く
         mDialog = new ProgressDialog(this);
-        soundServiceInstance = new SoundService(this, mDialog);
-        soundServiceInstance.execute();
+        alarmServiceInstance = new AlarmService(this, mDialog);
+        alarmServiceInstance.execute();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                soundServiceInstance.cancel(true);
+                alarmServiceInstance.cancel(true);
             }
         });
     }

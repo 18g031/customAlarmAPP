@@ -1,4 +1,4 @@
-package com.example.alarmapp;
+package com.example.alarmapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,9 +7,11 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.example.alarmapp.R;
+
 //読み上げ時間設定画面
 
-public class AnnTimeActivity extends AppCompatActivity {
+public class AnnConfigActivity extends AppCompatActivity {
     private CheckBox checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6;
     @Override
     public void onCreate(Bundle savedInstanceState) {
