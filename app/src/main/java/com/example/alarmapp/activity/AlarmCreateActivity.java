@@ -236,15 +236,28 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(),
                             "Set Alarm ", Toast.LENGTH_SHORT).show();
+                    am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending);
+
 
 
                     //ここにデータベースにランダム時間をセットする。//
                 }
 
-                Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class);
+                Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
                 startActivity(intent2);
             }
         });
+        findViewById(R.id.alList).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+                Intent intent = new Intent(getApplicationContext(), com.example.alarmapp.receiver.AlarmReceiver.class);
+                PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+                pending.cancel();
+                alarmManager.cancel(pending);
+            }
+        });
     }
-    }
+
+}

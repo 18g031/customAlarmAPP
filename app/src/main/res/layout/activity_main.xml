@@ -56,7 +56,7 @@
                 android:layout_gravity="center"
                 app:layout_constraintStart_toStartOf="@id/alList"
                 app:layout_constraintTop_toBottomOf="@+id/alList"
-
+                android:onClick="onClickDelList"
                 android:text="削除">
             </Button>
         </LinearLayout>
