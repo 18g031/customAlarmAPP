@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 //import android.content.DialogInterface;
 //import android.content.DialogInterface.OnCancelListener;
-
+import android.view.WindowManager;
 import com.example.alarmapp.R;
 import com.example.alarmapp.service.AlarmService;
 
@@ -25,6 +25,12 @@ public class AlarmActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         setContentView(R.layout.activity_main);
         button = (Button) findViewById(R.id.stopBtn);
         //↓ここなければ一応動く
