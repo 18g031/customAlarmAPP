@@ -4,17 +4,26 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
-
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Date;
+
+
+//@RequiresApi(api = Build.VERSION_CODES.N)
 public class AnnBackGround extends AppCompatActivity {
 
+
+    //SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+   // Date date = new Date();
 
         //通知オブジェクトの用意と初期化
         Notification notification = null;
 
+       // @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -37,24 +46,27 @@ public class AnnBackGround extends AppCompatActivity {
                 //通知の生成と設定とビルド
                 notification = new Notification.Builder(this, chID)
                         .setContentTitle(getString(R.string.app_name))  //通知タイトル
-                        .setContentText("アプリ通知テスト26以上")        //通知内容
-                        .setSmallIcon(R.drawable.ic_launcher_background)                  //通知用アイコン
+                        .setContentText("出発前通知")        //通知内容
+                        .setSmallIcon(R.drawable.ic_launcher_background)//通知用アイコン
+                        .setAutoCancel(true)
                         .build();                                       //通知のビルド
             } else if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
                 //APIが「25」以下の場合
                 //通知の生成と設定とビルド
                 notification = new Notification.Builder(this)
                         .setContentTitle(getString(R.string.app_name))
-                        .setContentText("アプリ通知テスト25まで")
+                        .setContentText("出発前通知")
                         .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setAutoCancel(true)
                         .build();
             }else if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
                 //APIが「25」以下の場合
                 //通知の生成と設定とビルド
                 notification = new Notification.Builder(this)
                         .setContentTitle(getString(R.string.app_name))
-                        .setContentText("アプリ通知テスト16以下まで")
+                        .setContentText("出発前通知")
                         .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setAutoCancel(true)
                         .build();
 
             }
