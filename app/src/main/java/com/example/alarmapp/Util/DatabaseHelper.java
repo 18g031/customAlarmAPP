@@ -94,7 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動�
 //        }
 //    }
 
-    //全データの一括削除を実装するならばこのメソッドのコメントアウトを解除する
+    //全データの一括削除を実装する
     public static void alarmDelete(int delId ,SQLiteDatabase db){
         //データベースヘルパーオブジェクトの作成はメソッドの呼び出し元であらかじめ行う
 //        DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.context);

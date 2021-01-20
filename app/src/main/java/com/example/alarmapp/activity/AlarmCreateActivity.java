@@ -21,8 +21,10 @@ import android.widget.TimePicker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import android.widget.Toast;
 
@@ -63,6 +65,52 @@ public class AlarmCreateActivity extends AppCompatActivity {
         setContentView(R.layout.clock);
         tvAlmTimer = findViewById(R.id.tv_alm_timer);
         tvAnnTimer = findViewById(R.id.tv_ann_timer);
+
+        Intent intent = getIntent();
+        int tapId = intent.getIntExtra("TAPID",-1);
+        if(tapId != -1){
+            List<Integer> alarmArray= new ArrayList<>();
+            Log.v("ACA_70","tapId is "+tapId);
+            DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
+            SQLiteDatabase db = helper.getWritableDatabase();
+            String sql = "SELECT * FROM alarmList";
+            Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
+            while(cursor.moveToNext()){
+                int idx_id = cursor.getColumnIndex("_id");
+
+                if(idx_id == tapId){
+                    int idxAlTH = cursor.getColumnIndex("tAlmHour");
+                    int idxAlTM = cursor.getColumnIndex("tAlmMinute");
+                    int idxAnTH = cursor.getColumnIndex("tAnnHour");
+                    int idxAnTM = cursor.getColumnIndex("tAnnMinute");
+                    int alTH= cursor.getInt(idxAlTH);
+                    int alTM= cursor.getInt(idxAlTM);
+                    int anTH= cursor.getInt(idxAnTH);
+                    int anTM= cursor.getInt(idxAnTM);
+                    alarmArray.add(alTH);
+                    alarmArray.add(alTM);
+                    alarmArray.add(anTH);
+                    alarmArray.add(anTM);
+                    break;
+                }
+            }
+//            Log.v("ACA_70","tapId is "+"");
+//            Cursor cursor = db.rawQuery(sqlInsert, null);//SQL文を実行して結果をcursorに格納
+            int idxAlTH = cursor.getColumnIndex("tAlmHour");
+//            int idxAlTM = cursor.getColumnIndex("tAlmMinute");
+//            int idxAnTH = cursor.getColumnIndex("tAnnHour");
+//            int idxAnTM = cursor.getColumnIndex("tAnnMinute");
+           Log.v("ACA_82","tapId & cursor "+tapId+"&"+idxAlTH);
+//            int alTH= cursor.getInt(idxAlTH);      //_idがtapIdのtAlmHourの値をalTHに格納
+//            int alTM= cursor.getInt(idxAlTM);
+//            int anTH= cursor.getInt(idxAnTH);
+//            int anTM= cursor.getInt(idxAnTM);
+//
+//            tAlmHour=alTH;
+//            tAlmMinute=alTM;
+//            tAnnHour=anTH;
+//            tAnnMinute=anTM;
+        }
 
 
         //アラームのTimePickerの処理
