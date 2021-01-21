@@ -1,10 +1,12 @@
 package com.example.alarmapp.activity;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,15 +14,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
 
-import android.app.AlarmManager;
-import android.widget.TimePicker;
+import com.example.alarmapp.R;
+import com.example.alarmapp.Util.DatabaseHelper;
+import com.example.alarmapp.receiver.AlarmReceiver;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,17 +32,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import android.widget.Toast;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
-import com.example.alarmapp.AlermBroadcastReceiver;
-import com.example.alarmapp.R;
-import com.example.alarmapp.Util.DatabaseHelper;
-import com.example.alarmapp.receiver.AlarmReceiver;
-
-import android.widget.Toast;
+//import com.example.alarmapp.AlermBroadcastReceiver;
 
 //アラーム、アナウンスの編集画面
 
@@ -60,6 +54,13 @@ public class AlarmCreateActivity extends AppCompatActivity {
     TextView tvAlmTimer,tvAnnTimer;
     int tAlmHour, tAlmMinute,tAnnHour, tAnnMinute;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
+    //以下timePicker用フォーマット変数（複数回使っていたので頭にまとめました）
+    SimpleDateFormat f24Hours = new SimpleDateFormat(
+            "HH:mm"
+    );
+    SimpleDateFormat f12Hours = new SimpleDateFormat(
+            "hh:mm aa"
+    );
 
 
     @Override
@@ -98,6 +99,23 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     dataArray.add(alTM);
                     dataArray.add(anTH);
                     dataArray.add(anTM);
+
+
+                    //ここからtimePickerの初期データ登録
+                    try {
+                        //アラームデータ格納
+                        String alTime = tAlmHour + ":" + tAlmMinute;
+                        Date alDate = f24Hours.parse(alTime);
+                        tvAlmTimer.setText(f12Hours.format(alDate));
+                        //アナウンスデータ格納
+                        String anTime = tAlmHour + ":" + tAlmMinute;
+                        Date anDate = f24Hours.parse(anTime);
+                        tvAnnTimer.setText(f12Hours.format(anDate));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+
                     break;
                 }
             }
@@ -122,14 +140,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                 tAlmMinute = minute;
                                 String time = tAlmHour + ":" + tAlmMinute;
 
-                                SimpleDateFormat f24Hours = new SimpleDateFormat(
-                                        "HH:mm"
-                                );
+
                                 try {
                                     Date date = f24Hours.parse(time);
-                                    SimpleDateFormat f12Hours = new SimpleDateFormat(
-                                            "hh:mm aa"
-                                    );
                                     tvAlmTimer.setText(f12Hours.format(date));
                                 } catch (ParseException e) {
                                     e.printStackTrace();
@@ -159,14 +172,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                 tAnnMinute = minute;
                                 String time = tAnnHour + ":" + tAnnMinute;
 
-                                SimpleDateFormat f24Hours = new SimpleDateFormat(
-                                        "HH:mm"
-                                );
                                 try {
                                     Date date = f24Hours.parse(time);
-                                    SimpleDateFormat f12Hours = new SimpleDateFormat(
-                                            "hh:mm aa"
-                                    );
                                     tvAnnTimer.setText(f12Hours.format(date));
                                 } catch (ParseException e) {
                                     e.printStackTrace();
@@ -254,7 +261,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 }
                 //明示的なBroadCast
                 Intent intent = new Intent(getApplicationContext(),
-                        AlermBroadcastReceiver.class);
+                        com.example.alarmapp.receiver.AlarmReceiver.class);
                 PendingIntent pending = PendingIntent.getBroadcast(
                         getApplicationContext(), 0, intent, 0);
 
