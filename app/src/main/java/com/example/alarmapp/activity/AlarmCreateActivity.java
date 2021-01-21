@@ -8,11 +8,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -34,6 +37,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.alarmapp.AlermBroadcastReceiver;
 import com.example.alarmapp.R;
 import com.example.alarmapp.Util.DatabaseHelper;
+import com.example.alarmapp.receiver.AlarmReceiver;
+
 import android.widget.Toast;
 
 //アラーム、アナウンスの編集画面
@@ -182,6 +187,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 */
 
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view)  {
                 //データベースヘルパーオブジェクトを作成
@@ -257,19 +263,37 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 //設定した時間-現在時刻
                 AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
                 if (am != null) {
-                    //am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending);
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        am.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pending);
+                    } else {
+                        am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pending);
+                    }
                     Toast.makeText(getApplicationContext(),
                             "Set Alarm ", Toast.LENGTH_SHORT).show();
+                    am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending);
+
 
 
                     //ここにデータベースにランダム時間をセットする。//
                 }
 
-                Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class);
+                Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
                 startActivity(intent2);
             }
         });
+        findViewById(R.id.alList).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+                Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+                pending.cancel();
+                alarmManager.cancel(pending);
+            }
+        });
     }
-    }
+
+}
