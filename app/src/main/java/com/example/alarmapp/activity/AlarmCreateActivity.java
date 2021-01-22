@@ -62,6 +62,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     SimpleDateFormat f12Hours = new SimpleDateFormat(
             "hh:mm aa"
     );
+    Calendar kekka;
 
 
     @Override
@@ -79,7 +80,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
         //削除メソッド(DatabaseHelper.alarmDelete)にtapIdを渡すだけで削除できるはず。
         final int tapId = intent.getIntExtra("TAPID", -1);
         if(tapId != -1){
-            List<Integer> dataArray= new ArrayList<>();
             Log.v("ACA_76","tapId is "+tapId);//確認用（削除予定）
             DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);    //データベースヘルパーオブジェクトを作成
             SQLiteDatabase db = helper.getWritableDatabase();
@@ -96,10 +96,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     int alTM = cursor.getInt(idxAlTM);
                     int anTH = cursor.getInt(idxAnTH);
                     int anTM = cursor.getInt(idxAnTM);
-                    dataArray.add(alTH);
-                    dataArray.add(alTM);
-                    dataArray.add(anTH);
-                    dataArray.add(anTM);
                     setTAlmHour = alTH;
                     setTAlmMinute = alTM;
                     setTAnnHour = anTH;
@@ -119,15 +115,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-
-
                     break;
                 }
             }
-//            tAlmHour = timeArray.get(0);
-//            tAlmMinute = timeArray.get(1);
-//            tAnnHour = timeArray.get(2);
-//            tAnnMinute = timeArray.get(3);
         }
 
 
@@ -195,9 +185,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 
 /*        setContentView(R.layout.clock);
-        Intent intent = getIntent();
 */
 
+        //保存ボタンを押下した時の処理
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -205,10 +195,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 //データベースヘルパーオブジェクトを作成
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
-                //AlarmListクラスでアラームデータをデータベースに保存
-                ////AlarmListクラスでアラームデータをデータベースに保存
-                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
-                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,ランダム化したアラームの時間(H)の変数名,ランダム化したアラームの時間(M)の変数名,db);
 
                 try {
                     if (tapId == -1) {
@@ -234,7 +220,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         stmt.bindLong(3, setTAlmMinute);
                         stmt.bindLong(4, setTAnnHour);
                         stmt.bindLong(5, setTAnnMinute);
-//            stmt.bindLong(6,ランダム化したアラームの時間(H));
+//                        stmt.bindLong(6,kekka);
 //            stmt.bindLong(7,ランダム化したアラームの時間(M));
 //            stmt.bindLong(8,繰り返し曜日設定(アラーム));
 //            stmt.bindLong(9,繰り返し曜日設定(アナウンス));
