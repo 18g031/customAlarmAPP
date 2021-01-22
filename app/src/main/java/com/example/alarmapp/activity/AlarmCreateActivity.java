@@ -55,6 +55,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     TextView tvAlmTimer, tvAnnTimer;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
+
     //以下timePicker用フォーマット変数（複数回使っていたので頭にまとめました）
     SimpleDateFormat f24Hours = new SimpleDateFormat(
             "HH:mm"
@@ -100,11 +101,12 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     dataArray.add(alTM);
                     dataArray.add(anTH);
                     dataArray.add(anTM);
+
+                    //変数に初期値入力（データベースのupdate文で変数名がかぶってしまったため、一部変数名を変更しています
                     setTAlmHour = alTH;
                     setTAlmMinute = alTM;
                     setTAnnHour = anTH;
                     setTAnnMinute = anTM;
-
 
                     //ここからtimePickerの初期データ登録
                     try {
@@ -242,7 +244,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                         stmt.executeInsert();       //SQL文を実行（データベースに保存）
                     } else if (tapId != -1) {
-                        ContentValues cv = new ContentValues();  //プリペアドステートメントを取得
+                        //以下更新動作
+                        ContentValues cv = new ContentValues();  //更新用
                         int alarmId = tapId;
 
                         cv.put("_id", alarmId);
@@ -295,7 +298,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
                 if (am != null) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending);
+                        am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending);
                     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         am.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pending);
                     } else {
@@ -314,6 +317,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 startActivity(intent2);
             }
         });
+        //削除メソッド
         /*findViewById(R.id.alList).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
