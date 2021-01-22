@@ -3,6 +3,7 @@ package com.example.alarmapp.activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,7 +24,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alarmapp.R;
 import com.example.alarmapp.Util.DatabaseHelper;
-import com.example.alarmapp.receiver.AlarmReceiver;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,6 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
 
 //import com.example.alarmapp.AlermBroadcastReceiver;
 
@@ -49,10 +50,10 @@ public class AlarmCreateActivity extends AppCompatActivity {
             ・↑計算これについては、ここにあもんが書いてたコード（現在コメントアウト中）が使えるかも、？とのこと
                 使えなさそうならコードだったものは削除でお願いします。
             */
-            
 
-    TextView tvAlmTimer,tvAnnTimer;
-    int tAlmHour, tAlmMinute,tAnnHour, tAnnMinute;
+
+    TextView tvAlmTimer, tvAnnTimer;
+    int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
     //以下timePicker用フォーマット変数（複数回使っていたので頭にまとめました）
     SimpleDateFormat f24Hours = new SimpleDateFormat(
@@ -72,11 +73,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
         tvAlmTimer = findViewById(R.id.tv_alm_timer);
         tvAnnTimer = findViewById(R.id.tv_ann_timer);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         //前の画面(MainActivity)でタップされたアラームの_idをtapIdに格納する。
         //_idが存在しない(新規作成)ならば、-1を格納する。
         //削除メソッド(DatabaseHelper.alarmDelete)にtapIdを渡すだけで削除できるはず。
-        int tapId = intent.getIntExtra("TAPID",-1);
+        final int tapId = intent.getIntExtra("TAPID", -1);
         if(tapId != -1){
             List<Integer> dataArray= new ArrayList<>();
             Log.v("ACA_76","tapId is "+tapId);//確認用（削除予定）
@@ -91,24 +92,28 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     int idxAlTM = cursor.getColumnIndex("tAlmMinute");
                     int idxAnTH = cursor.getColumnIndex("tAnnHour");
                     int idxAnTM = cursor.getColumnIndex("tAnnMinute");
-                    int alTH= cursor.getInt(idxAlTH);
-                    int alTM= cursor.getInt(idxAlTM);
-                    int anTH= cursor.getInt(idxAnTH);
-                    int anTM= cursor.getInt(idxAnTM);
+                    int alTH = cursor.getInt(idxAlTH);
+                    int alTM = cursor.getInt(idxAlTM);
+                    int anTH = cursor.getInt(idxAnTH);
+                    int anTM = cursor.getInt(idxAnTM);
                     dataArray.add(alTH);
                     dataArray.add(alTM);
                     dataArray.add(anTH);
                     dataArray.add(anTM);
+                    setTAlmHour = alTH;
+                    setTAlmMinute = alTM;
+                    setTAnnHour = anTH;
+                    setTAnnMinute = anTM;
 
 
                     //ここからtimePickerの初期データ登録
                     try {
                         //アラームデータ格納
-                        String alTime = tAlmHour + ":" + tAlmMinute;
+                        String alTime = alTH + ":" + alTM;
                         Date alDate = f24Hours.parse(alTime);
                         tvAlmTimer.setText(f12Hours.format(alDate));
                         //アナウンスデータ格納
-                        String anTime = tAlmHour + ":" + tAlmMinute;
+                        String anTime = anTH + ":" + anTM;
                         Date anDate = f24Hours.parse(anTime);
                         tvAnnTimer.setText(f12Hours.format(anDate));
                     } catch (ParseException e) {
@@ -136,9 +141,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker View, int hourOfDay, int minute) {
-                                tAlmHour = hourOfDay;
-                                tAlmMinute = minute;
-                                String time = tAlmHour + ":" + tAlmMinute;
+                                setTAlmHour = hourOfDay;
+                                setTAlmMinute = minute;
+                                String time = setTAlmHour + ":" + setTAlmMinute;
 
 
                                 try {
@@ -152,7 +157,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 );
 
                 timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                timePickerDialog.updateTime(tAlmHour, tAlmMinute);
+                timePickerDialog.updateTime(setTAlmHour, setTAlmMinute);
                 timePickerDialog.show();
             }
         });
@@ -168,9 +173,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker View, int hourOfDay, int minute) {
-                                tAnnHour = hourOfDay;
-                                tAnnMinute = minute;
-                                String time = tAnnHour + ":" + tAnnMinute;
+                                setTAnnHour = hourOfDay;
+                                setTAnnMinute = minute;
+                                String time = setTAnnHour + ":" + setTAnnMinute;
 
                                 try {
                                     Date date = f24Hours.parse(time);
@@ -183,7 +188,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 );
 
                 timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                timePickerDialog.updateTime(tAnnHour, tAnnMinute);
+                timePickerDialog.updateTime(setTAnnHour, setTAnnMinute);
                 timePickerDialog.show();
             }
         });
@@ -196,7 +201,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
-            public void onClick(View view)  {
+            public void onClick(View view) {
                 //データベースヘルパーオブジェクトを作成
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
@@ -205,36 +210,55 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
                 //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,ランダム化したアラームの時間(H)の変数名,ランダム化したアラームの時間(M)の変数名,db);
 
-                try{
-                    Log.v("try","try の先頭を実行");
-                    //保存されている最大の_idを取得するSQL文
-                    String sql = "SELECT * FROM alarmList";
-                    Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
-                    int alarmId = -1;
-                    String str ;
-                    while(cursor.moveToNext()){
-                        int idxId = cursor.getColumnIndex("_id");
-                        str = cursor.getString(idxId);
-                        alarmId = Integer.parseInt(str);
-                        Log.v("try",""+alarmId);
-                    }
-                    alarmId +=1;
-                    //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
-                    String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
-                    //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, rAlmHour, tAlmMinute, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                    SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
-                    stmt.bindLong(1,alarmId);       //alarmListの1つ目のVALUESにalarmIdを入れる
-                    stmt.bindLong(2,tAlmHour);
-                    stmt.bindLong(3,tAlmMinute);
-                    stmt.bindLong(4,tAnnHour);
-                    stmt.bindLong(5,tAnnMinute);
+                try {
+                    if (tapId == -1) {
+                        Log.v("try", "try の先頭を実行");
+                        //保存されている最大の_idを取得するSQL文
+                        String sql = "SELECT * FROM alarmList";
+                        Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
+                        int alarmId = -1;
+                        String str;
+                        while (cursor.moveToNext()) {
+                            int idxId = cursor.getColumnIndex("_id");
+                            str = cursor.getString(idxId);
+                            alarmId = Integer.parseInt(str);
+                            Log.v("try", "" + alarmId);
+                        }
+                        alarmId += 1;
+                        //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
+                        String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
+                        //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, rAlmHour, rAlmMinute, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
+                        stmt.bindLong(1, alarmId);       //alarmListの1つ目のVALUESにalarmIdを入れる
+                        stmt.bindLong(2, setTAlmHour);
+                        stmt.bindLong(3, setTAlmMinute);
+                        stmt.bindLong(4, setTAnnHour);
+                        stmt.bindLong(5, setTAnnMinute);
 //            stmt.bindLong(6,ランダム化したアラームの時間(H));
 //            stmt.bindLong(7,ランダム化したアラームの時間(M));
 //            stmt.bindLong(8,繰り返し曜日設定(アラーム));
 //            stmt.bindLong(9,繰り返し曜日設定(アナウンス));
 //            stmt.bindLong(10,アナウンスタイミング);
 
-                    stmt.executeInsert();       //SQL文を実行（データベースに保存）
+                        stmt.executeInsert();       //SQL文を実行（データベースに保存）
+                    } else if (tapId != -1) {
+                        ContentValues cv = new ContentValues();  //プリペアドステートメントを取得
+                        int alarmId = tapId;
+
+                        cv.put("_id", alarmId);
+                        cv.put("tAlmHour", setTAlmHour);
+                        cv.put("tAlmMinute", setTAlmMinute);
+                        cv.put("tAnnHour", setTAnnHour);
+                        cv.put("tAnnMinute", setTAnnMinute);
+/*
+                        cv.put("rAlmHou", ランダム化したアラームの時間(H));
+                        cv.put("rAlmMinute", ランダム化したアラームの時間(M));
+                        cv.put("almRepeat", 繰り返し曜日設定(アラーム));
+                        cv.put("annRepeat", 繰り返し曜日設定(アナウンス));
+                        cv.put("timing", アナウンスタイミング);
+*/
+                        db.update("alarmList", cv, "_id = " + alarmId, null);
+                    }
                 }
                 finally {
                 }
@@ -249,7 +273,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 try {
 
                     SimpleDateFormat sdf = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
-                    String strtime = Integer.toString(tAlmMinute);//intをstringに直す
+                    String strtime = Integer.toString(setTAlmMinute);//intをstringに直す
                     Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
 
                     Calendar keisan = Calendar.getInstance();//計算処理
@@ -290,7 +314,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 startActivity(intent2);
             }
         });
-        findViewById(R.id.alList).setOnClickListener(new View.OnClickListener() {
+        /*findViewById(R.id.alList).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -300,7 +324,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 pending.cancel();
                 alarmManager.cancel(pending);
             }
-        });
+        });*/
     }
 
 }
