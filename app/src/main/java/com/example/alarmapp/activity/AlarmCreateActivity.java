@@ -1,10 +1,12 @@
 package com.example.alarmapp.activity;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -52,7 +54,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
             */
 
 
-    TextView tvAlmTimer, tvAnnTimer;
+    TextView tvAlmTimer, tvAnnTimer, tvWeek;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
 
@@ -69,10 +71,10 @@ public class AlarmCreateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.clock);
         tvAlmTimer = findViewById(R.id.tv_alm_timer);
         tvAnnTimer = findViewById(R.id.tv_ann_timer);
+        tvWeek = findViewById(R.id.tv_week);
 
         final Intent intent = getIntent();
         //前の画面(MainActivity)でタップされたアラームの_idをtapIdに格納する。
@@ -132,6 +134,44 @@ public class AlarmCreateActivity extends AppCompatActivity {
 //            tAnnMinute = timeArray.get(3);
         }
 
+        tvWeek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog=new AlertDialog.Builder(AlarmCreateActivity.this);
+
+                // ダイアログの設定
+                alertDialog.setTitle("title");      //タイトル設定
+                alertDialog.setMessage("massage");  //内容(メッセージ)設定
+
+                // OK(肯定的な)ボタンの設定
+                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // OKボタン押下時の処理
+                        Log.d("AlertDialog", "Positive which :" + which);
+                    }
+                });
+
+                // SKIP(中立的な)ボタンの設定
+                alertDialog.setNeutralButton("SKIP", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // SKIPボタン押下時の処理
+                        Log.d("AlertDialog", "Neutral which :" + which);
+                    }
+                });
+
+                // NG(否定的な)ボタンの設定
+                alertDialog.setNegativeButton("NG", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // NGボタン押下時の処理
+                        Log.d("AlertDialog", "Negative which :" + which);
+                    }
+                });
+
+                // ダイアログの作成と描画
+//        alertDialog.create();
+                alertDialog.show();
+            }
+        });
 
         //アラームのTimePickerの処理
         tvAlmTimer.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +186,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                 setTAlmHour = hourOfDay;
                                 setTAlmMinute = minute;
                                 String time = setTAlmHour + ":" + setTAlmMinute;
-
 
                                 try {
                                     Date date = f24Hours.parse(time);

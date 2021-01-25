@@ -22,6 +22,17 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <TextView
+        android:id="@+id/tv_week"
+        style="@style/main_button"
+        android:layout_gravity="center"
+        android:layout_marginStart="248dp"
+        android:hint="時間を入力"
+        android:textColor="@color/primaryText"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <CheckBox
         android:id="@+id/checkBoxSun"
         style="@style/checkBox"
@@ -80,6 +91,11 @@
 
 
     //アラームの箱
+
+    //アナウンスの箱
+
+    //保存ボタン 最初の画面に推移が可能、と同時にTimePickerの情報を反映をしたいが未実装
+
     <LinearLayout
         android:id="@+id/linear_alm"
         android:layout_width="match_parent"
@@ -91,16 +107,12 @@
         <TextView
             android:id="@+id/tv_alm_timer"
             style="@style/main_button"
-            android:textSize="30dp"
-            android:textColor="@color/primaryText"
             android:layout_gravity="center"
-            android:hint="時間を入力" />
+            android:hint="時間を入力"
+            android:textColor="@color/primaryText"
+            android:textSize="30dp" />
 
     </LinearLayout>
-
-    //アナウンスの箱
-
-    //保存ボタン 最初の画面に推移が可能、と同時にTimePickerの情報を反映をしたいが未実装
 
     <LinearLayout
         android:id="@+id/linear_ann"
