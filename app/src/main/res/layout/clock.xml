@@ -19,6 +19,14 @@
         <TextView
             style="@style/toolbar_text"
             android:text="アラームを追加"/>
+        <Button
+            android:id="@+id/del"
+            style="@style/toolbar_button"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:onClick="Del"
+            android:text="削除" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -83,7 +91,7 @@
     <LinearLayout
         android:id="@+id/linear_alm"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="@id/checkBoxSat"
         app:layout_constraintTop_toBottomOf="@+id/checkBoxSat">

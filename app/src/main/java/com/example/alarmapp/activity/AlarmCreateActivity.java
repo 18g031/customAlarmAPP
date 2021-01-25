@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alarmapp.R;
 import com.example.alarmapp.Util.DatabaseHelper;
+import com.example.alarmapp.receiver.AlarmReceiver;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -290,7 +291,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),
                         com.example.alarmapp.receiver.AlarmReceiver.class);
                 PendingIntent pending = PendingIntent.getBroadcast(
-                        getApplicationContext(), 0, intent, 0);
+                        getApplicationContext(), tapId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 // アラームをセットする
                 Calendar calendar = Calendar.getInstance();
@@ -318,17 +319,17 @@ public class AlarmCreateActivity extends AppCompatActivity {
             }
         });
         //削除メソッド
-        /*findViewById(R.id.alList).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                 Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+                PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), tapId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 pending.cancel();
                 alarmManager.cancel(pending);
             }
-        });*/
+        });
     }
 
 }
