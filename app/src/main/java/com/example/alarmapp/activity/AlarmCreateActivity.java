@@ -62,7 +62,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     SimpleDateFormat f12Hours = new SimpleDateFormat(
             "hh:mm aa"
     );
-    Calendar kekka;
+    int kekka;
 
 
     @Override
@@ -212,19 +212,19 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         }
                         alarmId += 1;
                         //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
-                        String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
-                        //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, rAlmHour, rAlmMinute, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, randomTime) VALUES (?, ?, ?, ?, ?, ?)";
+                        //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, randomTime, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
                         stmt.bindLong(1, alarmId);       //alarmListの1つ目のVALUESにalarmIdを入れる
                         stmt.bindLong(2, setTAlmHour);
                         stmt.bindLong(3, setTAlmMinute);
                         stmt.bindLong(4, setTAnnHour);
                         stmt.bindLong(5, setTAnnMinute);
-//                        stmt.bindLong(6,kekka);
-//            stmt.bindLong(7,ランダム化したアラームの時間(M));
-//            stmt.bindLong(8,繰り返し曜日設定(アラーム));
-//            stmt.bindLong(9,繰り返し曜日設定(アナウンス));
-//            stmt.bindLong(10,アナウンスタイミング);
+                        stmt.bindLong(6,kekka);
+//            stmt.bindLong(7,繰り返し曜日設定(アラーム));
+//            stmt.bindLong(8,繰り返し曜日設定(アナウンス));
+//            stmt.bindLong(9,アナウンスタイミング);
+//            stmt.bindLong(10,);
 
                         stmt.executeInsert();       //SQL文を実行（データベースに保存）
                     } else if (tapId != -1) {
@@ -265,6 +265,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     Calendar keisan = Calendar.getInstance();//計算処理
                     keisan.setTime(date);
                     keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
+
+                    //データベース格納用型変換
+                    Date dateKekka = keisan.getTime();  //CalendarからDateへ
+                    String strKekka =  String.valueOf(dateKekka);   //DateからStringへ
+                    int kekka = Integer.parseInt(strKekka);
 
                 } catch (ParseException e) {
 
