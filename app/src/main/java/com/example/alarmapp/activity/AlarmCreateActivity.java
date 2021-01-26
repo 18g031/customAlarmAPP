@@ -269,7 +269,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     //データベース格納用型変換
                     Date dateKekka = keisan.getTime();  //CalendarからDateへ
                     String strKekka =  String.valueOf(dateKekka);   //DateからStringへ
-                    int kekka = Integer.parseInt(strKekka);
+                    kekka = Integer.parseInt(strKekka);     //Stringからintへ
 
                 } catch (ParseException e) {
 
