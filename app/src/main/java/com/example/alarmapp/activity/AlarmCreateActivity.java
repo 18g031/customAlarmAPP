@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alarmapp.R;
 import com.example.alarmapp.Util.DatabaseHelper;
+import com.example.alarmapp.receiver.AlarmReceiver;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,6 +55,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
     TextView tvAlmTimer, tvAnnTimer;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
+    int alarmId = -1;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
     //以下timePicker用フォーマット変数（複数回使っていたので頭にまとめました）
     SimpleDateFormat f24Hours = new SimpleDateFormat(
@@ -101,6 +103,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     setTAnnHour = anTH;
                     setTAnnMinute = anTM;
 
+                    int alarmId = tapId;
 
                     //ここからtimePickerの初期データ登録
                     try {
@@ -202,7 +205,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         //保存されている最大の_idを取得するSQL文
                         String sql = "SELECT * FROM alarmList";
                         Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
-                        int alarmId = -1;
                         String str;
                         while (cursor.moveToNext()) {
                             int idxId = cursor.getColumnIndex("_id");
@@ -228,7 +230,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                         stmt.executeInsert();       //SQL文を実行（データベースに保存）
                     } else if (tapId != -1) {
-                        ContentValues cv = new ContentValues();  //プリペアドステートメントを取得
+                        //以下更新動作
+                        ContentValues cv = new ContentValues();  //更新用
                         int alarmId = tapId;
 
                         cv.put("_id", alarmId);
@@ -236,7 +239,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         cv.put("tAlmMinute", setTAlmMinute);
                         cv.put("tAnnHour", setTAnnHour);
                         cv.put("tAnnMinute", setTAnnMinute);
-                        cv.put("rAlmHou", kekka);
 /*
                         cv.put("almRepeat", 繰り返し曜日設定(アラーム));
                         cv.put("annRepeat", 繰り返し曜日設定(アナウンス));
@@ -277,7 +279,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),
                         com.example.alarmapp.receiver.AlarmReceiver.class);
                 PendingIntent pending = PendingIntent.getBroadcast(
-                        getApplicationContext(), 0, intent, 0);
+                        getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 // アラームをセットする
                 Calendar calendar = Calendar.getInstance();
@@ -285,7 +287,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
                 if (am != null) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending);
+                        am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending);
                     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         am.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pending);
                     } else {
@@ -304,17 +306,22 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 startActivity(intent2);
             }
         });
-        /*findViewById(R.id.alList).setOnClickListener(new View.OnClickListener() {
+        //削除メソッド
+        findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                if (tapId != 0) {
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-                Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
-                pending.cancel();
-                alarmManager.cancel(pending);
+                    Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                    PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    pending.cancel();
+                    alarmManager.cancel(pending);
+                } else {
+
+                }
             }
-        });*/
+        });
     }
 
 }
