@@ -55,6 +55,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
     TextView tvAlmTimer, tvAnnTimer;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
+    int alarmId = -1;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
 
     //以下timePicker用フォーマット変数（複数回使っていたので頭にまとめました）
@@ -108,6 +109,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     setTAlmMinute = alTM;
                     setTAnnHour = anTH;
                     setTAnnMinute = anTM;
+
+                    int alarmId = tapId;
 
                     //ここからtimePickerの初期データ登録
                     try {
@@ -219,7 +222,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         //保存されている最大の_idを取得するSQL文
                         String sql = "SELECT * FROM alarmList";
                         Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
-                        int alarmId = -1;
                         String str;
                         while (cursor.moveToNext()) {
                             int idxId = cursor.getColumnIndex("_id");
@@ -291,7 +293,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),
                         com.example.alarmapp.receiver.AlarmReceiver.class);
                 PendingIntent pending = PendingIntent.getBroadcast(
-                        getApplicationContext(), tapId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 // アラームをセットする
                 Calendar calendar = Calendar.getInstance();
@@ -325,7 +327,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                 Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), tapId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 pending.cancel();
                 alarmManager.cancel(pending);
             }
