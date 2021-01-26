@@ -324,12 +324,16 @@ public class AlarmCreateActivity extends AppCompatActivity {
         findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                if (tapId != 0) {
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-                Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                pending.cancel();
-                alarmManager.cancel(pending);
+                    Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                    PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    pending.cancel();
+                    alarmManager.cancel(pending);
+                } else {
+
+                }
             }
         });
     }
