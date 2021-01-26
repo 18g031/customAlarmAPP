@@ -26,83 +26,19 @@
         android:id="@+id/tv_week"
         style="@style/main_button"
         android:layout_gravity="center"
-        android:layout_marginStart="248dp"
-        android:hint="時間を入力"
+        android:hint="繰り返し曜日"
         android:textColor="@color/primaryText"
-        android:textSize="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/checkBoxSun"
-        style="@style/checkBox"
-        android:text="日曜日"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <CheckBox
-        android:id="@+id/checkBoxMon"
-        style="@style/checkBox"
-        android:text="月曜日"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxSun" />
-
-    <CheckBox
-        android:id="@+id/checkBoxTue"
-        style="@style/checkBox"
-        android:text="火曜日"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxMon" />
-
-    <CheckBox
-        android:id="@+id/checkBoxWed"
-        style="@style/checkBox"
-        android:text="水曜日"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxTue" />
-
-    <CheckBox
-        android:id="@+id/checkBoxThu"
-        style="@style/checkBox"
-        android:text="木曜日"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxWed" />
-
-    <CheckBox
-        android:id="@+id/checkBoxFri"
-        style="@style/checkBox"
-        android:text="金曜日"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxThu" />
-
-    <CheckBox
-        android:id="@+id/checkBoxSat"
-        style="@style/checkBox"
-        android:text="土曜日"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxFri" />
-
-
-    //アラームの箱
-
-    //アナウンスの箱
-
-    //保存ボタン 最初の画面に推移が可能、と同時にTimePickerの情報を反映をしたいが未実装
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
     <LinearLayout
         android:id="@+id/linear_alm"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="@id/checkBoxSat"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxSat">
+        app:layout_constraintStart_toStartOf="@id/tv_week"
+        app:layout_constraintTop_toBottomOf="@+id/tv_week">
 
         <TextView
             android:id="@+id/tv_alm_timer"
@@ -111,6 +47,15 @@
             android:hint="時間を入力"
             android:textColor="@color/primaryText"
             android:textSize="30dp" />
+
+        <TextView
+            android:id="@+id/tv_alm_checkbox"
+            style="@style/main_button"
+            android:hint="通知タイミング"
+            android:textColor="@color/primaryText"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="@id/tv_alm_timer"
+            app:layout_constraintTop_toBottomOf="@+id/tv_alm_timer"/>
 
     </LinearLayout>
 
@@ -127,56 +72,17 @@
             style="@style/main_button"
             android:layout_gravity="center"
             android:hint="時間を入力"
-            android:textColor="@color/secondaryText2"
+            android:textColor="@color/primaryText"
             android:textSize="30dp" />
 
-        <CheckBox
-            android:id="@+id/checkBox5"
-            style="@style/checkBox"
-            android:text="5分前"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_ann_time" />
-
-        <CheckBox
-            android:id="@+id/checkBox10"
-            style="@style/checkBox"
-            android:text="10分前"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox5" />
-
-        <CheckBox
-            android:id="@+id/checkBox15"
-            style="@style/checkBox"
-            android:text="15分前"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox10" />
-
-        <CheckBox
-            android:id="@+id/checkBox30"
-            style="@style/checkBox"
-            android:text="30分前"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox15" />
-
-        <CheckBox
-            android:id="@+id/checkBox45"
-            style="@style/checkBox"
-            android:text="45分前"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox30" />
-
-        <CheckBox
-            android:id="@+id/checkBox60"
-            style="@style/checkBox"
-            android:text="1時間前"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox45"  />
+        <TextView
+            android:id="@+id/tv_ann_checkbox"
+            style="@style/main_button"
+            android:hint="通知タイミング"
+            android:textColor="@color/primaryText"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="@id/tv_ann_timer"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ann_timer"/>
 
     </LinearLayout>
 

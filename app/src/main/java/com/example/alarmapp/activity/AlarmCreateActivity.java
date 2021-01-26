@@ -43,18 +43,12 @@ import java.util.Random;
 public class AlarmCreateActivity extends AppCompatActivity {
     public static Context context;
 
-            /*　　
-            あとやりたいこと
-            ・アラーム、アナウンスのどちらかだけを設定できるようにしたい。（レイアウトも未着手）
-            ・ここで得た時間をMainActivityのリストに入れれるようにしたい。
-            ・ここで得た時間に対してアラームの場合”任意の時間前に通知”の奴の計算、
-                アナウンスの場合”任意のランダム範囲”の奴の計算をできるようにしたい。
-            ・↑計算これについては、ここにあもんが書いてたコード（現在コメントアウト中）が使えるかも、？とのこと
-                使えなさそうならコードだったものは削除でお願いします。
-            */
+    private final boolean[] mCheckedItems = {false,false,false,false,false,false,false};
+    //private final boolean[] mCheckedItems = {false,false,false,false,false,false,false};
+    //private final boolean[] mCheckedItems = {false,false,false,false,false,false,false};
 
 
-    TextView tvAlmTimer, tvAnnTimer, tvWeek;
+    TextView tvAlmTimer, tvAnnTimer, tvWeek ,tv_ann_checkbox, tv_alm_checkbox;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
 
@@ -68,7 +62,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.clock);
@@ -137,43 +131,100 @@ public class AlarmCreateActivity extends AppCompatActivity {
         tvWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alertDialog=new AlertDialog.Builder(AlarmCreateActivity.this);
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AlarmCreateActivity.this);
 
-                // ダイアログの設定
-                alertDialog.setTitle("title");      //タイトル設定
-                alertDialog.setMessage("massage");  //内容(メッセージ)設定
-
-                // OK(肯定的な)ボタンの設定
+                final String[] items = {"日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"};
+                alertDialog.setTitle("繰り返し曜日");
+                alertDialog.setMultiChoiceItems(items, mCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        mCheckedItems[which] = isChecked;
+                    }
+                });
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // OKボタン押下時の処理
-                        Log.d("AlertDialog", "Positive which :" + which);
+                    @Override
+                    public void onClick(DialogInterface dialog, int idx) {
+                        String str = null;
+                        for (int i = 0; i < mCheckedItems.length; i++) {
+                            if (mCheckedItems[i] == true) {
+                                str += items[i];
+                            }
+                        }
+                        if (str == null) {
+                            str = "No Selected";
+                        }
+                        Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
                     }
                 });
-
-                // SKIP(中立的な)ボタンの設定
-                alertDialog.setNeutralButton("SKIP", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // SKIPボタン押下時の処理
-                        Log.d("AlertDialog", "Neutral which :" + which);
-                    }
-                });
-
-                // NG(否定的な)ボタンの設定
-                alertDialog.setNegativeButton("NG", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // NGボタン押下時の処理
-                        Log.d("AlertDialog", "Negative which :" + which);
-                    }
-                });
-
-                // ダイアログの作成と描画
-//        alertDialog.create();
                 alertDialog.show();
             }
         });
 
-        //アラームのTimePickerの処理
+        tv_ann_checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AlarmCreateActivity.this);
+
+                final String[] items = {"日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"};
+                alertDialog.setTitle("繰り返し曜日");
+                alertDialog.setMultiChoiceItems(items, mCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        mCheckedItems[which] = isChecked;
+                    }
+                });
+                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int idx) {
+                        String str = null;
+                        for (int i = 0; i < mCheckedItems.length; i++) {
+                            if (mCheckedItems[i] == true) {
+                                str += items[i];
+                            }
+                        }
+                        if (str == null) {
+                            str = "No Selected";
+                        }
+                        Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+
+        tv_alm_checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AlarmCreateActivity.this);
+
+                final String[] items = {"日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"};
+                alertDialog.setTitle("繰り返し曜日");
+                alertDialog.setMultiChoiceItems(items, mCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        mCheckedItems[which] = isChecked;
+                    }
+                });
+                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int idx) {
+                        String str = null;
+                        for (int i = 0; i < mCheckedItems.length; i++) {
+                            if (mCheckedItems[i] == true) {
+                                str += items[i];
+                            }
+                        }
+                        if (str == null) {
+                            str = "No Selected";
+                        }
+                        Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+
+                //アラームのTimePickerの処理
         tvAlmTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
