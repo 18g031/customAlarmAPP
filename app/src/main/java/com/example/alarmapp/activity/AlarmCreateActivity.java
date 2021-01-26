@@ -236,9 +236,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         cv.put("tAlmMinute", setTAlmMinute);
                         cv.put("tAnnHour", setTAnnHour);
                         cv.put("tAnnMinute", setTAnnMinute);
+                        cv.put("rAlmHou", kekka);
 /*
-                        cv.put("rAlmHou", ランダム化したアラームの時間(H));
-                        cv.put("rAlmMinute", ランダム化したアラームの時間(M));
                         cv.put("almRepeat", 繰り返し曜日設定(アラーム));
                         cv.put("annRepeat", 繰り返し曜日設定(アナウンス));
                         cv.put("timing", アナウンスタイミング);
