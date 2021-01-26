@@ -1,5 +1,6 @@
 package com.example.alarmapp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
@@ -221,7 +222,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         Log.v("try", "try の先頭を実行");
                         //保存されている最大の_idを取得するSQL文
                         String sql = "SELECT * FROM alarmList";
-                        Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
+                        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
                         String str;
                         while (cursor.moveToNext()) {
                             int idxId = cursor.getColumnIndex("_id");
@@ -273,7 +274,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 
                 Random random = new Random();
-                int randomValue = random.nextInt(30);
+                int randomValue = random.nextInt(1);
+                randomValue = randomValue-1;
 
                 setContentView(R.layout.clock);
                 try {
@@ -324,15 +326,13 @@ public class AlarmCreateActivity extends AppCompatActivity {
         findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tapId != 0) {
+                if (tapId != -1) {
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                     Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
                     PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     pending.cancel();
                     alarmManager.cancel(pending);
-                } else {
-
                 }
             }
         });
