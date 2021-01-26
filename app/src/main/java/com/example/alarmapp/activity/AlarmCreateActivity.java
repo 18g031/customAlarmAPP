@@ -310,7 +310,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
         findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tapId != 0) {
+                if (tapId != -1) {
+                    DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.context);
+                    SQLiteDatabase db = helper.getWritableDatabase();
+                    DatabaseHelper.alarmDelete(tapId,db);
+
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                     Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
