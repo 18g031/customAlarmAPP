@@ -3,6 +3,7 @@ package com.example.alarmapp.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.example.alarmapp.activity.AlarmActivity;
 
@@ -23,7 +24,12 @@ public class AlarmReceiver extends BroadcastReceiver {
         startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(startActivityIntent);
 
+            // toast で受け取りを確認
+            Toast.makeText(context, "Received ", Toast.LENGTH_LONG).show();
+        }
     }
+
+
 
 
 //        // アラームを再登録
@@ -40,4 +46,4 @@ public class AlarmReceiver extends BroadcastReceiver {
 //        Intent startActivityIntent = new Intent(context, AlarmActivity.class);
 //        startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        context.startActivity(startActivityIntent);
-}
+
