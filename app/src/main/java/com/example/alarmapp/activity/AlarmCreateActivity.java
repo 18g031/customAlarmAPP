@@ -306,11 +306,10 @@ public class AlarmCreateActivity extends AppCompatActivity {
                             "Set Alarm ", Toast.LENGTH_SHORT).show();
                     am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending);
 
-
-
                     //ここにデータベースにランダム時間をセットする。//
                 }
 
+                //設定後メインに戻る
                 Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
                 startActivity(intent2);
             }
@@ -320,18 +319,24 @@ public class AlarmCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (tapId != -1) {
+                    //以下データベース削除
                     DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.context);
                     SQLiteDatabase db = helper.getWritableDatabase();
                     DatabaseHelper.alarmDelete(tapId,db);
 
+                    //以下アラームのキャンセル
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
                     Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
                     PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     pending.cancel();
                     alarmManager.cancel(pending);
+
+                    Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //削除を押したらメインにもどる
+                    startActivity(intent2);
                 } else {
 
+                    Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //削除を押したらメインにもどる
+                    startActivity(intent2);
                 }
             }
         });
