@@ -13,12 +13,14 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.alarmapp.R;
 import com.example.alarmapp.service.AlarmService;
 
 import java.io.IOException;
@@ -57,7 +59,7 @@ public class AlarmActivity extends AppCompatActivity  implements SensorEventList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.alarmstop);
             // MediaPlayer.createはprepareを実行してしまうのでnew MediaPlayer()を使う
             // MediaPlayer mp = MediaPlayer.create(context, uri);
             MediaPlayer mp = this.mp;
@@ -101,17 +103,17 @@ public class AlarmActivity extends AppCompatActivity  implements SensorEventList
 //        alarmServiceInstance = new AlarmService(this, mDialog);
 //        alarmServiceInstance.execute();
 
-//        findViewById(R.id.stopBtn).setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view) {
-//                MediaPlayer mp = AlarmActivity.mp;
-////                alarmServiceInstance.cancel(true);
-//                mp.stop();
-//                finish();
-//                //ringtone.stop(); // 停止
-//            }
-//        });
+        findViewById(R.id.stopBtn).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                MediaPlayer mp = AlarmActivity.mp;
+//                alarmServiceInstance.cancel(true);
+                mp.stop();
+                finish();
+                //ringtone.stop(); // 停止
+            }
+        });
     }
 
     @Override
