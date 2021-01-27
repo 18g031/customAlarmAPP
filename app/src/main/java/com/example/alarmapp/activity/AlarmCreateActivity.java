@@ -1,6 +1,5 @@
 package com.example.alarmapp.activity;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
@@ -66,6 +65,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     SimpleDateFormat f12Hours = new SimpleDateFormat(
             "hh:mm aa"
     );
+    int kekka;
 
 
     @Override
@@ -126,15 +126,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-
-
                     break;
                 }
             }
-//            tAlmHour = timeArray.get(0);
-//            tAlmMinute = timeArray.get(1);
-//            tAnnHour = timeArray.get(2);
-//            tAnnMinute = timeArray.get(3);
         }
 
 
@@ -202,9 +196,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 
 /*        setContentView(R.layout.clock);
-        Intent intent = getIntent();
 */
 
+        //保存ボタンを押下した時の処理
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -212,17 +206,13 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 //データベースヘルパーオブジェクトを作成
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
-                //AlarmListクラスでアラームデータをデータベースに保存
-                ////AlarmListクラスでアラームデータをデータベースに保存
-                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
-                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,ランダム化したアラームの時間(H)の変数名,ランダム化したアラームの時間(M)の変数名,db);
 
                 try {
                     if (tapId == -1) {
                         Log.v("try", "try の先頭を実行");
                         //保存されている最大の_idを取得するSQL文
                         String sql = "SELECT * FROM alarmList";
-                        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
+                        Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
                         String str;
                         while (cursor.moveToNext()) {
                             int idxId = cursor.getColumnIndex("_id");
@@ -232,19 +222,19 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         }
                         alarmId += 1;
                         //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
-                        String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
-                        //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, rAlmHour, rAlmMinute, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, randomTime) VALUES (?, ?, ?, ?, ?, ?)";
+                        //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, randomTime, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
                         stmt.bindLong(1, alarmId);       //alarmListの1つ目のVALUESにalarmIdを入れる
                         stmt.bindLong(2, setTAlmHour);
                         stmt.bindLong(3, setTAlmMinute);
                         stmt.bindLong(4, setTAnnHour);
                         stmt.bindLong(5, setTAnnMinute);
-//            stmt.bindLong(6,ランダム化したアラームの時間(H));
-//            stmt.bindLong(7,ランダム化したアラームの時間(M));
-//            stmt.bindLong(8,繰り返し曜日設定(アラーム));
-//            stmt.bindLong(9,繰り返し曜日設定(アナウンス));
-//            stmt.bindLong(10,アナウンスタイミング);
+                        stmt.bindLong(6,kekka);
+//            stmt.bindLong(7,繰り返し曜日設定(アラーム));
+//            stmt.bindLong(8,繰り返し曜日設定(アナウンス));
+//            stmt.bindLong(9,アナウンスタイミング);
+//            stmt.bindLong(10,);
 
                         stmt.executeInsert();       //SQL文を実行（データベースに保存）
                     } else if (tapId != -1) {
@@ -258,8 +248,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         cv.put("tAnnHour", setTAnnHour);
                         cv.put("tAnnMinute", setTAnnMinute);
 /*
-                        cv.put("rAlmHou", ランダム化したアラームの時間(H));
-                        cv.put("rAlmMinute", ランダム化したアラームの時間(M));
                         cv.put("almRepeat", 繰り返し曜日設定(アラーム));
                         cv.put("annRepeat", 繰り返し曜日設定(アナウンス));
                         cv.put("timing", アナウンスタイミング);
@@ -287,6 +275,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     Calendar keisan = Calendar.getInstance();//計算処理
                     keisan.setTime(date);
                     keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
+
+                    //データベース格納用型変換
+                    Date dateKekka = keisan.getTime();  //CalendarからDateへ
+                    String strKekka =  String.valueOf(dateKekka);   //DateからStringへ
+                    kekka = Integer.parseInt(strKekka);     //Stringからintへ
 
                 } catch (ParseException e) {
 
@@ -327,12 +320,18 @@ public class AlarmCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (tapId != -1) {
+                    DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.context);
+                    SQLiteDatabase db = helper.getWritableDatabase();
+                    DatabaseHelper.alarmDelete(tapId,db);
+
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                     Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
                     PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     pending.cancel();
                     alarmManager.cancel(pending);
+                } else {
+
                 }
             }
         });
