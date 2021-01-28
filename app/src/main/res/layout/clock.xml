@@ -27,10 +27,10 @@
         style="@style/main_button"
         android:layout_gravity="center"
         android:hint="繰り返し曜日"
-        android:textColor="@color/primaryText"
+        android:textColorHint="@color/secondaryText"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <LinearLayout
         android:id="@+id/linear_alm"
@@ -45,6 +45,7 @@
             style="@style/main_button"
             android:layout_gravity="center"
             android:hint="時間を入力"
+            android:textColorHint="@color/secondaryText2"
             android:textColor="@color/primaryText"
             android:textSize="30dp" />
 
@@ -52,8 +53,8 @@
             android:id="@+id/tv_alm_checkbox"
             style="@style/main_button"
             android:hint="通知タイミング"
-            android:textColor="@color/primaryText"
             android:textSize="20dp"
+            android:textColorHint="@color/secondaryText"
             app:layout_constraintStart_toStartOf="@id/tv_alm_timer"
             app:layout_constraintTop_toBottomOf="@+id/tv_alm_timer"/>
 
@@ -72,6 +73,7 @@
             style="@style/main_button"
             android:layout_gravity="center"
             android:hint="時間を入力"
+            android:textColorHint="@color/secondaryText2"
             android:textColor="@color/primaryText"
             android:textSize="30dp" />
 
@@ -79,8 +81,8 @@
             android:id="@+id/tv_ann_checkbox"
             style="@style/main_button"
             android:hint="通知タイミング"
-            android:textColor="@color/primaryText"
             android:textSize="20dp"
+            android:textColorHint="@color/secondaryText"
             app:layout_constraintStart_toStartOf="@id/tv_ann_timer"
             app:layout_constraintTop_toBottomOf="@+id/tv_ann_timer"/>
 

@@ -43,12 +43,12 @@ import java.util.Random;
 public class AlarmCreateActivity extends AppCompatActivity {
     public static Context context;
 
-    private final boolean[] mCheckedItems = {false,false,false,false,false,false,false};
-    //private final boolean[] mCheckedItems = {false,false,false,false,false,false,false};
-    //private final boolean[] mCheckedItems = {false,false,false,false,false,false,false};
+    private final boolean[] mWeekCheckedItems = {false,false,false,false,false,false,false};
+    private final boolean[] mAlmCheckedItems = {false,false,false,false,false};
+    private final boolean[] mAnnCheckedItems = {false,false,false,true,false,true};
 
 
-    TextView tvAlmTimer, tvAnnTimer, tvWeek ,tv_ann_checkbox, tv_alm_checkbox;
+    TextView tvAlmTimer, tvAnnTimer, tvWeek, tv_alm_checkbox, tv_ann_checkbox;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
 
@@ -69,6 +69,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
         tvAlmTimer = findViewById(R.id.tv_alm_timer);
         tvAnnTimer = findViewById(R.id.tv_ann_timer);
         tvWeek = findViewById(R.id.tv_week);
+        tv_alm_checkbox = findViewById(R.id.tv_alm_checkbox);
+        tv_ann_checkbox = findViewById(R.id.tv_ann_checkbox);
 
         final Intent intent = getIntent();
         //前の画面(MainActivity)でタップされたアラームの_idをtapIdに格納する。
@@ -131,54 +133,23 @@ public class AlarmCreateActivity extends AppCompatActivity {
         tvWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AlarmCreateActivity.this);
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder
+                        (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
 
                 final String[] items = {"日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"};
                 alertDialog.setTitle("繰り返し曜日");
-                alertDialog.setMultiChoiceItems(items, mCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                alertDialog.setMultiChoiceItems(items, mWeekCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        mCheckedItems[which] = isChecked;
+                        mWeekCheckedItems[which] = isChecked;
                     }
                 });
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int idx) {
                         String str = null;
-                        for (int i = 0; i < mCheckedItems.length; i++) {
-                            if (mCheckedItems[i] == true) {
-                                str += items[i];
-                            }
-                        }
-                        if (str == null) {
-                            str = "No Selected";
-                        }
-                        Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
-                    }
-                });
-                alertDialog.show();
-            }
-        });
-
-        tv_ann_checkbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AlarmCreateActivity.this);
-
-                final String[] items = {"日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"};
-                alertDialog.setTitle("繰り返し曜日");
-                alertDialog.setMultiChoiceItems(items, mCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        mCheckedItems[which] = isChecked;
-                    }
-                });
-                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int idx) {
-                        String str = null;
-                        for (int i = 0; i < mCheckedItems.length; i++) {
-                            if (mCheckedItems[i] == true) {
+                        for (int i = 0; i < mWeekCheckedItems.length; i++) {
+                            if (mWeekCheckedItems[i] == true) {
                                 str += items[i];
                             }
                         }
@@ -195,22 +166,56 @@ public class AlarmCreateActivity extends AppCompatActivity {
         tv_alm_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AlarmCreateActivity.this);
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder
+                        (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
 
-                final String[] items = {"日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"};
-                alertDialog.setTitle("繰り返し曜日");
-                alertDialog.setMultiChoiceItems(items, mCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                final String[] items = {"30分前から", "20分前から", "15分前から", "10分前から", "5分前から"};
+                alertDialog.setTitle("ランダム範囲");
+                alertDialog.setSingleChoiceItems(items, mAlmCheckedItems, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        mCheckedItems[which] = isChecked;
+                        mAlmCheckedItems[which] = isChecked;
                     }
                 });
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int idx) {
                         String str = null;
-                        for (int i = 0; i < mCheckedItems.length; i++) {
-                            if (mCheckedItems[i] == true) {
+                        for (int i = 0; i < mAlmCheckedItems.length; i++) {
+                            if (mAlmCheckedItems[i] == true) {
+                                str += items[i];
+                            }
+                        }
+                        if (str == null) {
+                            str = "No Selected";
+                        }
+                        Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+
+        tv_ann_checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder
+                        (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
+
+                final String[] items = {"30分前", "20分前", "15分前", "10分前", "5分前", "設定時刻"};
+                alertDialog.setTitle("通知タイミング");
+                alertDialog.setMultiChoiceItems(items, mAnnCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        mAnnCheckedItems[which] = isChecked;
+                    }
+                });
+                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int idx) {
+                        String str = null;
+                        for (int i = 0; i < mAnnCheckedItems.length; i++) {
+                            if (mAnnCheckedItems[i] == true) {
                                 str += items[i];
                             }
                         }
@@ -230,7 +235,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
                         AlarmCreateActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        android.R.style.Theme_Holo_Dialog,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker View, int hourOfDay, int minute) {
@@ -261,7 +266,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
                         AlarmCreateActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        android.R.style.Theme_Holo_Dialog,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker View, int hourOfDay, int minute) {
