@@ -1,5 +1,6 @@
 package com.example.alarmapp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -26,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alarmapp.R;
 import com.example.alarmapp.Util.DatabaseHelper;
+import com.example.alarmapp.receiver.AlarmReceiver;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,6 +52,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
     TextView tvAlmTimer, tvAnnTimer, tvWeek, tv_alm_checkbox, tv_ann_checkbox;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
+    int alarmId = -1;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
 
     //以下timePicker用フォーマット変数（複数回使っていたので頭にまとめました）
@@ -105,6 +108,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     setTAlmMinute = alTM;
                     setTAnnHour = anTH;
                     setTAnnMinute = anTM;
+
+                    int alarmId = tapId;
 
                     //ここからtimePickerの初期データ登録
                     try {
@@ -312,8 +317,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         Log.v("try", "try の先頭を実行");
                         //保存されている最大の_idを取得するSQL文
                         String sql = "SELECT * FROM alarmList";
-                        Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
-                        int alarmId = -1;
+                        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
                         String str;
                         while (cursor.moveToNext()) {
                             int idxId = cursor.getColumnIndex("_id");
@@ -365,7 +369,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 
                 Random random = new Random();
-                int randomValue = random.nextInt(30);
+                int randomValue = random.nextInt(1);
+                randomValue = randomValue-1;
 
                 setContentView(R.layout.clock);
                 try {
@@ -385,7 +390,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),
                         com.example.alarmapp.receiver.AlarmReceiver.class);
                 PendingIntent pending = PendingIntent.getBroadcast(
-                        getApplicationContext(), 0, intent, 0);
+                        getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 // アラームをセットする
                 Calendar calendar = Calendar.getInstance();
@@ -413,17 +418,19 @@ public class AlarmCreateActivity extends AppCompatActivity {
             }
         });
         //削除メソッド
-        /*findViewById(R.id.alList).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                if (tapId != -1) {
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-                Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
-                pending.cancel();
-                alarmManager.cancel(pending);
+                    Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                    PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    pending.cancel();
+                    alarmManager.cancel(pending);
+                }
             }
-        });*/
+        });
     }
 
 }
