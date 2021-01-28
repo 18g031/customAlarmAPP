@@ -3,7 +3,6 @@ package com.example.alarmapp.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -61,7 +60,6 @@ public class AlarmActivity extends AppCompatActivity  implements SensorEventList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarmstop);
-
             // MediaPlayer.createはprepareを実行してしまうのでnew MediaPlayer()を使う
             // MediaPlayer mp = MediaPlayer.create(context, uri);
             MediaPlayer mp = this.mp;
@@ -104,6 +102,18 @@ public class AlarmActivity extends AppCompatActivity  implements SensorEventList
 //        mDialog = new ProgressDialog(this);
 //        alarmServiceInstance = new AlarmService(this, mDialog);
 //        alarmServiceInstance.execute();
+
+        findViewById(R.id.stopBtn).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                MediaPlayer mp = AlarmActivity.mp;
+//                alarmServiceInstance.cancel(true);
+                mp.stop();
+                finish();
+                //ringtone.stop(); // 停止
+            }
+        });
     }
 
     @Override
@@ -193,12 +203,6 @@ public class AlarmActivity extends AppCompatActivity  implements SensorEventList
                 break;
         }
 
-    }
-
-    //以下停止ボタン
-    public void onClickStop(View view) {
-        mp.stop();
-        finish();
     }
 
     @Override
