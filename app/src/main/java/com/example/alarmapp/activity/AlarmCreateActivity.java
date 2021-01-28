@@ -167,7 +167,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-
+/*
         tv_alm_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,7 +199,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 });
                 alertDialog.show();
             }
-        });
+        });*/
 
         tv_ann_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
