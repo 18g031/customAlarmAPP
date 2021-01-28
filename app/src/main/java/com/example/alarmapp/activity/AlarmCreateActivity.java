@@ -320,7 +320,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (tapId != -1) {
                     //以下データベース削除
-                    DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.context);
+                    DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                     SQLiteDatabase db = helper.getWritableDatabase();
                     DatabaseHelper.alarmDelete(tapId,db);
 
