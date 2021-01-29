@@ -2,12 +2,10 @@ package com.example.alarmapp.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,12 +43,18 @@ import java.util.Random;
 public class AlarmCreateActivity extends AppCompatActivity {
     public static Context context;
 
-    private final boolean[] mWeekCheckedItems = {false,false,false,false,false,false,false};
-    private final boolean[] mAlmCheckedItems = {false,false,false,false,false};
-    private final boolean[] mAnnCheckedItems = {false,false,false,true,false,true};
+            /*　　
+            あとやりたいこと
+            ・アラーム、アナウンスのどちらかだけを設定できるようにしたい。（レイアウトも未着手）
+            ・ここで得た時間をMainActivityのリストに入れれるようにしたい。
+            ・ここで得た時間に対してアラームの場合”任意の時間前に通知”の奴の計算、
+                アナウンスの場合”任意のランダム範囲”の奴の計算をできるようにしたい。
+            ・↑計算これについては、ここにあもんが書いてたコード（現在コメントアウト中）が使えるかも、？とのこと
+                使えなさそうならコードだったものは削除でお願いします。
+            */
 
 
-    TextView tvAlmTimer, tvAnnTimer, tvWeek, tv_alm_checkbox, tv_ann_checkbox;
+    TextView tvAlmTimer, tvAnnTimer;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
     int alarmId = -1;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
@@ -65,15 +69,13 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         setContentView(R.layout.clock);
         tvAlmTimer = findViewById(R.id.tv_alm_timer);
         tvAnnTimer = findViewById(R.id.tv_ann_timer);
-        tvWeek = findViewById(R.id.tv_week);
-        tv_alm_checkbox = findViewById(R.id.tv_alm_checkbox);
-        tv_ann_checkbox = findViewById(R.id.tv_ann_checkbox);
 
         final Intent intent = getIntent();
         //前の画面(MainActivity)でタップされたアラームの_idをtapIdに格納する。
@@ -135,118 +137,21 @@ public class AlarmCreateActivity extends AppCompatActivity {
 //            tAnnMinute = timeArray.get(3);
         }
 
-        tvWeek.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder
-                        (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
 
-                final String[] items = {"日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"};
-                alertDialog.setTitle("繰り返し曜日");
-                alertDialog.setMultiChoiceItems(items, mWeekCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        mWeekCheckedItems[which] = isChecked;
-                    }
-                });
-                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int idx) {
-                        String str = null;
-                        for (int i = 0; i < mWeekCheckedItems.length; i++) {
-                            if (mWeekCheckedItems[i] == true) {
-                                str += items[i];
-                            }
-                        }
-                        if (str == null) {
-                            str = "No Selected";
-                        }
-                        Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
-                    }
-                });
-                alertDialog.show();
-            }
-        });
-/*
-        tv_alm_checkbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder
-                        (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
-
-                final String[] items = {"30分前から", "20分前から", "15分前から", "10分前から", "5分前から"};
-                alertDialog.setTitle("ランダム範囲");
-                alertDialog.setSingleChoiceItems(items, mAlmCheckedItems, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        mAlmCheckedItems[which] = isChecked;
-                    }
-                });
-                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int idx) {
-                        String str = null;
-                        for (int i = 0; i < mAlmCheckedItems.length; i++) {
-                            if (mAlmCheckedItems[i] == true) {
-                                str += items[i];
-                            }
-                        }
-                        if (str == null) {
-                            str = "No Selected";
-                        }
-                        Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
-                    }
-                });
-                alertDialog.show();
-            }
-        });*/
-
-        tv_ann_checkbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder
-                        (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
-
-                final String[] items = {"30分前", "20分前", "15分前", "10分前", "5分前", "設定時刻"};
-                alertDialog.setTitle("通知タイミング");
-                alertDialog.setMultiChoiceItems(items, mAnnCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        mAnnCheckedItems[which] = isChecked;
-                    }
-                });
-                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int idx) {
-                        String str = null;
-                        for (int i = 0; i < mAnnCheckedItems.length; i++) {
-                            if (mAnnCheckedItems[i] == true) {
-                                str += items[i];
-                            }
-                        }
-                        if (str == null) {
-                            str = "No Selected";
-                        }
-                        Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
-                    }
-                });
-                alertDialog.show();
-            }
-        });
-
-                //アラームのTimePickerの処理
+        //アラームのTimePickerの処理
         tvAlmTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
                         AlarmCreateActivity.this,
-                        android.R.style.Theme_Holo_Dialog,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker View, int hourOfDay, int minute) {
                                 setTAlmHour = hourOfDay;
                                 setTAlmMinute = minute;
                                 String time = setTAlmHour + ":" + setTAlmMinute;
+
 
                                 try {
                                     Date date = f24Hours.parse(time);
@@ -271,7 +176,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
                         AlarmCreateActivity.this,
-                        android.R.style.Theme_Holo_Dialog,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker View, int hourOfDay, int minute) {
@@ -415,24 +320,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                 Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
                 startActivity(intent2);
-
-                Calendar calendar2 = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.add(Calendar.SECOND, 10);
-                scheduleNotification("10秒後に届く通知です", calendar2);
             }
-                private void scheduleNotification(String content, Calendar calendar){
-                    Intent notificationIntent = new Intent(this, AlarmBackGround.class);
-                    notificationIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, 1);
-                    notificationIntent.putExtra(AlarmReceiver.NOTIFICATION_CONTENT, content);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                    AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                }
-            }
-
-        }
         });
         //削除メソッド
         findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {

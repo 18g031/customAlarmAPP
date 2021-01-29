@@ -37,7 +37,7 @@ public class AlarmActivity extends AppCompatActivity  implements SensorEventList
     AlarmService alarmServiceInstance;
     public ProgressDialog mDialog;
     int i;
-    static MediaPlayer mp = new MediaPlayer();
+    public static MediaPlayer mp = new MediaPlayer();
     Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
     private Context context = this;
     Ringtone ringtone = RingtoneManager.getRingtone(context, uri);
@@ -59,7 +59,7 @@ public class AlarmActivity extends AppCompatActivity  implements SensorEventList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.alarmstop);
+            setContentView(R.layout.alarmstop);
             // MediaPlayer.createはprepareを実行してしまうのでnew MediaPlayer()を使う
             // MediaPlayer mp = MediaPlayer.create(context, uri);
             MediaPlayer mp = this.mp;
@@ -83,7 +83,7 @@ public class AlarmActivity extends AppCompatActivity  implements SensorEventList
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         // ツールバーを非表示
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 
 
