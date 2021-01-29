@@ -56,6 +56,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     TextView tvAlmTimer, tvAnnTimer;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
     int alarmId = -1;
+    int rTime;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
 
     //以下timePicker用フォーマット変数（複数回使っていたので頭にまとめました）
@@ -65,7 +66,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     SimpleDateFormat f12Hours = new SimpleDateFormat(
             "hh:mm aa"
     );
-    int rTime;
+
 
 
     @Override
@@ -222,7 +223,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         }
                         alarmId += 1;
                         //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
-                        //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
                         String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, randomTime) VALUES (?, ?, ?, ?, ?, ?)";
                         //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, randomTime, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
@@ -270,8 +270,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     int setYear = calendar.get(Calendar.YEAR);  //取得した現在時刻から年をint型に格納
                     int setMonth = calendar.get(Calendar.MONTH);
                     int setDate = calendar.get(Calendar.DATE);
-                    int setHour = setTAlmHour;
-                    int setMinute = setTAlmMinute - randomValue;
                     calendar.set(setYear, setMonth, setDate, setTAlmHour, setTAlmMinute);   //取得した今日の日付にアラームの設定時間を合わせたものを格納
                     calendar.add(Calendar.MINUTE, -randomValue); //設定された時間をランダム化
 
