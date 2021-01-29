@@ -52,7 +52,7 @@
         <TextView
             android:id="@+id/tv_alm_checkbox"
             style="@style/main_button"
-            android:hint="通知タイミング"
+            android:hint="ランダム範囲"
             android:textSize="20dp"
             android:textColorHint="@color/secondaryText"
             app:layout_constraintStart_toStartOf="@id/tv_alm_timer"
@@ -98,6 +98,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_ann" />
+
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/exListView"
+        app:layout_constraintStart_toStartOf="@id/enter"
+        app:layout_constraintTop_toBottomOf="@+id/enter">
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Switch"
+            tools:layout_editor_absoluteX="17dp"
+            tools:layout_editor_absoluteY="527dp" />
+
+
+
+    </ExpandableListView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

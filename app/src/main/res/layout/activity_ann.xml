@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     android:background="@color/baseColor2">
 
+
+
+
+
+
+
+
     <CheckBox
         android:id="@+id/checkBox2"
         android:layout_width="409dp"
@@ -182,5 +189,24 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar2"
         app:layout_constraintVertical_bias="0.0" />
 
+
+
+
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/exListView">
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Switch"
+            tools:layout_editor_absoluteX="17dp"
+            tools:layout_editor_absoluteY="527dp" />
+
+
+
+    </ExpandableListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

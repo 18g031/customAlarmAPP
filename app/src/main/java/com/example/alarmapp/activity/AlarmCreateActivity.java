@@ -171,7 +171,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                 final String[] items = {"30分前から", "20分前から", "15分前から", "10分前から", "5分前から"};
                 alertDialog.setTitle("ランダム範囲");
-                alertDialog.setSingleChoiceItems(items, mAlmCheckedItems, new DialogInterface.OnClickListener() {
+                alertDialog.setMultiChoiceItems(items, mAlmCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         mAlmCheckedItems[which] = isChecked;
