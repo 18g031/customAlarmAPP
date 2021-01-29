@@ -65,7 +65,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     SimpleDateFormat f12Hours = new SimpleDateFormat(
             "hh:mm aa"
     );
-    int kekka;
+    int rTime;
 
 
     @Override
@@ -222,6 +222,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         }
                         alarmId += 1;
                         //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
+                        //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
                         String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, randomTime) VALUES (?, ?, ?, ?, ?, ?)";
                         //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, randomTime, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
@@ -230,7 +231,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         stmt.bindLong(3, setTAlmMinute);
                         stmt.bindLong(4, setTAnnHour);
                         stmt.bindLong(5, setTAnnMinute);
-                        stmt.bindLong(6,kekka);
+                        stmt.bindLong(6, rTime);
 //            stmt.bindLong(7,繰り返し曜日設定(アラーム));
 //            stmt.bindLong(8,繰り返し曜日設定(アナウンス));
 //            stmt.bindLong(9,アナウンスタイミング);
@@ -254,36 +255,48 @@ public class AlarmCreateActivity extends AppCompatActivity {
 */
                         db.update("alarmList", cv, "_id = " + alarmId, null);
                     }
+                } finally {
                 }
-                finally {
-                }
-
-
 
 
                 Random random = new Random();
-                int randomValue = random.nextInt(1);
-                randomValue = randomValue-1;
+                int randomValue = random.nextInt(30);
+                randomValue = randomValue - 1;
+                Log.v("randV", "" + randomValue);
 
                 setContentView(R.layout.clock);
                 try {
+                    Calendar calendar = Calendar.getInstance(); //現在時刻を取得
+                    int setYear = calendar.get(Calendar.YEAR);  //取得した現在時刻から年をint型に格納
+                    int setMonth = calendar.get(Calendar.MONTH);
+                    int setDate = calendar.get(Calendar.DATE);
+                    int setHour = setTAlmHour;
+                    int setMinute = setTAlmMinute - randomValue;
+                    calendar.set(setYear, setMonth, setDate, setTAlmHour, setTAlmMinute);   //取得した今日の日付にアラームの設定時間を合わせたものを格納
+                    calendar.add(Calendar.MINUTE, -randomValue); //設定された時間をランダム化
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
-                    String strtime = Integer.toString(setTAlmMinute);//intをstringに直す
-                    Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
 
-                    Calendar keisan = Calendar.getInstance();//計算処理
-                    keisan.setTime(date);
-                    keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
+//                    SimpleDateFormat sdf = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
+//                    String strtime = Integer.toString(setTAlmMinute);//intをstringに直す
+//                    Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
+//
+//                    Calendar keisan = Calendar.getInstance();//計算処理
+//                    keisan.setTime(date);
+//                    keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
 
                     //データベース格納用型変換
-                    Date dateKekka = keisan.getTime();  //CalendarからDateへ
-                    String strKekka =  String.valueOf(dateKekka);   //DateからStringへ
-                    kekka = Integer.parseInt(strKekka);     //Stringからintへ
+                    Date dateRTime = calendar.getTime();  //CalendarからDateへ
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("yyMMddhhmm");
+                    rTime = Integer.parseInt(sdf2.format(dateRTime));   //yyMMddhhmmでint型に。
+                    Log.v("ACA_282", "" + rTime);
 
-                } catch (ParseException e) {
+
+               // } catch (ParseException e) {
+
+                }finally {
 
                 }
+
                 //明示的なBroadCast
                 Intent intent = new Intent(getApplicationContext(),
                         com.example.alarmapp.receiver.AlarmReceiver.class);
