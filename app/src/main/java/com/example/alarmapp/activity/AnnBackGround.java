@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -13,7 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alarmapp.R;
 
+import java.text.DateFormat;
+
 public class AnnBackGround extends BroadcastReceiver {
+
+
 
     public static String NOTIFICATION_ID = "notificationId";
     public static String NOTIFICATION_CONTENT = "content";
@@ -58,7 +63,7 @@ public class AnnBackGround extends BroadcastReceiver {
                 //通知の生成と設定とビルド
                 notification = new Notification.Builder(context, chID);
                 notification.setContentTitle(name);//通知タイトル
-                notification.setContentText("アプリ通知テスト26以上") ;       //通知内容
+                notification.setContentText("アナウンス通知時間") ;       //通知内容
                 notification.setSmallIcon(R.drawable.ic_launcher_background);                  //通知用アイコン
                 notification.setAutoCancel(true);
                 notification.build();                                       //通知のビルド
@@ -67,7 +72,7 @@ public class AnnBackGround extends BroadcastReceiver {
                 //通知の生成と設定とビルド
                 notification = new Notification.Builder(context);
                 notification.setContentTitle(name);
-                notification.setContentText("アプリ通知テスト25まで");
+                notification.setContentText("アナウンス通知時間");
                 notification.setSmallIcon(R.drawable.ic_launcher_background);
                 notification.setAutoCancel(true);
                 notification.build();
@@ -76,7 +81,7 @@ public class AnnBackGround extends BroadcastReceiver {
                 //通知の生成と設定とビルド
                 notification = new Notification.Builder(context);
                 notification.setContentTitle(name);
-                notification.setContentText("アプリ通知テスト16以下まで");
+                notification.setContentText("アナウンス通知時間");
                 notification.setSmallIcon(R.drawable.ic_launcher_background);
                 notification.setAutoCancel(true);
                 notification.build();

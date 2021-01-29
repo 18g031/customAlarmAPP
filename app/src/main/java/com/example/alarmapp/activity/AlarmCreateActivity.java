@@ -361,16 +361,13 @@ public class AlarmCreateActivity extends AppCompatActivity {
 */
                         db.update("alarmList", cv, "_id = " + alarmId, null);
                     }
+                } finally {
                 }
-                finally {
-                }
-
-
 
 
                 Random random = new Random();
                 int randomValue = random.nextInt(1);
-                randomValue = randomValue-1;
+                randomValue = randomValue - 1;
 
                 setContentView(R.layout.clock);
                 try {
@@ -400,14 +397,13 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending);
                     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        am.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pending);
+                        am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
                     } else {
-                        am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pending);
+                        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
                     }
                     Toast.makeText(getApplicationContext(),
                             "Set Alarm ", Toast.LENGTH_SHORT).show();
                     am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending);
-
 
 
                     //ここにデータベースにランダム時間をセットする。//
@@ -416,26 +412,73 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
                 startActivity(intent2);
 
-                Calendar calendar2 = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.add(Calendar.SECOND, 10);
-                scheduleNotification("10秒後に届く通知です", calendar2);
+                int aaa[] = new int[6];
+
+                for (int i = 0; i < aaa.length; i++) {
+                    aaa[i] = -1;
+                }
+
+                int ANtime = 30;
+                //"30分前", "20分前", "15分前", "10分前", "5分前", "設定時刻"
+                for (int i = 0; i < mAnnCheckedItems.length; i++) {
+                    if (mAnnCheckedItems[i] == true) {
+                        aaa[i] = ANtime;
+                        ANtime = ANtime - 5;
+                        if (i == 1) {
+                            ANtime = ANtime - 5;
+                        }
+                    }
+                }
+
+                for (int g = 0; g < aaa.length; g++) {
+
+
+                    Calendar calendar2 = Calendar.getInstance();
+                    try {
+
+                        SimpleDateFormat sdf2 = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
+                        String strtime2 = Integer.toString(setTAnnMinute);//intをstringに直す
+                        Date date2 = sdf2.parse(strtime2);//ｓｔｒDateをdate型に変換
+
+                        Calendar keisan2 = Calendar.getInstance();//計算処理
+                        keisan2.setTime(date2);
+                        keisan2.add(Calendar.MINUTE, -aaa[g]);//minuteには鳴る時間がはいってる。
+
+                    } catch (ParseException e) {
+
+                    }
+
+                    if (aaa[g] != -1) {
+                        calendar2.setTimeInMillis(System.currentTimeMillis());
+                        calendar2.add(Calendar.SECOND, Calendar.MINUTE);
+                        scheduleNotification("アナウンス通知", calendar2);
+                    }
+
+                }
+
             }
                 private void scheduleNotification(String content, Calendar calendar){
-                    Intent notificationIntent = new Intent(this, AlarmBackGround.class);
-                    notificationIntent.putExtra(AlarmReceiver.NOTIFICATION_ID, 1);
-                    notificationIntent.putExtra(AlarmReceiver.NOTIFICATION_CONTENT, content);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    Intent notificationIntent = new Intent(getApplicationContext(),AnnBackGround.class);
+                    notificationIntent.putExtra(AnnBackGround.NOTIFICATION_ID, 1);
+                    notificationIntent.putExtra(AnnBackGround.NOTIFICATION_CONTENT, content);
+                    PendingIntent pending2 = PendingIntent.getBroadcast( getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                    AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                }
+                    AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    if (am != null) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending2);
+                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending2);
+                        } else {
+                            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending2);
+                        }
+                    }
             }
 
-        }
+
         });
         //削除メソッド
-        findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
+        /*findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (tapId != -1) {
@@ -447,7 +490,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     alarmManager.cancel(pending);
                 }
             }
-        });
+        });*/
     }
 
 }
