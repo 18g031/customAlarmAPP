@@ -1,38 +1,50 @@
-package com.example.alarmapp;
+package com.example.alarmapp.activity;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.icu.text.SimpleDateFormat;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.RequiresApi;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Date;
+import com.example.alarmapp.R;
 
+public class AnnBackGround extends BroadcastReceiver {
 
-//@RequiresApi(api = Build.VERSION_CODES.N)
-public class AnnBackGround extends AppCompatActivity {
+    public static String NOTIFICATION_ID = "notificationId";
+    public static String NOTIFICATION_CONTENT = "content";
+    NotificationManager notificationManager;
 
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        int id = intent.getIntExtra(NOTIFICATION_ID, 0);
+        String content = intent.getStringExtra(NOTIFICATION_CONTENT);
+        notificationManager.notify(id, buildNotification(context, content));
+    }
 
-    //SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-   // Date date = new Date();
 
         //通知オブジェクトの用意と初期化
-        Notification notification = null;
+        Notification.Builder notification = null;
 
-       // @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            //レイアウトファイルをコンテントビューとしてセット
-            setContentView(R.layout.activity_main);
-            //システムから通知マネージャー取得
-            NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+       // @Override
+        private Notification buildNotification(Context context, String content) {
+            Notification.Builder builder = new Notification.Builder(context);
+            //builder.setContentTitle("Notification!!")
+             //       .setContentText(content)
+            //        .setSmallIcon(android.R.drawable.sym_def_app_icon);
+
+            //return builder.build();
+
+
+    //レイアウトファイルをコンテントビューとしてセット
             //アプリ名をチャンネルIDとして利用
-            String chID = getString(R.string.app_name);
+            String chID = String.valueOf(R.string.app_name);
+            String name = String.valueOf(R.string.app_name);
 
             //アンドロイドのバージョンで振り分け
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {     //APIが「26」以上の場合
@@ -44,33 +56,32 @@ public class AnnBackGround extends AppCompatActivity {
                 //通知チャンネルの作成
                 notificationManager.createNotificationChannel(notificationChannel);
                 //通知の生成と設定とビルド
-                notification = new Notification.Builder(this, chID)
-                        .setContentTitle(getString(R.string.app_name))  //通知タイトル
-                        .setContentText("出発前通知")        //通知内容
-                        .setSmallIcon(R.drawable.ic_launcher_background)//通知用アイコン
-                        .setAutoCancel(true)
-                        .build();                                       //通知のビルド
+                notification = new Notification.Builder(context, chID);
+                notification.setContentTitle(name);//通知タイトル
+                notification.setContentText("アプリ通知テスト26以上") ;       //通知内容
+                notification.setSmallIcon(R.drawable.ic_launcher_background);                  //通知用アイコン
+                notification.setAutoCancel(true);
+                notification.build();                                       //通知のビルド
             } else if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
                 //APIが「25」以下の場合
                 //通知の生成と設定とビルド
-                notification = new Notification.Builder(this)
-                        .setContentTitle(getString(R.string.app_name))
-                        .setContentText("出発前通知")
-                        .setSmallIcon(R.drawable.ic_launcher_background)
-                        .setAutoCancel(true)
-                        .build();
+                notification = new Notification.Builder(context);
+                notification.setContentTitle(name);
+                notification.setContentText("アプリ通知テスト25まで");
+                notification.setSmallIcon(R.drawable.ic_launcher_background);
+                notification.setAutoCancel(true);
+                notification.build();
             }else if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
                 //APIが「25」以下の場合
                 //通知の生成と設定とビルド
-                notification = new Notification.Builder(this)
-                        .setContentTitle(getString(R.string.app_name))
-                        .setContentText("出発前通知")
-                        .setSmallIcon(R.drawable.ic_launcher_background)
-                        .setAutoCancel(true)
-                        .build();
+                notification = new Notification.Builder(context);
+                notification.setContentTitle(name);
+                notification.setContentText("アプリ通知テスト16以下まで");
+                notification.setSmallIcon(R.drawable.ic_launcher_background);
+                notification.setAutoCancel(true);
+                notification.build();
 
             }
-            //通知の発行
-            notificationManager.notify(1, notification);
+            return builder.build();
         }
     }

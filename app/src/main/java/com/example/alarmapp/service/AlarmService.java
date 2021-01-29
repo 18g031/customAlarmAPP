@@ -5,44 +5,69 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.media.AudioManager;
-import android.media.SoundPool;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
-import com.example.alarmapp.R;
 
-
+import java.io.IOException;
 import java.util.Random;
 
 
-public class AlarmService extends AsyncTask<Integer, Integer, Integer> implements DialogInterface.OnCancelListener {
+public abstract class AlarmService<context> extends AsyncTask<Integer, Integer, Integer> implements DialogInterface.OnCancelListener {
     Random r = new Random();
+
+
     private int r1;
-    private int sound[] = new int[10];
+    //private int sound[] = new int[10];
     private Context context;
     ProgressDialog mDialog;
-    private SoundPool soundPool;
+    //private SoundPool soundPool;
+    MediaPlayer player = new MediaPlayer();
+    Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+    Ringtone ringtone = RingtoneManager.getRingtone(context, uri);
+
+
 
     public AlarmService(Context context, ProgressDialog mDialog){
-        super();
+        try {
+            player.setDataSource(context, uri);                   // 音声を設定
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        player.setAudioStreamType(AudioManager.STREAM_ALARM); // アラームのボリュームで再生
+        player.setLooping(true);                              // ループ再生を設定
+        try {
+            player.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //super();
         this.context = context;
         this.mDialog = mDialog;
-        soundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
 
-        sound[0] = soundPool.load(context,R.raw.one, 1);
-        sound[1] = soundPool.load(context, R.raw.two, 1);
-        sound[2] = soundPool.load(context, R.raw.three, 1);
-        sound[3] = soundPool.load(context, R.raw.four, 1);
-        sound[4] = soundPool.load(context, R.raw.five, 1);
-        sound[5] = soundPool.load(context, R.raw.six, 1);
-        sound[6] = soundPool.load(context, R.raw.seven, 1);
-        sound[7] = soundPool.load(context, R.raw.eight, 1);
-        sound[8] = soundPool.load(context, R.raw.nine, 1);
-        sound[9] = soundPool.load(context, R.raw.ten, 1);
-//        sound[4] = soundPool.load(context, R.raw.sound5, 1);
-    }
+        ringtone.play(); // 再生
+        ringtone.stop(); // 停止
+
+        /*
+//        soundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
+//
+//        sound[0] = soundPool.load(context,R.raw.one, 1);
+//        sound[1] = soundPool.load(context, R.raw.two, 1);
+//        sound[2] = soundPool.load(context, R.raw.three, 1);
+//        sound[3] = soundPool.load(context, R.raw.four, 1);
+//        sound[4] = soundPool.load(context, R.raw.five, 1);
+//        sound[5] = soundPool.load(context, R.raw.six, 1);
+//        sound[6] = soundPool.load(context, R.raw.seven, 1);
+//        sound[7] = soundPool.load(context, R.raw.eight, 1);
+//        sound[8] = soundPool.load(context, R.raw.nine, 1);
+//        sound[9] = soundPool.load(context, R.raw.ten, 1);
+////        sound[4] = soundPool.load(context, R.raw.sound5, 1);
+//    }
 
     // バックグラウンド処理の前に実行される処理
-    @Override
-    protected void onPreExecute() {
+        protected void onPreExecute() {
         // TODO Auto-generated method stub
         // Progress Dialogの表示
 //    mDialog = new ProgressDialog(context);
@@ -113,7 +138,7 @@ public class AlarmService extends AsyncTask<Integer, Integer, Integer> implement
                 e.printStackTrace();
             }
         }
-        return null;
+        return null;*/
     }
 
     @Override
