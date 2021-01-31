@@ -28,7 +28,7 @@
         android:layout_gravity="center"
         android:hint="繰り返し曜日"
         android:textColorHint="@color/secondaryText"
-        android:textSize="20dp"
+        android:textSize="18dp"
         app:layout_constraintStart_toStartOf="@id/toolbar"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -39,6 +39,29 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="@id/tv_week"
         app:layout_constraintTop_toBottomOf="@+id/tv_week">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarAlm"
+            style="@style/toolbar"
+            android:layout_height="35dp"
+            app:layout_constraintStart_toStartOf="@id/linear_alm"
+            app:layout_constraintTop_toBottomOf="@+id/linear_alm">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:text="  アラーム"
+                android:textColor="@color/secondaryText"/>
+
+            <Switch
+                android:id="@+id/switchAlm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </androidx.appcompat.widget.Toolbar>
+
 
         <TextView
             android:id="@+id/tv_alm_timer"
@@ -58,6 +81,24 @@
             app:layout_constraintStart_toStartOf="@id/tv_alm_timer"
             app:layout_constraintTop_toBottomOf="@+id/tv_alm_timer"/>
 
+        <TextView
+            android:id="@+id/tv_alm_checkbox2"
+            style="@style/main_button"
+            android:hint="停止方法"
+            android:textSize="20dp"
+            android:textColorHint="@color/secondaryText"
+            app:layout_constraintStart_toStartOf="@id/tv_alm_checkbox"
+            app:layout_constraintTop_toBottomOf="@+id/tv_alm_checkbox"/>
+
+        <TextView
+            android:id="@+id/tv_alm_checkbox3"
+            style="@style/main_button"
+            android:hint="アラーム音"
+            android:textSize="20dp"
+            android:textColorHint="@color/secondaryText"
+            app:layout_constraintStart_toStartOf="@id/tv_alm_checkbox2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_alm_checkbox2"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -67,6 +108,27 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="@id/linear_alm"
         app:layout_constraintTop_toBottomOf="@+id/linear_alm">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarAnn"
+            style="@style/toolbar"
+            android:layout_height="35dp"
+            app:layout_constraintStart_toStartOf="@id/linear_ann"
+            app:layout_constraintTop_toBottomOf="@+id/linear_ann">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:text="  出発前通知"
+                android:textColor="@color/secondaryText"/>
+
+            <Switch
+                android:id="@+id/switchAnn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <TextView
             android:id="@+id/tv_ann_timer"
@@ -99,24 +161,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_ann" />
 
-    <ExpandableListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/exListView"
-        app:layout_constraintStart_toStartOf="@id/enter"
-        app:layout_constraintTop_toBottomOf="@+id/enter">
 
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Switch"
-            tools:layout_editor_absoluteX="17dp"
-            tools:layout_editor_absoluteY="527dp" />
-
-
-
-    </ExpandableListView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
