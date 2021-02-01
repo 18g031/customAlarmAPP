@@ -83,7 +83,7 @@ public class AlarmActivity extends AppCompatActivity  implements SensorEventList
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         // ツールバーを非表示
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+       // requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 
 

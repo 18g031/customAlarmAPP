@@ -30,6 +30,8 @@ public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動�
         sb.append("tAlmHour INTEGER,");    //アラームの設定時間
         sb.append("tAlmMinute INTEGER,");
         sb.append("tAnnHour INTEGER,");    //出発の設定時間
+        sb.append("tAnnMinute INTEGER,");
+        sb.append("randomTime INTEGER");     //ランダム化したアラームの設定時間
         sb.append("tAnnMinute INTEGER");
 //        sb.append("rAlmHour INTEGER,");     //ランダム化したアラームの設定時間
 //        sb.append("rAlmMinute INTEGER,");
