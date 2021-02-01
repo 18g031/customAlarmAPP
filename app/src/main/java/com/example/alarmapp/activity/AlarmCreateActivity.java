@@ -48,7 +48,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     private final boolean[] mWeekCheckedItems = {false,false,false,false,false,false,false};
     private final boolean[] mAlmCheckedItems = {false,false,false,false,false};
     private final boolean[] mAnnCheckedItems = {false,false,false,true,false,true};
-
+    int checkedItem = 0;
 
     TextView tvAlmTimer, tvAnnTimer, tvWeek, tv_alm_checkbox, tv_ann_checkbox;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
@@ -136,6 +136,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 //            tAnnMinute = timeArray.get(3);
         }
 
+
         tvWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,10 +178,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                 final String[] items = {"30分前から", "20分前から", "15分前から", "10分前から", "5分前から"};
                 alertDialog.setTitle("ランダム範囲");
-                alertDialog.setSingleChoiceItems(items, mAlmCheckedItems, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        mAlmCheckedItems[which] = isChecked;
+                alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        checkedItem = item;
                     }
                 });
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
