@@ -71,9 +71,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
         setContentView(R.layout.clock);
         tvAlmTimer = findViewById(R.id.tv_alm_timer);
         tvAnnTimer = findViewById(R.id.tv_ann_timer);
-        tvWeek = findViewById(R.id.tv_week);
-        tv_alm_checkbox = findViewById(R.id.tv_alm_checkbox);
-        tv_ann_checkbox = findViewById(R.id.tv_ann_checkbox);
+        //tvWeek = findViewById(R.id.tv_week);
+        //tv_alm_checkbox = findViewById(R.id.tv_alm_checkbox);
+        //tv_ann_checkbox = findViewById(R.id.tv_ann_checkbox);
 
         final Intent intent = getIntent();
         //前の画面(MainActivity)でタップされたアラームの_idをtapIdに格納する。
