@@ -58,7 +58,7 @@ public class AnnBackGround extends BroadcastReceiver {
                 //通知の生成と設定とビルド
                 notification = new Notification.Builder(context, chID);
                 notification.setContentTitle(name);//通知タイトル
-                notification.setContentText("アプリ通知テスト26以上") ;       //通知内容
+                notification.setContentText(content) ;       //通知内容
                 notification.setSmallIcon(R.drawable.ic_launcher_background);                  //通知用アイコン
                 notification.build();                                       //通知のビルド
             } else if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
@@ -66,7 +66,7 @@ public class AnnBackGround extends BroadcastReceiver {
                 //通知の生成と設定とビルド
                 notification = new Notification.Builder(context);
                 notification.setContentTitle(name);
-                notification.setContentText("アプリ通知テスト25まで");
+                notification.setContentText(content);
                 notification.setSmallIcon(R.drawable.ic_launcher_background);
                 notification.build();
             }else if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
@@ -74,7 +74,7 @@ public class AnnBackGround extends BroadcastReceiver {
                 //通知の生成と設定とビルド
                 notification = new Notification.Builder(context);
                 notification.setContentTitle(name);
-                notification.setContentText("アプリ通知テスト16以下まで");
+                notification.setContentText(content);
                 notification.setSmallIcon(R.drawable.ic_launcher_background);
                 notification.build();
 
