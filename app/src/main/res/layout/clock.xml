@@ -36,7 +36,8 @@
         android:text="日曜日"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:onClick="onCheckboxClicked"/>
 
     <CheckBox
         android:id="@+id/checkBoxMon"
@@ -44,7 +45,8 @@
         android:text="月曜日"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxSun" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxSun"
+        android:onClick="onCheckboxClicked"/>
 
     <CheckBox
         android:id="@+id/checkBoxTue"
@@ -52,7 +54,8 @@
         android:text="火曜日"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxMon" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxMon"
+        android:onClick="onCheckboxClicked"/>
 
     <CheckBox
         android:id="@+id/checkBoxWed"
@@ -60,7 +63,8 @@
         android:text="水曜日"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxTue" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxTue"
+        android:onClick="onCheckboxClicked"/>
 
     <CheckBox
         android:id="@+id/checkBoxThu"
@@ -68,7 +72,8 @@
         android:text="木曜日"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxWed" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxWed"
+        android:onClick="onCheckboxClicked"/>
 
     <CheckBox
         android:id="@+id/checkBoxFri"
@@ -76,7 +81,8 @@
         android:text="金曜日"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxThu" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxThu"
+        android:onClick="onCheckboxClicked"/>
 
     <CheckBox
         android:id="@+id/checkBoxSat"
@@ -84,7 +90,8 @@
         android:text="土曜日"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxFri" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxFri"
+        android:onClick="onCheckboxClicked"/>
 
 
     //アラームの箱

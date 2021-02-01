@@ -199,6 +199,18 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 /*        setContentView(R.layout.clock);
 */
+//        public void onCheckboxClicked(View CheckBox){
+//            final boolean checked = ((CheckBox) view).isChecked();
+//            switch (view.getId()){
+//                case R.id.checkBoxSun:
+//                    if (checked){
+//                        //チェックボックスにチェックが入る
+//                    }else{
+//                        //外れる
+//                    }
+//                    break;
+//            }
+//        }
 
         //保存ボタンを押下した時の処理
         findViewById(R.id.enter).setOnClickListener(new View.OnClickListener() {
@@ -271,18 +283,21 @@ public class AlarmCreateActivity extends AppCompatActivity {
                             dOW = 0;
                         }
                     }
-                    for(int i=0; i<=7; i++){//設定した直近の曜日と今日の日数の差を求める
+                    for(int i=0; i<7; i++){//設定した直近の曜日と今日の日数の差を求める
+                        Log.v("dOW",dOW+"");
+                        Log.v("CBResult",""+CBResult[dOW]);
                         if(CBResult[dOW]==1){
                             dOW = dOW - calendar.get(Calendar.DAY_OF_WEEK);
                             if(dOW<0){//マイナス（曜日が今週だと昨日以前）になったら、来週にする
                                 dOW = dOW + 7;
                             }
                             break;
-                        }else{//曜日が6(土曜)の場合-1にして日曜日に戻るようにする
-                            if(dOW == 6){
-                                dOW =-1;
+                        }else{
+                            dOW += 1;
+                            if(dOW == 7){//曜日が7(土曜の翌日)の場合0(日曜日)に
+                                dOW =-0;
                             }
-                            if(i==7){//曜日のチェックがない場合
+                            if(i==6){//曜日のチェックがない場合
                                // flag = 1;
                             }
                         }
