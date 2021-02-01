@@ -320,35 +320,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 setContentView(R.layout.clock);
                 try {
                     int CBResult[] = {0,0,0,0,0,0,0};
-                    final CheckBox checkboxSun = (CheckBox)findViewById(R.id.checkBoxSun);
-                    final CheckBox checkboxMon = (CheckBox)findViewById(R.id.checkBoxMon);
-                    final CheckBox checkboxTue = (CheckBox)findViewById(R.id.checkBoxTue);
-                    final CheckBox checkboxWed = (CheckBox)findViewById(R.id.checkBoxWed);
-                    final CheckBox checkboxThu = (CheckBox)findViewById(R.id.checkBoxThu);
-                    final CheckBox checkboxFri = (CheckBox)findViewById(R.id.checkBoxFri);
-                    final CheckBox checkboxSta = (CheckBox)findViewById(R.id.checkBoxSat);
-
-                    if(checkboxSun.isChecked() == true) {
-                        CBResult[0] =1;
-                    }
-                    if(checkboxMon.isChecked()==true){
-                        CBResult[1]=1;
-                    }
-                    if(checkboxTue.isChecked()==true){
-                        CBResult[2]=1;
-                    }
-                    if(checkboxWed.isChecked()==true){
-                        CBResult[3]=1;
-                    }
-                    if(checkboxThu.isChecked()==true){
-                        CBResult[4]=1;
-                    }
-                    if(checkboxFri.isChecked()==true){
-                        CBResult[5]=1;
-                    }
-                    if(checkboxSta.isChecked()==true){
-                        CBResult[6]=1;
-                    }
 
 
                     Calendar calendar = Calendar.getInstance(); //現在時刻を取得
@@ -429,8 +400,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,ランダム化したアラームの時間(H)の変数名,ランダム化したアラームの時間(M)の変数名,db);
 
                 try {
-                    Log.v("try直下",""+flag);
-                    if(flag == 0){
+                    Log.v("try直下", "" + flag);
+                    if (flag == 0) {
                         if (tapId == -1) {
                             Log.v("try", "try の先頭を実行");
                             //保存されている最大の_idを取得するSQL文
@@ -444,7 +415,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                 Log.v("try", "" + alarmId);
                             }
                             alarmId += 1;
-                            createAlerm();
                             //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
                             String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, randomTime) VALUES (?, ?, ?, ?, ?, ?)";
                             //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, randomTime, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -459,53 +429,50 @@ public class AlarmCreateActivity extends AppCompatActivity {
 //            stmt.bindLong(8,繰り返し曜日設定(アナウンス));
 //            stmt.bindLong(9,アナウンスタイミング);
 //            stmt.bindLong(10,);
-                    if (tapId == -1) {
-                        Log.v("try", "try の先頭を実行");
-                        //保存されている最大の_idを取得するSQL文
-                        String sql = "SELECT * FROM alarmList";
-                        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
-                        String str;
-                        while (cursor.moveToNext()) {
-                            int idxId = cursor.getColumnIndex("_id");
-                            str = cursor.getString(idxId);
-                            alarmId = Integer.parseInt(str);
-                            Log.v("try", "" + alarmId);
-                        }
-                        alarmId += 1;
-                        createAlerm();
-                        //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
-                        String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
-                        //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, rAlmHour, rAlmMinute, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                        SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
-                        stmt.bindLong(1, alarmId);       //alarmListの1つ目のVALUESにalarmIdを入れる
-                        stmt.bindLong(2, setTAlmHour);
-                        stmt.bindLong(3, setTAlmMinute);
-                        stmt.bindLong(4, setTAnnHour);
-                        stmt.bindLong(5, setTAnnMinute);
+                            if (tapId == -1) {
+                                Log.v("try", "try の先頭を実行");
+                                //保存されている最大の_idを取得するSQL文
+                                sql = "SELECT * FROM alarmList";
+                                @SuppressLint("Recycle") Cursor cursor = db.rawQuery(sql, null);//SQL文を実行して結果をcursorに格納
+                                String str;
+                                while (cursor.moveToNext()) {
+                                    int idxId = cursor.getColumnIndex("_id");
+                                    str = cursor.getString(idxId);
+                                    alarmId = Integer.parseInt(str);
+                                    Log.v("try", "" + alarmId);
+                                }
+                                alarmId += 1;
+                                //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
+                                sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute) VALUES (?, ?, ?, ?, ?)";
+                                //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, rAlmHour, rAlmMinute, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
+                                stmt.bindLong(1, alarmId);       //alarmListの1つ目のVALUESにalarmIdを入れる
+                                stmt.bindLong(2, setTAlmHour);
+                                stmt.bindLong(3, setTAlmMinute);
+                                stmt.bindLong(4, setTAnnHour);
+                                stmt.bindLong(5, setTAnnMinute);
 //            stmt.bindLong(6,ランダム化したアラームの時間(H));
 //            stmt.bindLong(7,ランダム化したアラームの時間(M));
 //            stmt.bindLong(8,繰り返し曜日設定(アラーム));
 //            stmt.bindLong(9,繰り返し曜日設定(アナウンス));
 //            stmt.bindLong(10,アナウンスタイミング);
 
-                            stmt.executeInsert();       //SQL文を実行（データベースに保存）
-                        } else if (tapId != -1) {
-                            //以下更新動作
-                            ContentValues cv = new ContentValues();  //更新用
-                            int alarmId = tapId;
-                            createAlerm();
-                        stmt.executeInsert();       //SQL文を実行（データベースに保存）
-                    } else if (tapId != -1) {
-                        //以下更新動作
-                        int alarmId = tapId;
-                        createAlerm();
-                        ContentValues cv = new ContentValues();  //更新用
+                                stmt.executeInsert();       //SQL文を実行（データベースに保存）
+                            } else if (tapId != -1) {
+                                //以下更新動作
+                                ContentValues cv = new ContentValues();  //更新用
+                                int alarmId = tapId;
+                                stmt.executeInsert();       //SQL文を実行（データベースに保存）
+                            } else if (tapId != -1) {
+                                //以下更新動作
+                                int alarmId = tapId;
+                                ContentValues cv = new ContentValues();  //更新用
 
-                            cv.put("_id", alarmId);
-                            cv.put("tAlmHour", setTAlmHour);
-                            cv.put("tAlmMinute", setTAlmMinute);
-                            cv.put("tAnnHour", setTAnnHour);
-                            cv.put("tAnnMinute", setTAnnMinute);
+                                cv.put("_id", alarmId);
+                                cv.put("tAlmHour", setTAlmHour);
+                                cv.put("tAlmMinute", setTAlmMinute);
+                                cv.put("tAnnHour", setTAnnHour);
+                                cv.put("tAnnMinute", setTAnnMinute);
 /*
                         cv.put("rAlmHou", ランダム化したアラームの時間(H));
                         cv.put("rAlmMinute", ランダム化したアラームの時間(M));
@@ -513,47 +480,47 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         cv.put("annRepeat", 繰り返し曜日設定(アナウンス));
                         cv.put("timing", アナウンスタイミング);
 */
-                            db.update("alarmList", cv, "_id = " + alarmId, null);
+                                db.update("alarmList", cv, "_id = " + alarmId, null);
+                            }
+                        } else if (flag == 1) {
+                            //Toast.makeText(context , "保存できませんでした(曜日にチェックを入れてください)", Toast.LENGTH_LONG).show();
+                            Log.v("370", "保存できませんでした");
                         }
-                    }else if(flag==1){
-                        //Toast.makeText(context , "保存できませんでした(曜日にチェックを入れてください)", Toast.LENGTH_LONG).show();
-                        Log.v("370","保存できませんでした");
                     }
-                } finally {
-                }
+                    } finally{
 
-            private void createAlerm() {
-
+                    }
 
 
-                Random random = new Random();
-                int randomValue = random.nextInt(1);
-                randomValue = randomValue-1;
 
-                setContentView(R.layout.clock);
-                try {
+                    random = new Random();
+                    randomValue = random.nextInt(1);
+                    randomValue = randomValue - 1;
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
-                    String strtime = Integer.toString(setTAlmMinute);//intをstringに直す
-                    Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
+                    setContentView(R.layout.clock);
+                    try {
 
-                    Calendar keisan = Calendar.getInstance();//計算処理
-                    keisan.setTime(date);
-                    keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
+                        SimpleDateFormat sdf = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
+                        String strtime = Integer.toString(setTAlmMinute);//intをstringに直す
+                        Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
 
-                    //データベース格納用型変換
-                    Date dateKekka = keisan.getTime();  //CalendarからDateへ
-                    String strKekka =  String.valueOf(dateKekka);   //DateからStringへ
-                    kekka = Integer.parseInt(strKekka);     //Stringからintへ
+                        Calendar keisan = Calendar.getInstance();//計算処理
+                        keisan.setTime(date);
+                        keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
 
-                } catch (ParseException e) {
+                        //データベース格納用型変換
+                        Date dateKekka = keisan.getTime();  //CalendarからDateへ
+                        String strKekka = String.valueOf(dateKekka);   //DateからStringへ
+                        kekka = Integer.parseInt(strKekka);     //Stringからintへ
 
-                }
-                //明示的なBroadCast
-                Intent intent = new Intent(getApplicationContext(),
-                        com.example.alarmapp.receiver.AlarmReceiver.class);
-                PendingIntent pending = PendingIntent.getBroadcast(
-                        getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    } catch (ParseException e) {
+
+                    }
+                    //明示的なBroadCast
+                    Intent intent = new Intent(getApplicationContext(),
+                            com.example.alarmapp.receiver.AlarmReceiver.class);
+                    PendingIntent pending = PendingIntent.getBroadcast(
+                            getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     // アラームをセットする
                     Calendar calendar = Calendar.getInstance();
@@ -575,10 +542,10 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         //ここにデータベースにランダム時間をセットする。//
                     }
 
-                //設定後メインに戻る
-                Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
-                startActivity(intent2);
-            }
+                    //設定後メインに戻る
+                    Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
+                    startActivity(intent2);
+                }
         });
         //削除メソッド
         findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
@@ -611,6 +578,4 @@ public class AlarmCreateActivity extends AppCompatActivity {
         });
 
 
-    }
-
-}
+            }
