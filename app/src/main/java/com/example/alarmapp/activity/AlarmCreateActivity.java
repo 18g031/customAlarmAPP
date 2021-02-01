@@ -475,9 +475,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
 
                     //データベース格納用型変換
-                    Date dateKekka = keisan.getTime();  //CalendarからDateへ
-                    String strKekka = String.valueOf(dateKekka);   //DateからStringへ
-                    kekka = Integer.parseInt(strKekka);     //Stringからintへ
+                    kekka = keisan.get(Calendar.MINUTE);  //Calendarからintへ
+//                    String strKekka = String.valueOf(dateKekka);   //DateからStringへ
+//                    kekka = Integer.parseInt(strKekka);     //Stringからintへ
 
                 } catch (ParseException e) {
 

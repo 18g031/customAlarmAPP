@@ -31,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動�
         sb.append("tAlmMinute INTEGER,");
         sb.append("tAnnHour INTEGER,");    //出発の設定時間
         sb.append("tAnnMinute INTEGER,");
-        sb.append("randomTime INTEGER");     //ランダム化したアラームの設定時間
+        sb.append("randomTime INTEGER,");     //ランダム化したアラームの設定時間
         sb.append("tAnnMinute INTEGER");
 //        sb.append("rAlmHour INTEGER,");     //ランダム化したアラームの設定時間
 //        sb.append("rAlmMinute INTEGER,");
@@ -58,7 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動�
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //抽象メソッドなので必須
-        //アプリのアップデート時にDBの構造の更新があった場合のみ、アプリ内のDBを更新する
+        //アプリのアップデート時にDBの構造の更新があった場合のみ、アプリ内のDBを更新する(できません)
         db.execSQL("DROP TABLE IF EXISTS alarmList;");
         onCreate(db);
 
