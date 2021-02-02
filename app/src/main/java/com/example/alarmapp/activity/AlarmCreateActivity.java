@@ -17,6 +17,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -43,6 +45,9 @@ import java.util.Random;
 
 public class AlarmCreateActivity extends AppCompatActivity {
     public static Context context;
+    public boolean Alm = true;
+    public boolean Ann = true;
+    int RandInt = 1;//Random範囲格納変数
 
     private final boolean[] mWeekCheckedItems = {false, false, false, false, false, false, false};
     private final boolean[] mAlmCheckedItems = {false, false, false, false, false};
@@ -54,6 +59,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
     int alarmId = -1;
     int annId = -1;
     int rTime;
+    private Switch AlmSwitch = findViewById(R.id.switchAlm);
+    private Switch AnnSwitch = findViewById(R.id.switchAnn);
+
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
 
     //以下timePicker用フォーマット変数（複数回使っていたので頭にまとめました）
@@ -170,14 +178,14 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-/*
+
         tv_alm_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder
                         (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
 
-                final String[] items = {"30分前から", "20分前から", "15分前から", "10分前から", "5分前から"};
+                final String[] items = {"30分前から", "20分前から", "15分前から", "10分前から", "5分前から", "無効"};
                 alertDialog.setTitle("ランダム範囲");
                 alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
@@ -191,6 +199,19 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         for (int i = 0; i < mAlmCheckedItems.length; i++) {
                             if (mAlmCheckedItems[i] == true) {
                                 str += items[i];
+                                if (i == 0) {
+                                    RandInt = 31;
+                                } else if (i == 1) {
+                                    RandInt = 21;
+                                } else if (i == 2) {
+                                    RandInt = 16;
+                                } else if (i == 3) {
+                                    RandInt = 11;
+                                } else if (i == 4) {
+                                    RandInt = 6;
+                                } else {
+                                    RandInt = 1;
+                                }
                             }
                         }
                         if (str == null) {
@@ -201,7 +222,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 });
                 alertDialog.show();
             }
-        });*/
+        });
 
         tv_ann_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -306,95 +327,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int flag = 0;
-
-                //ランダム化
-                Random random = new Random();
-                int randomValue = random.nextInt(30);
-                randomValue = randomValue - 1;
-                Log.v("randV", "" + randomValue);
-
-                setContentView(R.layout.clock);
-                try {
-                    int[] CBResult = {0, 0, 0, 0, 0, 0, 0};
-
-
-                    Calendar calendar = Calendar.getInstance(); //現在時刻を取得
-                    int dOW = calendar.get(Calendar.DAY_OF_WEEK); //今日の曜日(日=1、土=7)
-                    int setYear = calendar.get(Calendar.YEAR);  //取得した現在時刻から年をint型に格納
-                    int setMonth = calendar.get(Calendar.MONTH);
-                    int setDate = calendar.get(Calendar.DATE);
-                    // 冗長なので書き換えます
-//                    if (calendar.get(Calendar.HOUR) < setTAlmHour) { //現在時刻の時間<アラームの設定時間.今日鳴らしたい
-//                        dOW = dOW - 1;
-//                    } else if (calendar.get(Calendar.HOUR) == setTAlmMinute) {
-//                        if (calendar.get(Calendar.MINUTE) < setTAlmMinute) {//今日鳴らす
-//                            dOW = dOW - 1;
-//                            int m = setTAlmMinute - calendar.get(Calendar.MINUTE);
-//                            if (m < 30) {//今日鳴らす。現在から30分以内の設定時間の場合、randomValueを変える
-//                                randomValue = random.nextInt(m);
-//                            }
-//                        } else {   //今日は鳴らさない
-//                            if (dOW == 7) {
-//                                dOW = 0;
-//                            }
-//                        }
-//                    } else { //今日は鳴らさない
-//                        if (dOW == 7) {
-//                            dOW = 0;
-//                        }
-//                    }
-//                    for (int i = 0; i < 7; i++) {//設定した直近の曜日と今日の日数の差を求める
-//                        Log.v("dOW", dOW + "");
-//                        Log.v("CBResult", "" + CBResult[dOW]);
-//                        if (CBResult[dOW] == 1) {
-//                            dOW = dOW - calendar.get(Calendar.DAY_OF_WEEK);
-//                            if (dOW < 0) {//マイナス（曜日が今週だと昨日以前）になったら、来週にする
-//                                dOW = dOW + 7;
-//                            }
-//                            break;
-//                        } else {
-//                            dOW += 1;
-//                            if (dOW == 7) {//曜日が7(土曜の翌日)の場合0(日曜日)に
-//                                dOW = -0;
-//                            }
-//                            if (i == 6) {//曜日のチェックがない場合
-//                                // flag = 1;
-//                            }
-//                        }
-//                    }
-//                    calendar.set(setYear, setMonth, setDate, setTAlmHour, setTAlmMinute);   //取得した今日の日付にアラームの設定時間を合わせたものを格納
-//                    calendar.add(Calendar.DATE, dOW);//今日の日付に差を足す
-//                    calendar.add(Calendar.MINUTE, -randomValue); //設定された時間をランダム化
-
-
-//                    SimpleDateFormat sdf = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
-//                    String strtime = Integer.toString(setTAlmMinute);//intをstringに直す
-//                    Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
-//
-//                    Calendar keisan = Calendar.getInstance();//計算処理
-//                    keisan.setTime(date);
-//                    keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
-
-                    //データベース格納用型変換
-                    Date dateRTime = calendar.getTime();  //CalendarからDateへ
-                    SimpleDateFormat sdf2 = new SimpleDateFormat("yyMMddhhmm");
-                    rTime = Integer.parseInt(sdf2.format(dateRTime));   //yyMMddhhmmでint型に。
-                    Log.v("ACA_282", "" + rTime);
-
-
-                    // } catch (ParseException e) {
-
-                } finally {
-
-                }
-
                 //データベースヘルパーオブジェクトを作成
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
-                //AlarmListクラスでアラームデータをデータベースに保存
-                ////AlarmListクラスでアラームデータをデータベースに保存
-                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
-                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,ランダム化したアラームの時間(H)の変数名,ランダム化したアラームの時間(M)の変数名,db);
 
                 try {
                     Log.v("try直下", "" + flag);
@@ -456,96 +391,116 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 }
 
 
-                random = new Random();
-                int RandInt = 1;
-                randomValue = random.nextInt(RandInt);
-                randomValue = randomValue - 1;
+                if (Alm == true) {
+                    Random random = new Random();
+                    int randomValue = random.nextInt(RandInt);
+                    randomValue = randomValue - 1;
 
-                setContentView(R.layout.clock);
-                try {
+                    setContentView(R.layout.clock);
+                    try {
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("MM,dd,hh:mm");//date型に変えるためのインスタンス
-                    String strtime = setTAlmHour + ":" + setTAlmMinute;//Integer.toString(setTAlmMinute);//intをstringに直す
-                    Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
+                        SimpleDateFormat sdf = new SimpleDateFormat("MM,dd,hh:mm");//date型に変えるためのインスタンス
+                        String strtime = setTAlmHour + ":" + setTAlmMinute;//Integer.toString(setTAlmMinute);//intをstringに直す
+                        Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
 
-                    Calendar keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
-                    keisan.setTime(date);
-                    keisan.add(Calendar.MINUTE, -RandInt);
-                    if (keisan.getTimeInMillis() > 0) {
+                        Calendar keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
                         keisan.setTime(date);
-                        keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
-                    } else {
-                        keisan.setTime(date);
-                        keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
-                        keisan.add(Calendar.DAY_OF_WEEK_IN_MONTH, +7);
-                    }
-                    //データベース格納用型変換
-                    kekka = keisan.get(Calendar.MINUTE);  //Calendarからintへ
+                        keisan.add(Calendar.MINUTE, -RandInt);
+                        if (keisan.getTimeInMillis() > 0) {
+                            keisan.setTime(date);
+                            keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
+                        } else {
+                            keisan.setTime(date);
+                            keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
+                            keisan.add(Calendar.DAY_OF_WEEK_IN_MONTH, +7);
+                        }
+                        //データベース格納用型変換
+                        kekka = keisan.get(Calendar.MINUTE);  //Calendarからintへ
 //                    String strKekka = String.valueOf(dateKekka);   //DateからStringへ
 //                    kekka = Integer.parseInt(strKekka);     //Stringからintへ
 
-                } catch (ParseException e) {
+                    } catch (ParseException e) {
 
-                }
-                //明示的なBroadCast
-                Intent intent = new Intent(getApplicationContext(),
-                        com.example.alarmapp.receiver.AlarmReceiver.class);
-                PendingIntent pending = PendingIntent.getBroadcast(
-                        getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                // アラームをセットする
-                Calendar calendar = Calendar.getInstance();
-                //設定した時間-現在時刻
-                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-                if (am != null) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending);
-                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);//getTimeInMillis:calendarと現在時刻の差分取得
-                    } else {
-                        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
                     }
-                    Toast.makeText(getApplicationContext(),
-                            "Set Alarm ", Toast.LENGTH_SHORT).show();
-                    am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending);
+                    //明示的なBroadCast
+                    Intent intent = new Intent(getApplicationContext(),
+                            com.example.alarmapp.receiver.AlarmReceiver.class);
+                    PendingIntent pending = PendingIntent.getBroadcast(
+                            getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    // アラームをセットする
+                    Calendar calendar = Calendar.getInstance();
+                    //設定した時間-現在時刻
+                    AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    if (am != null) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending);
+                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);//getTimeInMillis:calendarと現在時刻の差分取得
+                        } else {
+                            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+                        }
+                        Toast.makeText(getApplicationContext(),
+                                "Set Alarm ", Toast.LENGTH_SHORT).show();
+                        am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending);
 
 
-                    //ここにデータベースにランダム時間をセットする。//
+                        //ここにデータベースにランダム時間をセットする。//
+                    }
+                } else if (Alm == false) {
+                    try {
+                        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        pending.cancel();
+                        alarmManager.cancel(pending);
+                    } finally {
+
+                    }
                 }
+
 
                 //設定後メインに戻る
                 Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
                 startActivity(intent2);
             }
         });
-        //削除メソッド
-        findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
+        AlmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                if (tapId != -1) {
-                    //以下データベース削除
-                    DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
-                    SQLiteDatabase db = helper.getWritableDatabase();
-                    DatabaseHelper.alarmDelete(tapId, db);
-
-                    //以下アラームのキャンセル
-                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                    Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                    PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    pending.cancel();
-                    alarmManager.cancel(pending);
-
-                    Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
-                    startActivity(intent2);
-                } else {
-                    Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
-                    startActivity(intent2);
-                }
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Alm = isChecked;
             }
-
-
+        });
+        AnnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Ann = isChecked;
+            }
         });
 
-
     }
+    //削除メソッド
+
+    public void delAlarm(View view) {
+        if (alarmId != -1) {
+            //以下データベース削除
+            DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
+            SQLiteDatabase db = helper.getWritableDatabase();
+            DatabaseHelper.alarmDelete(alarmId, db);
+
+            //以下アラームのキャンセル
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+            PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            pending.cancel();
+            alarmManager.cancel(pending);
+
+            Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
+            startActivity(intent2);
+        } else {
+            Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
+            startActivity(intent2);
+        }
+    }
+
 }
