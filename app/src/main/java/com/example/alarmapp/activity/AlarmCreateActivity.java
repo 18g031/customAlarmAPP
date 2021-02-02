@@ -1,9 +1,7 @@
 package com.example.alarmapp.activity;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
@@ -196,9 +194,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder
                         (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
 
-                final String[] items = {"30分前から", "20分前から", "15分前から", "10分前から", "5分前から", "無効"};
+                final String[] almItems = {"30分前から", "20分前から", "15分前から", "10分前から", "5分前から", "無効"};
                 alertDialog.setTitle("ランダム範囲");
-                alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
+                alertDialog.setSingleChoiceItems(almItems, checkedItem, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         checkedItem = item;
                     }
@@ -209,7 +207,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         String str = null;
                         for (int i = 0; i < mAlmCheckedItems.length; i++) {
                             if (mAlmCheckedItems[i] == true) {
-                                str += items[i];
+                                str += almItems[i];
                                 if (i == 0) {
                                     RandInt = 31;
                                 } else if (i == 1) {
@@ -240,9 +238,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder
                         (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
 
-                final String[] items = {"シェイク", "通常"};
+                final String[] stopItems = {"シェイク", "通常"};
                 alertDialog.setTitle("停止方法");
-                alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
+                alertDialog.setSingleChoiceItems(stopItems, checkedItem, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         checkedItem = item;
                     }
@@ -253,7 +251,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         String str = null;
                         for (int i = 0; i < mAlmCheckedItems2.length; i++) {
                             if (mAlmCheckedItems2[i] == true) {
-                                str += items[i];
+                                str += stopItems[i];
                             }
                         }
                         if (str == null) {
@@ -273,9 +271,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder
                         (AlarmCreateActivity.this, android.R.style.Theme_Material_Dialog);
 
-                final String[] items = {"30分前", "20分前", "15分前", "10分前", "5分前", "設定時刻"};
+                final String[] annItems = {"30分前", "20分前", "15分前", "10分前", "5分前", "設定時刻"};
                 alertDialog.setTitle("通知タイミング");
-                alertDialog.setMultiChoiceItems(items, mAnnCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                alertDialog.setMultiChoiceItems(annItems, mAnnCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         mAnnCheckedItems[which] = isChecked;
@@ -287,7 +285,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         String str = null;
                         for (int i = 0; i < mAnnCheckedItems.length; i++) {
                             if (mAnnCheckedItems[i] == true) {
-                                str += items[i];
+                                str += annItems[i];
                             }
                         }
                         if (str == null) {
@@ -508,27 +506,38 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 }
                 if (Ann == true) {
 
-
-                    int aaa[] = new int[6];
+                    int[] aaa = new int[6];
 
                     for (int i = 0; i < aaa.length; i++) {
                         aaa[i] = -1;
                     }
 
-
-                    int ANtime = 30;
+                    int annInt = 0;
+                    int annListInt = 0;
                     //"30分前", "20分前", "15分前", "10分前", "5分前", "設定時刻"
                     for (int i = 0; i < mAnnCheckedItems.length; i++) {
                         if (mAnnCheckedItems[i] == true) {
-                            aaa[i] = ANtime;
-                            ANtime = ANtime - 5;
                             if (i == 1) {
-                                ANtime = ANtime - 5;
+
+                                if (i == 0) {
+                                    annInt = 30;
+                                } else if (i == 1) {
+                                    annInt = 20;
+                                } else if (i == 2) {
+                                    annInt = 15;
+                                } else if (i == 3) {
+                                    annInt = 10;
+                                } else if (i == 4) {
+                                    annInt = 5;
+                                } else {
+                                    annInt = 0;
+                                }
+                                aaa[i] = annInt;
+
                             }
                         }
                         AnnID = alarmId * 10 + i;
                     }
-
 
                     for (int g = 0; g < aaa.length; g++) {
 
@@ -536,14 +545,21 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         Calendar calendar2 = Calendar.getInstance();
                         try {
 
-                            SimpleDateFormat sdf2 = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
-                            String strtime2 = Integer.toString(setTAnnMinute);//intをstringに直す
+                            SimpleDateFormat sdf2 = new SimpleDateFormat("MM,dd,hh:mm");//date型に変えるためのインスタンス
+                            String strtime2 = setTAnnHour + ":" + setTAnnMinute;//intをstringに直す
                             Date date2 = sdf2.parse(strtime2);//ｓｔｒDateをdate型に変換
 
-                            Calendar keisan2 = Calendar.getInstance();//計算処理
-                            keisan2.setTime(date2);
-                            keisan2.add(Calendar.MINUTE, -aaa[g]);//minuteには鳴る時間がはいってる。
-
+                            Calendar keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
+                            keisan.setTime(date2);
+                            keisan.add(Calendar.MINUTE, -aaa[g]);
+                            if (keisan.getTimeInMillis() > 0) {
+                                keisan.setTime(date2);
+                                keisan.add(Calendar.MINUTE, -aaa[g]);//minuteには鳴る時間がはいってる。
+                            } else {
+                                keisan.setTime(date2);
+                                keisan.add(Calendar.MINUTE, -aaa[g]);//minuteには鳴る時間がはいってる。
+                                keisan.add(Calendar.DAY_OF_WEEK_IN_MONTH, +7);
+                            }
                         } catch (ParseException e) {
 
                         }
@@ -556,7 +572,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                     }
                 } else if (Ann == false) {
-                            if (tapId != -1) {
                                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                                 for (AnnDEL = 0; AnnDEL < 6; AnnDEL++) {
@@ -566,7 +581,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                     alarmManager.cancel(pending);
                                     // AnnID = AnnID + 10+;
                                 }
-                            }
                 }
 
 
@@ -635,4 +649,3 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 }
 
-}

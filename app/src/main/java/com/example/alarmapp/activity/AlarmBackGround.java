@@ -1,17 +1,12 @@
 package com.example.alarmapp.activity;
 
-import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
-import androidx.appcompat.app.AppCompatActivity;
-import android.widget.Button;
 
-import com.example.alarmapp.R;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -39,15 +34,9 @@ public class AlarmBackGround extends AppCompatActivity
         private String g = "出発時刻です";
 
         //tts
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-            Intent intent = getIntent();
-        }
 
 
-        @Override
+    @Override
         public void onInit(int status) {
             // TTS初期化
             if (TextToSpeech.SUCCESS == status) {

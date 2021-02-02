@@ -1,18 +1,16 @@
 package com.example.alarmapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alarmapp.R;
 import com.example.alarmapp.Util.DatabaseHelper;
@@ -93,8 +91,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void onClickConfig(View view) {
-        Intent intent = new Intent(MainActivity.this, ConfigActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(MainActivity.this, ConfigActivity.class);
+//        startActivity(intent);
     }
 
     public void onClickNewAlarm(View view) {
