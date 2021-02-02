@@ -45,10 +45,13 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
     private final boolean[] mWeekCheckedItems = {false,false,false,false,false,false,false};
     private final boolean[] mAlmCheckedItems = {false,false,false,false,false};
+    private final boolean[] mAlmCheckedItems2 = {false,false};
+    private final boolean[] mAlmCheckedItems3 = {false,false,false,false,false};
     private final boolean[] mAnnCheckedItems = {false,false,false,true,false,true};
     int checkedItem = 0;
 
-    TextView tvAlmTimer, tvAnnTimer, tvWeek, tv_alm_checkbox, tv_ann_checkbox;
+    TextView tvAlmTimer, tvAnnTimer,
+            tvWeek, tv_alm_checkbox, tv_alm_checkbox2, tv_alm_checkbox3, tv_ann_checkbox;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
 
@@ -70,6 +73,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
         tvAnnTimer = findViewById(R.id.tv_ann_timer);
         tvWeek = findViewById(R.id.tv_week);
         tv_alm_checkbox = findViewById(R.id.tv_alm_checkbox);
+        tv_alm_checkbox2 = findViewById(R.id.tv_alm_checkbox2);
+        tv_alm_checkbox3 = findViewById(R.id.tv_alm_checkbox3);
         tv_ann_checkbox = findViewById(R.id.tv_ann_checkbox);
 
         final Intent intent = getIntent();
@@ -183,6 +188,70 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         String str = null;
                         for (int i = 0; i < mAlmCheckedItems.length; i++) {
                             if (mAlmCheckedItems[i] == true) {
+                                str += items[i];
+                            }
+                        }
+                        if (str == null) {
+                            str = "No Selected";
+                        }
+                        Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+
+        tv_alm_checkbox2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder
+                        (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
+
+                final String[] items = {"シェイク", "通常"};
+                alertDialog.setTitle("停止方法");
+                alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        checkedItem = item;
+                    }
+                });
+                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int idx) {
+                        String str = null;
+                        for (int i = 0; i < mAlmCheckedItems2.length; i++) {
+                            if (mAlmCheckedItems2[i] == true) {
+                                str += items[i];
+                            }
+                        }
+                        if (str == null) {
+                            str = "No Selected";
+                        }
+                        Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+
+        tv_alm_checkbox3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder
+                        (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
+
+                final String[] items = {"アラーム音1", "アラーム音2", "ランダム生成"};
+                alertDialog.setTitle("アラーム音");
+                alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        checkedItem = item;
+                    }
+                });
+                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int idx) {
+                        String str = null;
+                        for (int i = 0; i < mAlmCheckedItems3.length; i++) {
+                            if (mAlmCheckedItems3[i] == true) {
                                 str += items[i];
                             }
                         }
