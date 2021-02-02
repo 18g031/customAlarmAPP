@@ -36,7 +36,7 @@
         android:layout_gravity="center"
         android:hint="繰り返し曜日"
         android:textColorHint="@color/secondaryText"
-        android:textSize="18dp"
+        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="@id/toolbar"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -69,7 +69,6 @@
                 android:layout_height="wrap_content" />
 
         </androidx.appcompat.widget.Toolbar>
-
 
         <TextView
             android:id="@+id/tv_alm_timer"
@@ -168,8 +167,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_ann" />
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,12 +49,15 @@ public class AlarmCreateActivity extends AppCompatActivity {
     public boolean Ann = true;
     int RandInt = 1;//Random範囲格納変数
 
-    private final boolean[] mWeekCheckedItems = {false, false, false, false, false, false, false};
-    private final boolean[] mAlmCheckedItems = {false, false, false, false, false};
-    private final boolean[] mAnnCheckedItems = {false, false, false, true, false, true};
+    private final boolean[] mWeekCheckedItems = {false,false,false,false,false,false,false};
+    private final boolean[] mAlmCheckedItems = {false,false,false,false,false};
+    private final boolean[] mAlmCheckedItems2 = {false,false};
+    private final boolean[] mAlmCheckedItems3 = {false,false,false,false,false};
+    private final boolean[] mAnnCheckedItems = {false,false,false,true,false,true};
     int checkedItem = 0;
 
-    TextView tvAlmTimer, tvAnnTimer, tvWeek, tv_alm_checkbox, tv_ann_checkbox;
+    TextView tvAlmTimer, tvAnnTimer,
+            tvWeek, tv_alm_checkbox, tv_alm_checkbox2, tv_alm_checkbox3, tv_ann_checkbox;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
     int alarmId = -1;
     int annId = -1;
@@ -85,6 +88,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
         tvAnnTimer = findViewById(R.id.tv_ann_timer);
         tvWeek = findViewById(R.id.tv_week);
         tv_alm_checkbox = findViewById(R.id.tv_alm_checkbox);
+        tv_alm_checkbox2 = findViewById(R.id.tv_alm_checkbox2);
+        tv_alm_checkbox3 = findViewById(R.id.tv_alm_checkbox3);
         tv_ann_checkbox = findViewById(R.id.tv_ann_checkbox);
 
         final Intent intent = getIntent();
@@ -225,6 +230,38 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+        tv_alm_checkbox2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder
+                        (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
+
+                final String[] items = {"シェイク", "通常"};
+                alertDialog.setTitle("停止方法");
+                alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        checkedItem = item;
+                    }
+                });
+                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int idx) {
+                        String str = null;
+                        for (int i = 0; i < mAlmCheckedItems2.length; i++) {
+                            if (mAlmCheckedItems2[i] == true) {
+                                str += items[i];
+                            }
+                        }
+                        if (str == null) {
+                            str = "No Selected";
+                        }
+                        Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+
 
         tv_ann_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,6 +309,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                 setTAlmHour = hourOfDay;
                                 setTAlmMinute = minute;
                                 String time = setTAlmHour + ":" + setTAlmMinute;
+
                                 try {
                                     Date date = f24Hours.parse(time);
                                     tvAlmTimer.setText(f12Hours.format(date));
