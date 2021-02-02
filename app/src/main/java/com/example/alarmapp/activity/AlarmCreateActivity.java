@@ -1,7 +1,9 @@
 package com.example.alarmapp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
@@ -60,6 +62,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
             tvWeek, tv_alm_checkbox, tv_alm_checkbox2, tv_alm_checkbox3, tv_ann_checkbox;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
     int alarmId = -1;
+    int AnnID = 0;
+    int AnnDEL = 0;
     int annId = -1;
     int rTime;
     private Switch AlmSwitch = null;
@@ -370,6 +374,10 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 //データベースヘルパーオブジェクトを作成
                 DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
                 SQLiteDatabase db = helper.getWritableDatabase();
+                //AlarmListクラスでアラームデータをデータベースに保存
+                ////AlarmListクラスでアラームデータをデータベースに保存
+                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
+                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,ランダム化したアラームの時間(H)の変数名,ランダム化したアラームの時間(M)の変数名,db);
 
                 try {
                     Log.v("try直下", "" + flag);
@@ -499,9 +507,66 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     }
                 }
                 if (Ann == true) {
-                    //アナウンス登録の記述場所
+
+
+                    int aaa[] = new int[6];
+
+                    for (int i = 0; i < aaa.length; i++) {
+                        aaa[i] = -1;
+                    }
+
+
+                    int ANtime = 30;
+                    //"30分前", "20分前", "15分前", "10分前", "5分前", "設定時刻"
+                    for (int i = 0; i < mAnnCheckedItems.length; i++) {
+                        if (mAnnCheckedItems[i] == true) {
+                            aaa[i] = ANtime;
+                            ANtime = ANtime - 5;
+                            if (i == 1) {
+                                ANtime = ANtime - 5;
+                            }
+                        }
+                        AnnID = alarmId * 10 + i;
+                    }
+
+
+                    for (int g = 0; g < aaa.length; g++) {
+
+
+                        Calendar calendar2 = Calendar.getInstance();
+                        try {
+
+                            SimpleDateFormat sdf2 = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
+                            String strtime2 = Integer.toString(setTAnnMinute);//intをstringに直す
+                            Date date2 = sdf2.parse(strtime2);//ｓｔｒDateをdate型に変換
+
+                            Calendar keisan2 = Calendar.getInstance();//計算処理
+                            keisan2.setTime(date2);
+                            keisan2.add(Calendar.MINUTE, -aaa[g]);//minuteには鳴る時間がはいってる。
+
+                        } catch (ParseException e) {
+
+                        }
+
+                        if (aaa[g] != -1) {
+                            calendar2.setTimeInMillis(System.currentTimeMillis());
+                            calendar2.add(Calendar.SECOND, Calendar.MINUTE);
+                            scheduleNotification("アナウンス通知", calendar2);
+                        }
+
+                    }
                 } else if (Ann == false) {
-                    //
+                            if (tapId != -1) {
+                                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+                                for (AnnDEL = 0; AnnDEL < 6; AnnDEL++) {
+                                    Intent intent = new Intent(getApplicationContext(), AnnBackGround.class);
+                                    PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), AnnID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                    pending.cancel();
+                                    alarmManager.cancel(pending);
+                                    // AnnID = AnnID + 10+;
+                                }
+                            }
                 }
 
 
@@ -509,6 +574,26 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
                 startActivity(intent2);
             }
+
+            private void scheduleNotification(String content, Calendar calendar) {
+                Intent notificationIntent = new Intent(getApplicationContext(), AnnBackGround.class);
+                notificationIntent.putExtra(AnnBackGround.NOTIFICATION_ID, AnnID);
+                notificationIntent.putExtra(AnnBackGround.NOTIFICATION_CONTENT, content);
+                PendingIntent pending2 = PendingIntent.getBroadcast(getApplicationContext(), AnnID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+                if (am != null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending2);
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending2);
+                    } else {
+                        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending2);
+                    }
+                }
+            }
+
+
         });
         AlmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -547,5 +632,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
             startActivity(intent2);
         }
     }
+
+}
 
 }
