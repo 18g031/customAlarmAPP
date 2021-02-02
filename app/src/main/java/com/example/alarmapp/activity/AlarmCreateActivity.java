@@ -1,6 +1,5 @@
 package com.example.alarmapp.activity;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -18,7 +17,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -251,8 +249,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                 setTAlmHour = hourOfDay;
                                 setTAlmMinute = minute;
                                 String time = setTAlmHour + ":" + setTAlmMinute;
-
-
                                 try {
                                     Date date = f24Hours.parse(time);
                                     tvAlmTimer.setText(f12Hours.format(date));
@@ -319,7 +315,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                 setContentView(R.layout.clock);
                 try {
-                    int CBResult[] = {0, 0, 0, 0, 0, 0, 0};
+                    int[] CBResult = {0, 0, 0, 0, 0, 0, 0};
 
 
                     Calendar calendar = Calendar.getInstance(); //現在時刻を取得
@@ -327,47 +323,48 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     int setYear = calendar.get(Calendar.YEAR);  //取得した現在時刻から年をint型に格納
                     int setMonth = calendar.get(Calendar.MONTH);
                     int setDate = calendar.get(Calendar.DATE);
-                    if (calendar.get(Calendar.HOUR) < setTAlmHour) { //現在時刻の時間<アラームの設定時間.今日鳴らしたい
-                        dOW = dOW - 1;
-                    } else if (calendar.get(Calendar.HOUR) == setTAlmMinute) {
-                        if (calendar.get(Calendar.MINUTE) < setTAlmMinute) {//今日鳴らす
-                            dOW = dOW - 1;
-                            int m = setTAlmMinute - calendar.get(Calendar.MINUTE);
-                            if (m < 30) {//今日鳴らす。現在から30分以内の設定時間の場合、randomValueを変える
-                                randomValue = random.nextInt(m);
-                            }
-                        } else {   //今日は鳴らさない
-                            if (dOW == 7) {
-                                dOW = 0;
-                            }
-                        }
-                    } else { //今日は鳴らさない
-                        if (dOW == 7) {
-                            dOW = 0;
-                        }
-                    }
-                    for (int i = 0; i < 7; i++) {//設定した直近の曜日と今日の日数の差を求める
-                        Log.v("dOW", dOW + "");
-                        Log.v("CBResult", "" + CBResult[dOW]);
-                        if (CBResult[dOW] == 1) {
-                            dOW = dOW - calendar.get(Calendar.DAY_OF_WEEK);
-                            if (dOW < 0) {//マイナス（曜日が今週だと昨日以前）になったら、来週にする
-                                dOW = dOW + 7;
-                            }
-                            break;
-                        } else {
-                            dOW += 1;
-                            if (dOW == 7) {//曜日が7(土曜の翌日)の場合0(日曜日)に
-                                dOW = -0;
-                            }
-                            if (i == 6) {//曜日のチェックがない場合
-                                // flag = 1;
-                            }
-                        }
-                    }
-                    calendar.set(setYear, setMonth, setDate, setTAlmHour, setTAlmMinute);   //取得した今日の日付にアラームの設定時間を合わせたものを格納
-                    calendar.add(Calendar.DATE, dOW);//今日の日付に差を足す
-                    calendar.add(Calendar.MINUTE, -randomValue); //設定された時間をランダム化
+                    // 冗長なので書き換えます
+//                    if (calendar.get(Calendar.HOUR) < setTAlmHour) { //現在時刻の時間<アラームの設定時間.今日鳴らしたい
+//                        dOW = dOW - 1;
+//                    } else if (calendar.get(Calendar.HOUR) == setTAlmMinute) {
+//                        if (calendar.get(Calendar.MINUTE) < setTAlmMinute) {//今日鳴らす
+//                            dOW = dOW - 1;
+//                            int m = setTAlmMinute - calendar.get(Calendar.MINUTE);
+//                            if (m < 30) {//今日鳴らす。現在から30分以内の設定時間の場合、randomValueを変える
+//                                randomValue = random.nextInt(m);
+//                            }
+//                        } else {   //今日は鳴らさない
+//                            if (dOW == 7) {
+//                                dOW = 0;
+//                            }
+//                        }
+//                    } else { //今日は鳴らさない
+//                        if (dOW == 7) {
+//                            dOW = 0;
+//                        }
+//                    }
+//                    for (int i = 0; i < 7; i++) {//設定した直近の曜日と今日の日数の差を求める
+//                        Log.v("dOW", dOW + "");
+//                        Log.v("CBResult", "" + CBResult[dOW]);
+//                        if (CBResult[dOW] == 1) {
+//                            dOW = dOW - calendar.get(Calendar.DAY_OF_WEEK);
+//                            if (dOW < 0) {//マイナス（曜日が今週だと昨日以前）になったら、来週にする
+//                                dOW = dOW + 7;
+//                            }
+//                            break;
+//                        } else {
+//                            dOW += 1;
+//                            if (dOW == 7) {//曜日が7(土曜の翌日)の場合0(日曜日)に
+//                                dOW = -0;
+//                            }
+//                            if (i == 6) {//曜日のチェックがない場合
+//                                // flag = 1;
+//                            }
+//                        }
+//                    }
+//                    calendar.set(setYear, setMonth, setDate, setTAlmHour, setTAlmMinute);   //取得した今日の日付にアラームの設定時間を合わせたものを格納
+//                    calendar.add(Calendar.DATE, dOW);//今日の日付に差を足す
+//                    calendar.add(Calendar.MINUTE, -randomValue); //設定された時間をランダム化
 
 
 //                    SimpleDateFormat sdf = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
@@ -460,20 +457,28 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 
                 random = new Random();
-                randomValue = random.nextInt(1);
+                int RandInt = 1;
+                randomValue = random.nextInt(RandInt);
                 randomValue = randomValue - 1;
 
                 setContentView(R.layout.clock);
                 try {
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("mm");//date型に変えるためのインスタンス
-                    String strtime = Integer.toString(setTAlmMinute);//intをstringに直す
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM,dd,hh:mm");//date型に変えるためのインスタンス
+                    String strtime = setTAlmHour + ":" + setTAlmMinute;//Integer.toString(setTAlmMinute);//intをstringに直す
                     Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
 
-                    Calendar keisan = Calendar.getInstance();//計算処理
+                    Calendar keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
                     keisan.setTime(date);
-                    keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
-
+                    keisan.add(Calendar.MINUTE, -RandInt);
+                    if (keisan.getTimeInMillis() > 0) {
+                        keisan.setTime(date);
+                        keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
+                    } else {
+                        keisan.setTime(date);
+                        keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
+                        keisan.add(Calendar.DAY_OF_WEEK_IN_MONTH, +7);
+                    }
                     //データベース格納用型変換
                     kekka = keisan.get(Calendar.MINUTE);  //Calendarからintへ
 //                    String strKekka = String.valueOf(dateKekka);   //DateからStringへ
