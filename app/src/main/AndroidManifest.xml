@@ -37,6 +37,14 @@
                 <action android:name="Alarm" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name="com.example.alarmapp.receiver.AnnReceiver"
+            android:permission="android.permission.Alarm"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="Ann" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

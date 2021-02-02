@@ -29,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.alarmapp.R;
 import com.example.alarmapp.Util.DatabaseHelper;
 import com.example.alarmapp.receiver.AlarmReceiver;
+import com.example.alarmapp.receiver.AnnReceiver;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -488,7 +489,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         }
                         Toast.makeText(getApplicationContext(),
                                 "Set Alarm ", Toast.LENGTH_SHORT).show();
-                        am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending);
+                        //am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending);
 
 
                         //ここにデータベースにランダム時間をセットする。//
@@ -517,7 +518,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     //"30分前", "20分前", "15分前", "10分前", "5分前", "設定時刻"
                     for (int i = 0; i < mAnnCheckedItems.length; i++) {
                         if (mAnnCheckedItems[i] == true) {
-                            if (i == 1) {
 
                                 if (i == 0) {
                                     annInt = 30;
@@ -535,11 +535,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                 aaa[i] = annInt;
 
                             }
-                        }
-                        AnnID = alarmId * 10 + i;
+
                     }
 
                     for (int g = 0; g < aaa.length; g++) {
+                        AnnID = alarmId * 10 + g;
 
 
                         Calendar calendar2 = Calendar.getInstance();
@@ -575,7 +575,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                                 for (AnnDEL = 0; AnnDEL < 6; AnnDEL++) {
-                                    Intent intent = new Intent(getApplicationContext(), AnnBackGround.class);
+                                    Intent intent = new Intent(getApplicationContext(), AnnReceiver.class);
                                     PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), AnnID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                                     pending.cancel();
                                     alarmManager.cancel(pending);
@@ -585,14 +585,14 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 
                 //設定後メインに戻る
-                Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
-                startActivity(intent2);
+                Intent intentmain = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
+                startActivity(intentmain);
             }
 
             private void scheduleNotification(String content, Calendar calendar) {
-                Intent notificationIntent = new Intent(getApplicationContext(), AnnBackGround.class);
-                notificationIntent.putExtra(AnnBackGround.NOTIFICATION_ID, AnnID);
-                notificationIntent.putExtra(AnnBackGround.NOTIFICATION_CONTENT, content);
+                Intent notificationIntent = new Intent(getApplicationContext(), AnnReceiver.class);
+                notificationIntent.putExtra(AnnReceiver.NOTIFICATION_ID, AnnID);
+                notificationIntent.putExtra(AnnReceiver.NOTIFICATION_CONTENT, content);
                 PendingIntent pending2 = PendingIntent.getBroadcast(getApplicationContext(), AnnID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -638,6 +638,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
             PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             pending.cancel();
             alarmManager.cancel(pending);
+            Intent annintent = new Intent(getApplicationContext(), AnnReceiver.class);
+            PendingIntent annpending = PendingIntent.getBroadcast(getApplicationContext(), AnnID, annintent, PendingIntent.FLAG_UPDATE_CURRENT);
+            annpending.cancel();
+            alarmManager.cancel(pending);
+            // AnnID = AnnID + 10+;
 
             Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
             startActivity(intent2);
