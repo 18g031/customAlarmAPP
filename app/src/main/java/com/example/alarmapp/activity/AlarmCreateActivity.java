@@ -3,6 +3,7 @@ package com.example.alarmapp.activity;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
@@ -53,6 +54,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
     TextView tvAlmTimer, tvAnnTimer, tvWeek, tv_alm_checkbox, tv_ann_checkbox;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
     int alarmId = -1;
+    int AnnID = 0;
+    int AnnDEL = 0;
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
 
     //以下timePicker用フォーマット変数（複数回使っていたので頭にまとめました）
@@ -167,6 +170,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
+
+
 /*
         tv_alm_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,7 +211,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder
-                        (AlarmCreateActivity.this,android.R.style.Theme_Material_Dialog);
+                        (AlarmCreateActivity.this, android.R.style.Theme_Material_Dialog);
 
                 final String[] items = {"30分前", "20分前", "15分前", "10分前", "5分前", "設定時刻"};
                 alertDialog.setTitle("通知タイミング");
@@ -234,7 +240,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
             }
         });
 
-                //アラームのTimePickerの処理
+        //アラームのTimePickerの処理
         tvAlmTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -408,15 +414,34 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                     //ここにデータベースにランダム時間をセットする。//
                 }
+                //アナウンス削除
+                       /* findViewById(R.id.Anndel).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (tapId != -1) {
+                                    AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+                                    for (AnnDEL = 0; AnnDEL < 6; AnnDEL++) {
+                                        Intent intent = new Intent(getApplicationContext(), AnnBackGround.class);
+                                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), AnnID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                        pending.cancel();
+                                        alarmManager.cancel(pending);
+                                       // AnnID = AnnID + 10+;
+                                    }
+                                }
+
+                        */
+                //アナウンス
                 Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
                 startActivity(intent2);
+
 
                 int aaa[] = new int[6];
 
                 for (int i = 0; i < aaa.length; i++) {
                     aaa[i] = -1;
                 }
+
 
                 int ANtime = 30;
                 //"30分前", "20分前", "15分前", "10分前", "5分前", "設定時刻"
@@ -428,7 +453,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
                             ANtime = ANtime - 5;
                         }
                     }
+                    AnnID = alarmId * 10 + i;
                 }
+
 
                 for (int g = 0; g < aaa.length; g++) {
 
@@ -457,26 +484,28 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 }
 
             }
-                private void scheduleNotification(String content, Calendar calendar){
-                    Intent notificationIntent = new Intent(getApplicationContext(),AnnBackGround.class);
-                    notificationIntent.putExtra(AnnBackGround.NOTIFICATION_ID, 1);
-                    notificationIntent.putExtra(AnnBackGround.NOTIFICATION_CONTENT, content);
-                    PendingIntent pending2 = PendingIntent.getBroadcast( getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                    AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-                    if (am != null) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending2);
-                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending2);
-                        } else {
-                            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending2);
-                        }
+            private void scheduleNotification(String content, Calendar calendar) {
+                Intent notificationIntent = new Intent(getApplicationContext(), AnnBackGround.class);
+                notificationIntent.putExtra(AnnBackGround.NOTIFICATION_ID, AnnID);
+                notificationIntent.putExtra(AnnBackGround.NOTIFICATION_CONTENT, content);
+                PendingIntent pending2 = PendingIntent.getBroadcast(getApplicationContext(), AnnID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+                if (am != null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending2);
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending2);
+                    } else {
+                        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending2);
                     }
+                }
             }
 
 
         });
+
         //削除メソッド
         /*findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -491,6 +520,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 }
             }
         });*/
+
     }
 
 }
