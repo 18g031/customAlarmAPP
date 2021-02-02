@@ -59,8 +59,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
     int alarmId = -1;
     int annId = -1;
     int rTime;
-    private Switch AlmSwitch = findViewById(R.id.switchAlm);
-    private Switch AnnSwitch = findViewById(R.id.switchAnn);
+    private Switch AlmSwitch = null;
+    private Switch AnnSwitch = null;
 
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
 
@@ -79,6 +79,8 @@ public class AlarmCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.clock);
+        AlmSwitch = findViewById(R.id.switchAlm);
+        AnnSwitch = findViewById(R.id.switchAnn);
         tvAlmTimer = findViewById(R.id.tv_alm_timer);
         tvAnnTimer = findViewById(R.id.tv_ann_timer);
         tvWeek = findViewById(R.id.tv_week);
@@ -457,6 +459,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     } finally {
 
                     }
+                }
+                if (Ann == true) {
+                    //アナウンス登録の記述場所
+                } else if (Ann == false) {
+                    //
                 }
 
 

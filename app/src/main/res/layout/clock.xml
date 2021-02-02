@@ -87,25 +87,25 @@
             android:textSize="20dp"
             android:textColorHint="@color/secondaryText"
             app:layout_constraintStart_toStartOf="@id/tv_alm_timer"
-            app:layout_constraintTop_toBottomOf="@+id/tv_alm_timer"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_alm_timer" />
 
-        <TextView
-            android:id="@+id/tv_alm_checkbox2"
-            style="@style/main_button"
-            android:hint="停止方法"
-            android:textSize="20dp"
-            android:textColorHint="@color/secondaryText"
-            app:layout_constraintStart_toStartOf="@id/tv_alm_checkbox"
-            app:layout_constraintTop_toBottomOf="@+id/tv_alm_checkbox"/>
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_alm_checkbox2"-->
+        <!--            style="@style/main_button"-->
+        <!--            android:hint="停止方法"-->
+        <!--            android:textSize="20dp"-->
+        <!--            android:textColorHint="@color/secondaryText"-->
+        <!--            app:layout_constraintStart_toStartOf="@id/tv_alm_checkbox"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/tv_alm_checkbox"/>-->
 
-        <TextView
-            android:id="@+id/tv_alm_checkbox3"
-            style="@style/main_button"
-            android:hint="アラーム音"
-            android:textSize="20dp"
-            android:textColorHint="@color/secondaryText"
-            app:layout_constraintStart_toStartOf="@id/tv_alm_checkbox2"
-            app:layout_constraintTop_toBottomOf="@+id/tv_alm_checkbox2"/>
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_alm_checkbox3"-->
+        <!--            style="@style/main_button"-->
+        <!--            android:hint="アラーム音"-->
+        <!--            android:textSize="20dp"-->
+        <!--            android:textColorHint="@color/secondaryText"-->
+        <!--            app:layout_constraintStart_toStartOf="@id/tv_alm_checkbox2"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/tv_alm_checkbox2"/>-->
 
     </LinearLayout>
 
