@@ -65,6 +65,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     int AnnDEL = 0;
     int annId = -1;
     int rTime;
+    int tapId=-1;
     private Switch AlmSwitch = null;
     private Switch AnnSwitch = null;
 
@@ -99,7 +100,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
         //前の画面(MainActivity)でタップされたアラームの_idをtapIdに格納する。
         //_idが存在しない(新規作成)ならば、-1を格納する。
         //削除メソッド(DatabaseHelper.alarmDelete)にtapIdを渡すだけで削除できるはず。
-        final int tapId = intent.getIntExtra("TAPID", -1);
+        tapId = intent.getIntExtra("TAPID", -1);
         if (tapId != -1) {
             List<Integer> dataArray = new ArrayList<>();
             Log.v("ACA_76", "tapId is " + tapId);//確認用（削除予定）
@@ -129,7 +130,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     setTAnnHour = anTH;
                     setTAnnMinute = anTM;
 
-                    int alarmId = tapId;
+                    alarmId = tapId;
 
                     //ここからtimePickerの初期データ登録
                     try {
@@ -626,11 +627,13 @@ public class AlarmCreateActivity extends AppCompatActivity {
     //削除メソッド
 
     public void delAlarm(View view) {
-        if (alarmId != -1) {
+        Log.v("tapid",""+tapId);
+        Log.v("alarmid",""+alarmId);
+        if (tapId!= -1) {
             //以下データベース削除
             DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
             SQLiteDatabase db = helper.getWritableDatabase();
-            DatabaseHelper.alarmDelete(alarmId, db);
+            DatabaseHelper.alarmDelete(tapId, db);
 
             //以下アラームのキャンセル
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
