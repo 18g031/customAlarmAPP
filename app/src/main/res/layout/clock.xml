@@ -19,6 +19,14 @@
         <TextView
             style="@style/toolbar_text"
             android:text="アラームを追加"/>
+        <Button
+            android:id="@+id/del"
+            style="@style/toolbar_button"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:onClick="delAlarm"
+            android:text="削除" />
 
     </androidx.appcompat.widget.Toolbar>
 
