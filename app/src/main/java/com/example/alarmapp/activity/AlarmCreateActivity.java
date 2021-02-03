@@ -438,20 +438,29 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                 }
 
-
+                Calendar keisan=null;
                 if (Alm == true) {
                     Random random = new Random();
                     int randomValue = random.nextInt(RandInt);
                     randomValue = randomValue - 1;
 
+
                     setContentView(R.layout.clock);
                     try {
+                        //試し
+                        Calendar tamesi = Calendar.getInstance();
+                        int tYear = tamesi.get(Calendar.YEAR);
+                        int tMonth = tamesi.get(Calendar.MONTH);
+                        int tDate =tamesi.get(Calendar.DATE);
+                        tamesi.set(tYear,tMonth,tDate,setTAlmHour,setTAlmMinute,0);
+                        Date date = tamesi.getTime();
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("MM,dd,hh:mm");//date型に変えるためのインスタンス
+                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");//date型に変えるためのインスタンス
                         String strtime = setTAlmHour + ":" + setTAlmMinute;//Integer.toString(setTAlmMinute);//intをstringに直す
-                        Date date = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
-
-                        Calendar keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
+                        Log.v("aaaa1",""+strtime);
+                        Date dateeeeeeeeeeeeeeee = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
+                        Log.v("aaaa2",""+date);
+                         keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
                         keisan.setTime(date);
                         keisan.add(Calendar.MINUTE, -RandInt);
                         if (keisan.getTimeInMillis() > 0) {
@@ -484,7 +493,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending);
                         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);//getTimeInMillis:calendarと現在時刻の差分取得
+                            am.setExact(AlarmManager.RTC_WAKEUP, keisan.getTimeInMillis(), pending);//getTimeInMillis:calendarと現在時刻の差分取得
                         } else {
                             am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
                         }
@@ -550,7 +559,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                             String strtime2 = setTAnnHour + ":" + setTAnnMinute;//intをstringに直す
                             Date date2 = sdf2.parse(strtime2);//ｓｔｒDateをdate型に変換
 
-                            Calendar keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
+                            //Calendar keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
                             keisan.setTime(date2);
                             keisan.add(Calendar.MINUTE, -aaa[g]);
                             if (keisan.getTimeInMillis() > 0) {
