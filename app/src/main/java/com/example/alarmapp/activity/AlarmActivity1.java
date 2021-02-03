@@ -60,7 +60,6 @@ public class AlarmActivity1 extends AppCompatActivity implements SensorEventList
         setContentView(R.layout.alarmstop);
         // MediaPlayer.createはprepareを実行してしまうのでnew MediaPlayer()を使う
         // MediaPlayer mp = MediaPlayer.create(context, uri);
-        MediaPlayer mp = AlarmActivity.mp;
         try {
             mp.setDataSource(context, uri);
             // setAudioStreamTypeはprepare前に実行する必要がある

@@ -221,7 +221,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                 } else if (i == 4) {
                                     RandInt = 6;
                                 } else {
-                                    RandInt = 1;
+                                    RandInt = 0;
                                 }
                             }
                         }
@@ -460,7 +460,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         Log.v("aaaa2", "" + date);
                         keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
                         keisan.setTime(date);
-                        keisan.add(Calendar.MINUTE, -RandInt);
+                        keisan.add(Calendar.MINUTE, -randomValue);
                         Calendar now = Calendar.getInstance();
                         if (keisan.getTimeInMillis() > now.getTimeInMillis()) {
                             keisan.setTime(date);
@@ -562,14 +562,14 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
 
                             calendar2.setTime(date2);
-                            calendar2.add(calendar2.MINUTE, -aaa[g]);
+                            calendar2.add(Calendar.MINUTE, -aaa[g]);
                             if (calendar2.getTimeInMillis() > 0) {
                                 calendar2.setTime(date2);
-                                calendar2.add(calendar2.MINUTE, -aaa[g]);//minuteには鳴る時間がはいってる。
+                                calendar2.add(Calendar.MINUTE, -aaa[g]);//minuteには鳴る時間がはいってる。
                             } else {
                                 calendar2.setTime(date2);
-                                calendar2.add(calendar2.MINUTE, -aaa[g]);//minuteには鳴る時間がはいってる。
-                                calendar2.add(calendar2.DAY_OF_WEEK_IN_MONTH, +7);
+                                calendar2.add(Calendar.MINUTE, -aaa[g]);//minuteには鳴る時間がはいってる。
+                                calendar2.add(Calendar.DAY_OF_WEEK_IN_MONTH, +7);
                             }
                         } catch (ParseException e) {
 
@@ -577,7 +577,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                         if (aaa[g] != -1) {
                             calendar2.setTimeInMillis(System.currentTimeMillis());
-                            calendar2.add(calendar2.SECOND, calendar2.MINUTE);
+                            calendar2.add(Calendar.SECOND, Calendar.MINUTE);
                             scheduleNotification("アナウンス通知", calendar2);
                         }
 
