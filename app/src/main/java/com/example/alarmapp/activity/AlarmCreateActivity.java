@@ -442,8 +442,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 if (Alm == true) {
                     Random random = new Random();
                     int randomValue = random.nextInt(RandInt);
-                    randomValue = randomValue - 1;
-
 
                     setContentView(R.layout.clock);
                     try {
@@ -457,22 +455,25 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");//date型に変えるためのインスタンス
                         String strtime = setTAlmHour + ":" + setTAlmMinute;//Integer.toString(setTAlmMinute);//intをstringに直す
-                        Log.v("aaaa1",""+strtime);
+                        Log.v("aaaa1", "" + strtime);
                         Date dateeeeeeeeeeeeeeee = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
-                        Log.v("aaaa2",""+date);
-                         keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
+                        Log.v("aaaa2", "" + date);
+                        keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
                         keisan.setTime(date);
                         keisan.add(Calendar.MINUTE, -RandInt);
-                        if (keisan.getTimeInMillis() > 0) {
+                        Calendar now = Calendar.getInstance();
+                        if (keisan.getTimeInMillis() > now.getTimeInMillis()) {
                             keisan.setTime(date);
                             keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
+                            Log.v("aaaa1", "" + keisan.getTime());
                         } else {
+                            Log.v("TEST", "test");
                             keisan.setTime(date);
-                            keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
-                            keisan.add(Calendar.DAY_OF_WEEK_IN_MONTH, +7);
+                            keisan.add(Calendar.WEEK_OF_MONTH, +1);
+                            Log.v("test", "" + keisan.getTime());
                         }
                         //データベース格納用型変換
-                        kekka = keisan.get(Calendar.MINUTE);  //Calendarからintへ
+                        rTime = keisan.get(Calendar.MINUTE);  //Calendarからintへ
 //                    String strKekka = String.valueOf(dateKekka);   //DateからStringへ
 //                    kekka = Integer.parseInt(strKekka);     //Stringからintへ
 
@@ -491,11 +492,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
                     if (am != null) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            am.setAlarmClock(new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), null), pending);
+                            am.setAlarmClock(new AlarmManager.AlarmClockInfo(keisan.getTimeInMillis(), null), pending);
                         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             am.setExact(AlarmManager.RTC_WAKEUP, keisan.getTimeInMillis(), pending);//getTimeInMillis:calendarと現在時刻の差分取得
                         } else {
-                            am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+                            am.set(AlarmManager.RTC_WAKEUP, keisan.getTimeInMillis(), pending);
                         }
                         Toast.makeText(getApplicationContext(),
                                 "Set Alarm ", Toast.LENGTH_SHORT).show();
@@ -514,7 +515,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     } finally {
 
                     }
-                }
+                }/*
                 if (Ann == true) {
 
                     int[] aaa = new int[6];
@@ -561,7 +562,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                             //Calendar keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
                             keisan.setTime(date2);
-                            keisan.add(Calendar.MINUTE, -aaa[g]);
+                            keisan.add(keisan.MINUTE, -aaa[g]);
                             if (keisan.getTimeInMillis() > 0) {
                                 keisan.setTime(date2);
                                 keisan.add(Calendar.MINUTE, -aaa[g]);//minuteには鳴る時間がはいってる。
@@ -591,7 +592,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                     alarmManager.cancel(pending);
                                     // AnnID = AnnID + 10+;
                                 }
-                }
+                }*/
 
 
                 //設定後メインに戻る

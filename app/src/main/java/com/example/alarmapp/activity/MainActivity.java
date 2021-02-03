@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity{
                 new int[] { android.R.id.text1, android.R.id.text2});
         alList.setAdapter(adapter);
 
+        alList.setBackgroundColor(Color.parseColor("#d3d3d3")); //リストの背景色を白っぽく
         //リストビューにリスナーを追加
         alList.setOnItemClickListener(new ListItemClickListener());
     }
