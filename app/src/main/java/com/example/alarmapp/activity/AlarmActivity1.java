@@ -3,6 +3,9 @@ package com.example.alarmapp.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -20,9 +23,11 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alarmapp.R;
+import com.example.alarmapp.Util.DatabaseHelper;
 import com.example.alarmapp.service.AlarmService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 //import android.content.DialogInterface;
@@ -52,6 +57,12 @@ public class AlarmActivity1 extends AppCompatActivity implements SensorEventList
 
     private float shakeSpeed = 80;  // 振ってると判断するスピード
     private float shakeCount = 0;   // 振ってると判断した回数
+
+    //繰り返し曜日でアラームの再設定をしたい
+    DatabaseHelper helper = new DatabaseHelper(AlarmActivity1.this);
+    SQLiteDatabase db = helper.getWritableDatabase();
+    int revivalId;//どこかから鳴らす_idを持ってきたい(ごめんなさいまだできていません。
+
 
 
     @Override
@@ -167,6 +178,7 @@ public class AlarmActivity1 extends AppCompatActivity implements SensorEventList
                         MediaPlayer mp = AlarmActivity1.mp;
 //                alarmServiceInstance.cancel(true);
                         mp.stop();
+                        //revival();
                         finish();
                     }
                 } else {
@@ -190,6 +202,7 @@ public class AlarmActivity1 extends AppCompatActivity implements SensorEventList
                 MediaPlayer mp = AlarmActivity1.mp;
 //                alarmServiceInstance.cancel(true);
                 mp.stop();
+                //revival();
                 finish();
                 //ringtone.stop(); // 停止
             }
@@ -201,6 +214,48 @@ public class AlarmActivity1 extends AppCompatActivity implements SensorEventList
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+    public void revival(){
+        List<String> alarmArray= new ArrayList<>();
+
+        try{
+            //データベースから読み込むためのＳＱＬ。_idがrevivalIdと一致するアラームのセット時間、曜日を取得する
+            String sql = "SELECT _id ,tAlmHour ,tAlmMinute ,aSun ,aMon ,aTue ,aWed ,aThu ,aFri ,aSat FROM alarmList WHERE _id =?";
+            SQLiteStatement stmt = db.compileStatement(sql);
+            stmt.bindLong(1, revivalId);
+            stmt.executeUpdateDelete(); //SQL文の実行
+
+            Cursor cursor = db.rawQuery(sql, null);
+            while(cursor.moveToNext()){
+                int idxAlTH = cursor.getColumnIndex("tAlmHour");
+                int idxAlTM = cursor.getColumnIndex("tAlmMinute");
+                int idxASun = cursor.getColumnIndex("aSun");
+                int idxAMon = cursor.getColumnIndex("aMon");
+                int idxATue = cursor.getColumnIndex("aTue");
+                int idxAWed = cursor.getColumnIndex("aWed");
+                int idxAThu = cursor.getColumnIndex("aThu");
+                int idxAFri = cursor.getColumnIndex("aFri");
+                int idxASat = cursor.getColumnIndex("aSat");
+                int alTH= cursor.getInt(idxAlTH);
+                int alTM= cursor.getInt(idxAlTM);
+                int alASun= cursor.getInt(idxASun);
+                int alAMon= cursor.getInt(idxAMon);
+                int alATue= cursor.getInt(idxATue);
+                int alAWed= cursor.getInt(idxAWed);
+                int alAThu= cursor.getInt(idxAThu);
+                int alAaFri= cursor.getInt(idxAFri);
+                int alASat= cursor.getInt(idxASat);
+
+                alarmArray.add(alTH+alTM+alASun+alAMon+alATue+alAWed+alAThu+alAaFri+alASat+"");
+            }
+        } finally {
+            //データベースは明示的にcloseしない方がよい？　→　http://hobby.txt-nifty.com/t1000/2010/11/sqliteandroid-f.html
+            //db.close();
+        }
+
+
+    }
+
+
 }
 
 
