@@ -10,6 +10,9 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import com.example.alarmapp.R;
 import java.text.DateFormat;
 
@@ -19,9 +22,14 @@ public class AnnReceiver extends BroadcastReceiver {
     public static String NOTIFICATION_ID = "notificationId";
     public static String NOTIFICATION_CONTENT = "content";
     NotificationManager notificationManager;
+    int important =NotificationManager.IMPORTANCE_HIGH;
+    String channelID = "アナウンス通知";
+    String name ="あああ";
+
 
     //通知オブジェクトの用意と初期化
     Notification notification = null;
+
 
     @Override
     public void onReceive(Context context, Intent intent){
@@ -37,17 +45,22 @@ public class AnnReceiver extends BroadcastReceiver {
     {     //APIが「26」以上の場合
 
         //通知チャンネルIDを生成してインスタンス化
-        NotificationChannel notificationChannel = new NotificationChannel(chID, chID, NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel notificationChannel = new NotificationChannel(channelID, chID, important);
         //通知の説明のセット
         notificationChannel.setDescription(chID);
         //通知チャンネルの作成
+        NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(notificationChannel);
+        int id = intent.getIntExtra(NOTIFICATION_ID, 0);
+
         //通知の生成と設定とビルド
-        notification = new Notification.Builder(context, chID)
-                .setContentTitle(chID)  //通知タイトル
-                .setContentText("アプリ通知テスト26以上")        //通知内容
-                .setSmallIcon(R.drawable.ic_launcher_background)                  //通知用アイコン
-                .build();                                       //通知のビルド
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID)
+                .setContentTitle("アナウンス通知")  //通知タイトル
+                .setContentText("時刻を確認してください")        //通知内容
+                .setSmallIcon(R.drawable.ic_launcher_background)           //通知用アイコン
+                .setAutoCancel(true);
+        NotificationManagerCompat.from(context).notify(id, builder.build());
+                //通知のビルド
     } else{
 
 
@@ -62,8 +75,8 @@ public class AnnReceiver extends BroadcastReceiver {
         Notification.Builder builder = new Notification.Builder(context);
         builder.setContentTitle(content)
                 .setContentText(content)
-                .setSmallIcon(android.R.drawable.sym_def_app_icon);
-
+                .setSmallIcon(android.R.drawable.sym_def_app_icon)
+                .setAutoCancel(true);
         return builder.build();
     }
 }
