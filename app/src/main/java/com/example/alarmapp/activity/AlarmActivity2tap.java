@@ -6,9 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -34,7 +31,7 @@ import java.util.List;
 //import android.content.DialogInterface.OnCancelListener;
 
 
-public class AlarmActivity1 extends AppCompatActivity implements SensorEventListener {//シェイクのみ
+public class AlarmActivity2tap extends AppCompatActivity  {//シェイクのみ
 
 
     static MediaPlayer mp = new MediaPlayer();
@@ -59,7 +56,7 @@ public class AlarmActivity1 extends AppCompatActivity implements SensorEventList
     private float shakeCount = 0;   // 振ってると判断した回数
 
     //繰り返し曜日でアラームの再設定をしたい
-    DatabaseHelper helper = new DatabaseHelper(AlarmActivity1.this);
+    DatabaseHelper helper = new DatabaseHelper(AlarmActivity2tap.this);
     SQLiteDatabase db = helper.getWritableDatabase();
     int revivalId;//どこかから鳴らす_idを持ってきたい(ごめんなさいまだできていません。
 
@@ -105,110 +102,13 @@ public class AlarmActivity1 extends AppCompatActivity implements SensorEventList
 
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // センサーの登録を解除
-        if (mSensorManager != null)
-            mSensorManager.unregisterListener(this);
+    public void alarmstop (View view) {
+        mp.stop();
+        revival();
+        finish();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-        // 加速度センサーのオブジェクト取得
-        List<Sensor> sensors = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
-
-        // センサーを登録
-        if (sensors.size() > 0) {
-            Sensor s = sensors.get(0);
-            mSensorManager.registerListener(this, s, SensorManager.SENSOR_DELAY_UI);
-        }
-
-        // 初期化
-        beforeX = 0;
-        beforeY = 0;
-        beforeZ = 0;
-        beforeTime = -1;
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-
-        switch (event.sensor.getType()) {
-
-            // 加速度センサーのイベントをハンドリング
-            case Sensor.TYPE_ACCELEROMETER:
-
-                float x = event.values[0];
-                float y = event.values[1];
-                float z = event.values[2];
-                long nowTime = System.currentTimeMillis();
-
-                // 最初のイベント→値を保持するのみ
-                if (beforeTime == -1) {
-                    beforeX = x;
-                    beforeY = y;
-                    beforeZ = z;
-
-                    beforeTime = nowTime;
-                    break;
-                }
-
-                // 0.5秒間隔でチェック
-                long diffTime = nowTime - beforeTime;
-                if (diffTime < 500)
-                    break;
-
-                // 前回の値との差から、スピードを算出
-                // すみません、どうしてこれでOKなのか、不勉強でまだ理解出来ていません。。。
-                float speed = Math.abs(x + y + z - beforeX - beforeY - beforeZ) / diffTime * 10000;
-
-                // スピードがしきい値以上の場合、振ってるとみなす
-                if (speed > shakeSpeed) {
-                    // 振ってると判断した回数が10以上、つまり5秒間振り続けたら、シャッフルする
-                    if (++shakeCount >= 10) {
-                        shakeCount = 0;
-                        MediaPlayer mp = AlarmActivity1.mp;
-//                alarmServiceInstance.cancel(true);
-                        mp.stop();
-                        //revival();
-                        finish();
-                    }
-                } else {
-                    // 途中でフリが収まった場合は、カウントを初期化
-                    shakeCount = 0;
-                }
-
-                // 前回の値を覚える
-                beforeX = x;
-                beforeY = y;
-                beforeZ = z;
-
-                beforeTime = nowTime;
-
-                break;
-        }
-        findViewById(R.id.stopBtn).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-//                alarmServiceInstance.cancel(true);
-                mp.stop();
-                //revival();
-                finish();
-                //ringtone.stop(); // 停止
-            }
-        });
-
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
     public void revival(){
         List<String> alarmArray= new ArrayList<>();
 
