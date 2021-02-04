@@ -54,12 +54,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
     private final boolean[] mWeekCheckedItems = {false,false,false,false,false,false,false};
     private final boolean[] mAlmCheckedItems = {false, false, false, false, false};
     private final boolean[] mAlmCheckedItems2 = {true, false};
-    private final boolean[] mAlmCheckedItems3 = {false, false, false, false, false};
     private final boolean[] mAnnCheckedItems = {false, false, false, false, false, true};
     int checkedItem = 0;
 
     TextView tvAlmTimer, tvAnnTimer,
-            tvWeek, tv_alm_checkbox, tv_alm_checkbox2, tv_alm_checkbox3, tv_ann_checkbox;
+            tvWeek, tv_alm_checkbox, tv_alm_checkbox2, tv_ann_checkbox;
     int setTAlmHour, setTAlmMinute, setTAnnHour, setTAnnMinute;
     int alarmId = -1;
     int AnnID = 0;
@@ -95,7 +94,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
         tvWeek = findViewById(R.id.tv_week);
         tv_alm_checkbox = findViewById(R.id.tv_alm_checkbox);
         tv_alm_checkbox2 = findViewById(R.id.tv_alm_checkbox2);
-        tv_alm_checkbox3 = findViewById(R.id.tv_alm_checkbox3);
         tv_ann_checkbox = findViewById(R.id.tv_ann_checkbox);
 
         final Intent intent = getIntent();
@@ -236,6 +234,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
         tv_alm_checkbox2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -272,7 +271,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-
 
         tv_ann_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override

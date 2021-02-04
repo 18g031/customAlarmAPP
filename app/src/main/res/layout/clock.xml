@@ -15,7 +15,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:contentInsetStart="0dp">
-
         <TextView
             style="@style/toolbar_text"
             android:text="アラームを追加"/>
@@ -27,7 +26,6 @@
             android:layout_gravity="right"
             android:onClick="delAlarm"
             android:text="削除" />
-
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
@@ -40,13 +38,21 @@
         app:layout_constraintStart_toStartOf="@id/toolbar"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
+    <View
+        android:id="@+id/nul"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@color/nul"
+        app:layout_constraintStart_toStartOf="@id/tv_week"
+        app:layout_constraintTop_toBottomOf="@+id/tv_week"/>
+
     <LinearLayout
         android:id="@+id/linear_alm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="@id/tv_week"
-        app:layout_constraintTop_toBottomOf="@+id/tv_week">
+        app:layout_constraintStart_toStartOf="@id/nul"
+        app:layout_constraintTop_toBottomOf="@+id/nul">
 
 
         <androidx.appcompat.widget.Toolbar
@@ -65,6 +71,7 @@
 
             <Switch
                 android:id="@+id/switchAlm"
+                android:layout_gravity="right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -75,10 +82,26 @@
             android:id="@+id/tv_alm_timer"
             style="@style/main_button"
             android:layout_gravity="center"
-            android:hint="時間を入力"
+            android:hint="アラーム時間を入力"
             android:textColorHint="@color/secondaryText2"
             android:textColor="@color/primaryText"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            app:layout_constraintStart_toStartOf="@id/toolbarAlm"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarAlm"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@color/nul"/>
+
+        <View
+            android:id="@+id/border1"
+            android:layout_width="370dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:background="@color/baseColor1"
+            app:layout_constraintStart_toStartOf="@id/tv_alm_timer"
+            app:layout_constraintTop_toBottomOf="@+id/tv_alm_timer" />
 
         <TextView
             android:id="@+id/tv_alm_checkbox"
@@ -86,8 +109,22 @@
             android:hint="ランダム範囲"
             android:textSize="20dp"
             android:textColorHint="@color/secondaryText"
-            app:layout_constraintStart_toStartOf="@id/tv_alm_timer"
-            app:layout_constraintTop_toBottomOf="@+id/tv_alm_timer" />
+            app:layout_constraintStart_toStartOf="@id/border1"
+            app:layout_constraintTop_toBottomOf="@+id/border1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@color/nul"/>
+
+        <View
+            android:id="@+id/border2"
+            android:layout_width="370dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:background="@color/baseColor1"
+            app:layout_constraintStart_toStartOf="@id/tv_alm_checkbox"
+            app:layout_constraintTop_toBottomOf="@+id/tv_alm_checkbox" />
 
         <TextView
             android:id="@+id/tv_alm_checkbox2"
@@ -95,17 +132,13 @@
             android:hint="停止方法"
             android:textColorHint="@color/secondaryText"
             android:textSize="20dp"
-            app:layout_constraintStart_toStartOf="@id/tv_alm_checkbox"
-            app:layout_constraintTop_toBottomOf="@+id/tv_alm_checkbox" />
+            app:layout_constraintStart_toStartOf="@id/border2"
+            app:layout_constraintTop_toBottomOf="@+id/border2" />
 
-        <TextView
-            android:id="@+id/tv_alm_checkbox3"
-            style="@style/main_button"
-            android:hint="アラーム音"
-            android:textColorHint="@color/secondaryText"
-            android:textSize="20dp"
-            app:layout_constraintStart_toStartOf="@id/tv_alm_checkbox2"
-            app:layout_constraintTop_toBottomOf="@+id/tv_alm_checkbox2" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@color/nul"/>
 
     </LinearLayout>
 
@@ -133,6 +166,7 @@
 
             <Switch
                 android:id="@+id/switchAnn"
+                android:layout_gravity="right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -142,10 +176,26 @@
             android:id="@+id/tv_ann_timer"
             style="@style/main_button"
             android:layout_gravity="center"
-            android:hint="時間を入力"
+            android:hint="出発時間を入力"
             android:textColorHint="@color/secondaryText2"
             android:textColor="@color/primaryText"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            app:layout_constraintStart_toStartOf="@id/toolbarAnn"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarAnn"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@color/nul"/>
+
+        <View
+            android:id="@+id/border3"
+            android:layout_width="370dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:background="@color/baseColor1"
+            app:layout_constraintStart_toStartOf="@id/tv_ann_timer"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ann_timer"/>
 
         <TextView
             android:id="@+id/tv_ann_checkbox"
@@ -153,8 +203,8 @@
             android:hint="通知タイミング"
             android:textSize="20dp"
             android:textColorHint="@color/secondaryText"
-            app:layout_constraintStart_toStartOf="@id/tv_ann_timer"
-            app:layout_constraintTop_toBottomOf="@+id/tv_ann_timer"/>
+            app:layout_constraintStart_toStartOf="@id/border3"
+            app:layout_constraintTop_toBottomOf="@+id/border3"/>
 
     </LinearLayout>
 

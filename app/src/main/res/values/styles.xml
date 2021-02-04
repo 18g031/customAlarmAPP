@@ -4,7 +4,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/baseColor1</item>
         <item name="colorPrimaryDark">@color/baseColor2</item>
-        <item name="colorAccent">@color/border</item>
+        <item name="colorAccent">@color/baseColor1</item>
     </style>
 
     <style name="toolbar">
