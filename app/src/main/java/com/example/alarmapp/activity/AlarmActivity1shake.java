@@ -1,7 +1,6 @@
 package com.example.alarmapp.activity;
 
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -9,18 +8,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alarmapp.R;
-import com.example.alarmapp.service.AlarmService;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,17 +24,12 @@ import java.util.List;
 //import android.content.DialogInterface.OnCancelListener;
 
 
-public class AlarmActivity extends AppCompatActivity implements SensorEventListener {//シェイクのみ
+public class AlarmActivity1shake extends AppCompatActivity implements SensorEventListener {//シェイクのみ
 
 
     static MediaPlayer mp = new MediaPlayer();
-    public ProgressDialog mDialog;
-    Button button;
-    AlarmService alarmServiceInstance;
-    int i;
     Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
     private Context context = this;
-    Ringtone ringtone = RingtoneManager.getRingtone(context, uri);
 
     // センサーマネージャ
     private SensorManager mSensorManager;
@@ -57,10 +47,9 @@ public class AlarmActivity extends AppCompatActivity implements SensorEventListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.alarmstop);
+        setContentView(R.layout.alarmstop1shake);
         // MediaPlayer.createはprepareを実行してしまうのでnew MediaPlayer()を使う
         // MediaPlayer mp = MediaPlayer.create(context, uri);
-        MediaPlayer mp = AlarmActivity.mp;
         try {
             mp.setDataSource(context, uri);
             // setAudioStreamTypeはprepare前に実行する必要がある
@@ -165,7 +154,6 @@ public class AlarmActivity extends AppCompatActivity implements SensorEventListe
                     // 振ってると判断した回数が10以上、つまり5秒間振り続けたら、シャッフルする
                     if (++shakeCount >= 10) {
                         shakeCount = 0;
-                        MediaPlayer mp = AlarmActivity1.mp;
 //                alarmServiceInstance.cancel(true);
                         mp.stop();
                         finish();
@@ -184,25 +172,14 @@ public class AlarmActivity extends AppCompatActivity implements SensorEventListe
 
                 break;
         }
-        findViewById(R.id.stopBtn).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                MediaPlayer mp = AlarmActivity1.mp;
-//                alarmServiceInstance.cancel(true);
-                mp.stop();
-                finish();
-                //ringtone.stop(); // 停止
-            }
-        });
 
     }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-
 }
 
 

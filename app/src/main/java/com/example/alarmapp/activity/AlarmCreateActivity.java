@@ -28,7 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alarmapp.R;
 import com.example.alarmapp.Util.DatabaseHelper;
-import com.example.alarmapp.receiver.AlarmReceiver;
+import com.example.alarmapp.receiver.AlarmReceiver1shake;
 import com.example.alarmapp.receiver.AnnReceiver;
 
 import java.text.ParseException;
@@ -45,16 +45,17 @@ import java.util.Random;
 //アラーム、アナウンスの編集画面
 
 public class AlarmCreateActivity extends AppCompatActivity {
+
     public static Context context;
     public boolean Alm = true;
     public boolean Ann = true;
     int RandInt = 1;//Random範囲格納変数
 
     private final boolean[] mWeekCheckedItems = {false,false,false,false,false,false,false};
-    private final boolean[] mAlmCheckedItems = {false,false,false,false,false};
-    private final boolean[] mAlmCheckedItems2 = {false,false};
-    private final boolean[] mAlmCheckedItems3 = {false,false,false,false,false};
-    private final boolean[] mAnnCheckedItems = {false,false,false,true,false,true};
+    private final boolean[] mAlmCheckedItems = {false, false, false, false, false};
+    private final boolean[] mAlmCheckedItems2 = {true, false};
+    private final boolean[] mAlmCheckedItems3 = {false, false, false, false, false};
+    private final boolean[] mAnnCheckedItems = {false, false, false, false, false, true};
     int checkedItem = 0;
 
     TextView tvAlmTimer, tvAnnTimer,
@@ -68,6 +69,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
     int tapId=-1;
     private Switch AlmSwitch = null;
     private Switch AnnSwitch = null;
+    boolean stopshake = true;
 
     //timePickerで使用している変数名（tAlmHour, tAlmMinute,tAnnHour, tAnnMinute）をデータベース保存時も使用
 
@@ -100,7 +102,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
         //前の画面(MainActivity)でタップされたアラームの_idをtapIdに格納する。
         //_idが存在しない(新規作成)ならば、-1を格納する。
         //削除メソッド(DatabaseHelper.alarmDelete)にtapIdを渡すだけで削除できるはず。
-        final int tapId = intent.getIntExtra("TAPID", -1);
+        tapId = intent.getIntExtra("TAPID", -1);
         if (tapId != -1) {
             List<Integer> dataArray = new ArrayList<>();
             Log.v("ACA_76", "tapId is " + tapId);//確認用（削除予定）
@@ -253,7 +255,12 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         String str = null;
                         for (int i = 0; i < mAlmCheckedItems2.length; i++) {
                             if (mAlmCheckedItems2[i] == true) {
-                                str += stopItems[i];
+                                str = stopItems[i];
+                                if (i == 0) {
+                                    stopshake = true;
+                                } else if (i == 1) {
+                                    stopshake = false;
+                                }
                             }
                         }
                         if (str == null) {
@@ -480,9 +487,14 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     } catch (ParseException e) {
 
                     }
-                    //明示的なBroadCast
                     Intent intent = new Intent(getApplicationContext(),
-                            com.example.alarmapp.receiver.AlarmReceiver.class);
+                            AlarmReceiver1shake.class);
+                    Log.v("tag", "" + stopshake);
+                    if (stopshake == false) {//アラーム停止シェイクorボタン
+                        //明示的なBroadCast
+                        intent = new Intent(getApplicationContext(),
+                                com.example.alarmapp.receiver.AlarmRceiver2tap.class);
+                    }
                     PendingIntent pending = PendingIntent.getBroadcast(
                             getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -507,8 +519,15 @@ public class AlarmCreateActivity extends AppCompatActivity {
                     }
                 } else if (Alm == false) {
                     try {
+
                         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                        Intent intent = new Intent(getApplicationContext(),
+                                AlarmReceiver1shake.class);
+                        if (stopshake == false) {//アラーム停止シェイクorボタン
+                            //明示的なBroadCast
+                            intent = new Intent(getApplicationContext(),
+                                    com.example.alarmapp.receiver.AlarmRceiver2tap.class);
+                        }
                         PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         pending.cancel();
                         alarmManager.cancel(pending);
@@ -586,11 +605,16 @@ public class AlarmCreateActivity extends AppCompatActivity {
                                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                                 for (AnnDEL = 0; AnnDEL < 6; AnnDEL++) {
-                                    Intent intent = new Intent(getApplicationContext(), AnnReceiver.class);
-                                    PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), AnnID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                                    pending.cancel();
-                                    alarmManager.cancel(pending);
-                                    // AnnID = AnnID + 10+;
+                                    AnnID = alarmId * 10 + AnnDEL;
+                                    try {
+                                        Intent intent = new Intent(getApplicationContext(), AnnReceiver.class);
+                                        PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), AnnID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                        pending.cancel();
+                                        alarmManager.cancel(pending);
+
+                                    } finally {
+
+                                    }
                                 }
                 }
 
@@ -647,15 +671,29 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
             //以下アラームのキャンセル
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-            PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            pending.cancel();
-            alarmManager.cancel(pending);
-            Intent annintent = new Intent(getApplicationContext(), AnnReceiver.class);
-            PendingIntent annpending = PendingIntent.getBroadcast(getApplicationContext(), AnnID, annintent, PendingIntent.FLAG_UPDATE_CURRENT);
-            annpending.cancel();
-            alarmManager.cancel(pending);
-            // AnnID = AnnID + 10+;
+            Intent almintent = new Intent(getApplicationContext(),
+                    AlarmReceiver1shake.class);
+            if (stopshake == false) {//アラーム停止シェイクorボタン
+                //明示的なBroadCast
+                almintent = new Intent(getApplicationContext(),
+                        com.example.alarmapp.receiver.AlarmRceiver2tap.class);
+            }
+            PendingIntent almpending = PendingIntent.getBroadcast(getApplicationContext(), tapId, almintent, PendingIntent.FLAG_UPDATE_CURRENT);
+            almpending.cancel();
+            alarmManager.cancel(almpending);
+
+            for (AnnDEL = 0; AnnDEL < 6; AnnDEL++) {
+                AnnID = tapId * 10 + AnnDEL;
+                try {
+                    Intent intent = new Intent(getApplicationContext(), AnnReceiver.class);
+                    PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), AnnID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    pending.cancel();
+                    alarmManager.cancel(pending);
+
+                } finally {
+
+                }
+            }
 
             Intent intent2 = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
             startActivity(intent2);

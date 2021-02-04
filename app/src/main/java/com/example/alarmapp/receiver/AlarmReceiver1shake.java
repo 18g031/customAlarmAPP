@@ -4,22 +4,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.alarmapp.activity.AlarmActivity1;
+import com.example.alarmapp.activity.AlarmActivity1shake;
 
-public class AlarmReceiver extends BroadcastReceiver {
+public class AlarmReceiver1shake extends BroadcastReceiver {
 
     /////このクラスはブロードキャストレシーバーを使って、受け取ったContextとIntentからAlarmReceiverHelperを用いて、アラームをハンドラに登録するための試行錯誤です
     /////要　このクラスと他クラスの　改善と修正
     /////前張ったサンプルを工夫すれば完成します（たぶん）
 
 
-
-
-    private static final String TAG = AlarmReceiver.class.getSimpleName();
+    private static final String TAG = AlarmReceiver1shake.class.getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent){
-        Intent startActivityIntent = new Intent(context, AlarmActivity1.class);
+        Intent startActivityIntent = new Intent(context, AlarmActivity1shake.class);
         startActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(startActivityIntent);
 

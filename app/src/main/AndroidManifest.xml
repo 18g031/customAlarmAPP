@@ -18,21 +18,30 @@
         </activity>
         <activity
             android:name=".activity.ConfigActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".activity.AlarmCreateActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"></activity>
 
         <activity
-            android:name=".activity.AlarmActivity1"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".activity.AlarmActivity1shake"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".activity.AlarmActivity2tap"
+            android:label="@string/app_name"></activity>
+
         <receiver
-            android:name="com.example.alarmapp.receiver.AlarmReceiver"
+            android:name="com.example.alarmapp.receiver.AlarmReceiver1shake"
             android:permission="android.permission.Alarm"
-            android:process=":remote" >
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="Alarm" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.example.alarmapp.receiver.AlarmRceiver2tap"
+            android:permission="android.permission.Alarm"
+            android:process=":remote">
             <intent-filter>
                 <action android:name="Alarm" />
             </intent-filter>
@@ -40,7 +49,7 @@
         <receiver
             android:name="com.example.alarmapp.receiver.AnnReceiver"
             android:permission="android.permission.Alarm"
-            android:process=":remote" >
+            android:process=":remote">
             <intent-filter>
                 <action android:name="Ann" />
             </intent-filter>
