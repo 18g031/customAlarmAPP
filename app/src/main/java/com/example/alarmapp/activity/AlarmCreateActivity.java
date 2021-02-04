@@ -563,7 +563,9 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                             calendar2.setTime(date2);
                             calendar2.add(Calendar.MINUTE, -aaa[g]);
-                            if (calendar2.getTimeInMillis() > 0) {
+                            Calendar now2 = Calendar.getInstance();
+
+                            if (calendar2.getTimeInMillis() > now2.getTimeInMillis()) {
                                 calendar2.setTime(date2);
                                 calendar2.add(Calendar.MINUTE, -aaa[g]);//minuteには鳴る時間がはいってる。
                             } else {
