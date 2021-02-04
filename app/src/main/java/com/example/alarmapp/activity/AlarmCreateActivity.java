@@ -175,7 +175,11 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         String str = null;
                         for (int i = 0; i < mWeekCheckedItems.length; i++) {
                             if (mWeekCheckedItems[i] == true) {
-                                str += items[i];
+                                if(str==null){   //トーストに必ずnullが表示されてしまうので直しました
+                                    str = items[i];
+                                }else{
+                                    str += ","+items[i];
+                                }
                             }
                         }
                         if (str == null) {
@@ -255,6 +259,7 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
 
         tv_ann_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -360,18 +365,25 @@ public class AlarmCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int flag = 0;
-                //データベースヘルパーオブジェクトを作成
-                DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
-                SQLiteDatabase db = helper.getWritableDatabase();
-                //AlarmListクラスでアラームデータをデータベースに保存
-                ////AlarmListクラスでアラームデータをデータベースに保存
-                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
-                //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,ランダム化したアラームの時間(H)の変数名,ランダム化したアラームの時間(M)の変数名,db);
+                int intWCI[] = {0, 0, 0, 0, 0, 0, 0};   //曜日を0(false)もしくは1(true)で保存するためのもの
+                for (int i = 0; i < intWCI.length; i++) {
+                    if (mWeekCheckedItems[i] == true) {
+                        intWCI[i] = 1;
+                        flag = 1;
+                    }
+                }
+                if (flag == 1) {
+                    //データベースヘルパーオブジェクトを作成
+                    DatabaseHelper helper = new DatabaseHelper(AlarmCreateActivity.this);
+                    SQLiteDatabase db = helper.getWritableDatabase();
+                    //AlarmListクラスでアラームデータをデータベースに保存
+                    ////AlarmListクラスでアラームデータをデータベースに保存
+                    //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,db);
+                    //AlarmList.alarmAdd(tAlmHour,tAlmMinute,tAnnHour,tAnnMinute,ランダム化したアラームの時間(H)の変数名,ランダム化したアラームの時間(M)の変数名,db);
 
-                try {
-                    Log.v("try直下", "" + flag);
-                    if (flag == 0) {
-                        if (tapId == -1) {
+                    try {
+                        Log.v("try直下", "" + flag);
+                        if (tapId == -1) {  //新規作成の処理
                             Log.v("try", "try の先頭を実行");
                             //保存されている最大の_idを取得するSQL文
                             String sql = "SELECT * FROM alarmList";
@@ -385,22 +397,25 @@ public class AlarmCreateActivity extends AppCompatActivity {
                             }
                             alarmId += 1;
                             //保存するためのＳＱＬ。変数によって値が変わる場所は？にする
-                            String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, randomTime) VALUES (?, ?, ?, ?, ?, ?)";
+                            String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, aSun, aMon, aTue, aWed, aThu, aFri, aSat) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                             //String sqlInsert = "INSERT INTO alarmList (_id, tAlmHour, tAlmMinute, tAnnHour, tAnnMinute, randomTime, almRepeat, annRepeat, timing) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                             SQLiteStatement stmt = db.compileStatement(sqlInsert);  //プリペアドステートメントを取得
+                            int stmtIndex=6;
                             stmt.bindLong(1, alarmId);       //alarmListの1つ目のVALUESにalarmIdを入れる
                             stmt.bindLong(2, setTAlmHour);
                             stmt.bindLong(3, setTAlmMinute);
                             stmt.bindLong(4, setTAnnHour);
                             stmt.bindLong(5, setTAnnMinute);
-                            stmt.bindLong(6, rTime);
-//            stmt.bindLong(7,繰り返し曜日設定(アラーム));
-//            stmt.bindLong(8,繰り返し曜日設定(アナウンス));
-//            stmt.bindLong(9,アナウンスタイミング);
-//            stmt.bindLong(10,);
-
+                            for(int i=0;i>intWCI.length;i++){//6日7月8火9水10木11金12土
+                                stmt.bindLong(stmtIndex, intWCI[i]);
+                                stmtIndex++;
+                            }
+//            stmt.bindLong(13,);
+//            stmt.bindLong(14,繰り返し曜日設定(アナウンス));
+//            stmt.bindLong(15,アナウンスタイミング);
+//            stmt.bindLong(16,);
                             stmt.executeInsert();       //SQL文を実行（データベースに保存）
-                        } else if (tapId != -1) {
+                        } else if (tapId != -1) {//編集の処理
                             //以下更新動作
                             ContentValues cv = new ContentValues();  //更新用
                             int alarmId = tapId;
@@ -410,63 +425,68 @@ public class AlarmCreateActivity extends AppCompatActivity {
                             cv.put("tAlmMinute", setTAlmMinute);
                             cv.put("tAnnHour", setTAnnHour);
                             cv.put("tAnnMinute", setTAnnMinute);
+                            cv.put("aSun", intWCI[0]);
+                            cv.put("aMon", intWCI[1]);
+                            cv.put("aThu", intWCI[2]);
+                            cv.put("aWed", intWCI[3]);
+                            cv.put("aThu", intWCI[4]);
+                            cv.put("aFri", intWCI[5]);
+                            cv.put("aSat", intWCI[6]);
 /*
-                        cv.put("rAlmHou", ランダム化したアラームの時間(H));
-                        cv.put("rAlmMinute", ランダム化したアラームの時間(M));
                         cv.put("almRepeat", 繰り返し曜日設定(アラーム));
                         cv.put("annRepeat", 繰り返し曜日設定(アナウンス));
                         cv.put("timing", アナウンスタイミング);
 */
                             db.update("alarmList", cv, "_id = " + alarmId, null);
                         }
-                    } else if (flag == 1) {
-                        //Toast.makeText(context , "保存できませんでした(曜日にチェックを入れてください)", Toast.LENGTH_LONG).show();
-                        Log.v("370", "保存できませんでした");
+                    } finally {
+
                     }
-                } finally {
 
-                }
+                    Calendar keisan = Calendar.getInstance(); //現在時刻取得
+                    if (Alm == true) {
+                        Random random = new Random();
+                        int randomValue = random.nextInt(RandInt);
+                        Log.v("randomValue", "" + RandInt);
 
-                Calendar keisan=null;
-                if (Alm == true) {
-                    Random random = new Random();
-                    int randomValue = random.nextInt(RandInt);
+                        setContentView(R.layout.clock);
 
-                    setContentView(R.layout.clock);
-                    try {
-                        //試し
-                        Calendar tamesi = Calendar.getInstance();
-                        int tYear = tamesi.get(Calendar.YEAR);
-                        int tMonth = tamesi.get(Calendar.MONTH);
-                        int tDate =tamesi.get(Calendar.DATE);
-                        tamesi.set(tYear,tMonth,tDate,setTAlmHour,setTAlmMinute,0);
-                        Date date = tamesi.getTime();
+                        //keisanに本日の年月日とセットした時間を入れる
+                        int tYear = keisan.get(Calendar.YEAR);
+                        int tMonth = keisan.get(Calendar.MONTH);
+                        int tDate = keisan.get(Calendar.DATE);
+                        keisan.set(tYear, tMonth, tDate, setTAlmHour, setTAlmMinute, 0);
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");//date型に変えるためのインスタンス
-                        String strtime = setTAlmHour + ":" + setTAlmMinute;//Integer.toString(setTAlmMinute);//intをstringに直す
-                        Log.v("aaaa1", "" + strtime);
-                        Date dateeeeeeeeeeeeeeee = sdf.parse(strtime);//ｓｔｒDateをdate型に変換
-                        Log.v("aaaa2", "" + date);
-                        keisan = Calendar.getInstance();//計算処理+現在時刻比較（設定時間の範囲内の場合一週間後に
-                        keisan.setTime(date);
-                        keisan.add(Calendar.MINUTE, -randomValue);
-                        Calendar now = Calendar.getInstance();
-                        if (keisan.getTimeInMillis() > now.getTimeInMillis()) {
-                            keisan.setTime(date);
-                            keisan.add(Calendar.MINUTE, -randomValue);//minuteには鳴る時間がはいってる。
-                            Log.v("aaaa1", "" + keisan.getTime());
-                        } else {
-                            Log.v("TEST", "test");
-                            keisan.setTime(date);
-                            keisan.add(Calendar.WEEK_OF_MONTH, +1);
+                        Log.v("aaaa2", "" + keisan.getTime());
+
+                        final Calendar now = Calendar.getInstance();  //現在時刻をnowに
+                        Log.v("470", keisan.getTime() + "" + now.getTime());
+                        if (keisan.getTimeInMillis() <= now.getTimeInMillis()) {//セットした時間と現在時刻の1970/1/1からの経過ミリ秒を比較
+                            int dOW = now.get(Calendar.DAY_OF_WEEK);    //今日の曜日を取得(日=1,月=2......土=7)
+                            for (int i = 0; i < 7; i++) {
+                                Log.v("dow", "" + dOW);
+                                Log.v("mWeekCheckedItems", "" + mWeekCheckedItems[dOW]);
+                                if (mWeekCheckedItems[dOW] == true) {//配列では日曜=0......土曜=6になる。
+                                    Log.v("dow", "" + dOW);
+                                    int daysAfter = dOW - now.get(Calendar.DAY_OF_WEEK);
+                                    daysAfter+=1;   //配列の要素数のままでは1小さい
+                                    if (daysAfter <= 0) {
+                                        daysAfter += 7;
+                                    }
+                                    keisan.add(Calendar.DATE, +daysAfter);
+                                    break;
+                                }
+                                dOW += 1;//次の曜日
+                                if (dOW == 7) {//土曜日の後は日曜に戻す
+                                    dOW = 0;
+                                }
+                            }
+                            Log.v("TEST", "test" + dOW);
                             Log.v("test", "" + keisan.getTime());
                         }
-                        //データベース格納用型変換
-                        rTime = keisan.get(Calendar.MINUTE);  //Calendarからintへ
-//                    String strKekka = String.valueOf(dateKekka);   //DateからStringへ
-//                    kekka = Integer.parseInt(strKekka);     //Stringからintへ
+                        keisan.add(Calendar.MINUTE, -randomValue); //ランダム化
+                        Log.v("keisan", "" + keisan.getTime());
 
-                    } catch (ParseException e) {
 
                     }
                     Intent intent = new Intent(getApplicationContext(),
@@ -515,21 +535,21 @@ public class AlarmCreateActivity extends AppCompatActivity {
                         alarmManager.cancel(pending);
                     } finally {
 
+                        }
                     }
-                }
-                if (Ann == true) {
+                    if (Ann == true) {
 
-                    int[] aaa = new int[6];
+                        int[] aaa = new int[6];
 
-                    for (int i = 0; i < aaa.length; i++) {
-                        aaa[i] = -1;
-                    }
+                        for (int i = 0; i < aaa.length; i++) {
+                            aaa[i] = -1;
+                        }
 
-                    int annInt = 0;
-                    int annListInt = 0;
-                    //"30分前", "20分前", "15分前", "10分前", "5分前", "設定時刻"
-                    for (int i = 0; i < mAnnCheckedItems.length; i++) {
-                        if (mAnnCheckedItems[i] == true) {
+                        int annInt = 0;
+                        int annListInt = 0;
+                        //"30分前", "20分前", "15分前", "10分前", "5分前", "設定時刻"
+                        for (int i = 0; i < mAnnCheckedItems.length; i++) {
+                            if (mAnnCheckedItems[i] == true) {
 
                                 if (i == 0) {
                                     annInt = 30;
@@ -548,18 +568,18 @@ public class AlarmCreateActivity extends AppCompatActivity {
 
                             }
 
-                    }
+                        }
 
-                    for (int g = 0; g < aaa.length; g++) {
-                        AnnID = alarmId * 10 + g;
+                        for (int g = 0; g < aaa.length; g++) {
+                            AnnID = alarmId * 10 + g;
 
 
-                        Calendar calendar2 = Calendar.getInstance();
-                        try {
+                            Calendar calendar2 = Calendar.getInstance();
+                            try {
 
-                            SimpleDateFormat sdf2 = new SimpleDateFormat("MM,dd,hh:mm");//date型に変えるためのインスタンス
-                            String strtime2 = setTAnnHour + ":" + setTAnnMinute;//intをstringに直す
-                            Date date2 = sdf2.parse(strtime2);//ｓｔｒDateをdate型に変換
+                                SimpleDateFormat sdf2 = new SimpleDateFormat("MM,dd,hh:mm");//date型に変えるためのインスタンス
+                                String strtime2 = setTAnnHour + ":" + setTAnnMinute;//intをstringに直す
+                                Date date2 = sdf2.parse(strtime2);//ｓｔｒDateをdate型に変換
 
 
                             calendar2.setTime(date2);
@@ -601,9 +621,12 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 }
 
 
-                //設定後メインに戻る
-                Intent intentmain = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
-                startActivity(intentmain);
+                    //設定後メインに戻る
+                    Intent intentmain = new Intent(AlarmCreateActivity.this, MainActivity.class); //保存を押したらメインにもどる
+                    startActivity(intentmain);
+                }else{
+                    Toast.makeText(AlarmCreateActivity.this, "繰り返し曜日を選択してください", Toast.LENGTH_LONG).show();
+                }
             }
 
             private void scheduleNotification(String content, Calendar calendar) {

@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity{
         } finally {
             //データベースは明示的にcloseしない方がよい？　→　http://hobby.txt-nifty.com/t1000/2010/11/sqliteandroid-f.html
             //db.close();
-        }
+    }
         return alarmArray;
     }
 }

@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動時　データベースのテーブル作成
     //データベースファイルの定数フィールド
     private static final String DATABASE_NAME = "alarmList.db";
-    //バージョン情報の定数フィールド。
-    private static final int DATABASE_VERSION = 1;
+    //バージョン情報の定数フィールド。データベースの構造に変更があれば数を+1してください。そうするとonUpgradeが実行されます。
+    private static final int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context context){
         //親クラスのコンストラクタ呼び出し
@@ -31,7 +31,14 @@ public class DatabaseHelper extends SQLiteOpenHelper { //アプリ初回起動�
         sb.append("tAlmMinute INTEGER,");
         sb.append("tAnnHour INTEGER,");    //出発の設定時間
         sb.append("tAnnMinute INTEGER,");
-        sb.append("randomTime INTEGER");     //ランダム化したアラームの設定時間
+//        sb.append("randomTime INTEGER");     //ランダム化したアラームの設定時間
+        sb.append("aSun INTEGER,");     //
+        sb.append("aMon INTEGER,");
+        sb.append("aTue INTEGER,");
+        sb.append("aWed INTEGER,");
+        sb.append("aThu INTEGER,");
+        sb.append("aFri INTEGER,");
+        sb.append("aSat INTEGER");
 //        sb.append("tAnnMinute INTEGER");
 //        sb.append("rAlmHour INTEGER,");     //ランダム化したアラームの設定時間
 //        sb.append("rAlmMinute INTEGER,");
