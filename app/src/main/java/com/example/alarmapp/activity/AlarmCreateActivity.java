@@ -52,8 +52,6 @@ public class AlarmCreateActivity extends AppCompatActivity {
     int RandInt = 1;//Random範囲格納変数
 
     private final boolean[] mWeekCheckedItems = {false,false,false,false,false,false,false};
-    private final boolean[] mAlmCheckedItems = {false, false, false, false, false};
-    private final boolean[] mAlmCheckedItems2 = {true, false};
     private final boolean[] mAnnCheckedItems = {false, false, false, false, false, true};
     int checkedItem = 0;
 
@@ -201,33 +199,26 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 alertDialog.setSingleChoiceItems(almItems, checkedItem, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         checkedItem = item;
+                        if (item == 0) {
+                            RandInt = 31;
+                        } else if (item == 1) {
+                            RandInt = 21;
+                        } else if (item == 2) {
+                            RandInt = 16;
+                        } else if (item == 3) {
+                            RandInt = 11;
+                        } else if (item == 4) {
+                            RandInt = 6;
+                        } else {
+                            RandInt = 0;
+                        }
                     }
                 });
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int idx) {
-                        String str = null;
-                        for (int i = 0; i < mAlmCheckedItems.length; i++) {
-                            if (mAlmCheckedItems[i] == true) {
-                                str += almItems[i];
-                                if (i == 0) {
-                                    RandInt = 31;
-                                } else if (i == 1) {
-                                    RandInt = 21;
-                                } else if (i == 2) {
-                                    RandInt = 16;
-                                } else if (i == 3) {
-                                    RandInt = 11;
-                                } else if (i == 4) {
-                                    RandInt = 6;
-                                } else {
-                                    RandInt = 0;
-                                }
-                            }
-                        }
-                        if (str == null) {
-                            str = "No Selected";
-                        }
+                            String str;
+                            str = almItems[checkedItem];
                         Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -246,25 +237,18 @@ public class AlarmCreateActivity extends AppCompatActivity {
                 alertDialog.setSingleChoiceItems(stopItems, checkedItem, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         checkedItem = item;
+                        if (item == 0) {
+                            RandInt = 0;
+                        } else {
+                            RandInt = 1;
+                        }
                     }
                 });
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int idx) {
-                        String str = null;
-                        for (int i = 0; i < mAlmCheckedItems2.length; i++) {
-                            if (mAlmCheckedItems2[i] == true) {
-                                str = stopItems[i];
-                                if (i == 0) {
-                                    stopshake = true;
-                                } else if (i == 1) {
-                                    stopshake = false;
-                                }
-                            }
-                        }
-                        if (str == null) {
-                            str = "No Selected";
-                        }
+                        String str;
+                        str = stopItems[checkedItem];
                         Toast.makeText(AlarmCreateActivity.this, str, Toast.LENGTH_LONG).show();
                     }
                 });
